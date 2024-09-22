@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Carrera extends Model
 {
+    protected $fillable = ['nombre'];
+
+    public function curriculas()
+    {
+        return $this->hasMany(Curricula::class);
+    }
     use HasFactory;
 }
