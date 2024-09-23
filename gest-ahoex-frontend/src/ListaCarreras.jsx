@@ -6,17 +6,16 @@ const ListaCarreras = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Realiza la solicitud al backend
-    axios.get('http://localhost:8000/carreras')
+    axios.get('http://localhost:8000/api/carreras')
       .then(response => {
-        setCarreras(response.data); // Guarda los datos en el estado
+        setCarreras(response.data);
         console.log("Carreras obtenidas:", response.data);
       })
       .catch(error => {
-        setError(error); // Manejo de errores
+        setError(error);
         console.error("Hubo un error al obtener las carreras:", error);
       });
-  }, []); // Se ejecuta una vez al montar el componente
+  }, []); 
 
   if (error) {
     return <div>Error al cargar las carreras: {error.message}</div>;
