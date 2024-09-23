@@ -9,10 +9,11 @@ class CarreraController extends Controller
     /**
      * Display a listing of the resource.
      */
+
     public function index()
     {
         $carreras = Carrera::all();
-        return $carreras;
+        return response()->json($carreras);
     }
 
     /**
