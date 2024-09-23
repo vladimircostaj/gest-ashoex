@@ -10,6 +10,7 @@ use App\Models\Auxiliar;
 class PersonalAcademico extends Model
 {
     protected $table = 'personal_academicos';
+    protected $primaryKey = 'personal_academico_id';
     protected $fillable = ['nombre', 'email', 'telefono'];
 
     function tipoPersonal()

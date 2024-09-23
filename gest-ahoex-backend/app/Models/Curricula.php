@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Curricula extends Model
 {
+    use HasFactory;
+    protected $table = 'Curricula';
+    protected $primaryKey = 'curricula_id';
     protected $fillable = ['nombre', 'carrera_id'];
 
     public function carrera()
