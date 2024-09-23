@@ -1,9 +1,10 @@
 import React from 'react';
+import RegistrarPersonalPage from './pages/registrar_personal_page.js';
 
 function App() {
   return (
     <div>
-      <h1>Registro de Personal</h1>
+      <RegistrarPersonalPage />
     </div>
   );
 }
