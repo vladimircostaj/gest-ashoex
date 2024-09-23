@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\Models\Carrera;
+use App\Http\Requests\CrearCarreraRequest;
+
 class CarreraController extends Controller
 {
     /**
@@ -19,9 +22,15 @@ class CarreraController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CrearCarreraRequest $request)
     {
-        //
+        $validated = $request->validated();
+        $carrera = Carrera::create(['nombre' => $validated['nombre']]);
+
+        return response()->json([
+            'message' => 'Carrera creada exitosamente',
+            'carrera' => $carrera,
+        ], 201);
     }
 
     /**
