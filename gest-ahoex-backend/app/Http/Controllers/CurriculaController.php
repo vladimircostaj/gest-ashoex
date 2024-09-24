@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Models\Curricula;
 class CurriculaController extends Controller
 {
     /**
@@ -43,6 +43,8 @@ class CurriculaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $curricula = Curricula::find($id);
+        $curricula->delete();
+        return redirect()->with('success','la curricula ha sido eliminada con exito');
     }
 }
