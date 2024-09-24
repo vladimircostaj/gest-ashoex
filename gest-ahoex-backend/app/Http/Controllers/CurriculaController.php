@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Curricula;
+use App\Models\Materia;
 class CurriculaController extends Controller
 {
     /**
@@ -35,7 +36,13 @@ class CurriculaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+       $request ->validate([
+        'nombre'=>'required|max:255',
+        'materias'=>'required',
+       ]);
+       $curricula = Curricula::find($id);
+       $curricula->update($request->all);
+       return redirect()->back()->with('success','la curricula ha sido actualizada');
     }
 
     /**
@@ -45,6 +52,6 @@ class CurriculaController extends Controller
     {
         $curricula = Curricula::find($id);
         $curricula->delete();
-        return redirect()->with('success','la curricula ha sido eliminada con exito');
+        return redirect()->back()->with('success','la curricula ha sido eliminada con exito');
     }
 }
