@@ -18,7 +18,7 @@ const ListaCarreras = () => {
   }, []); 
 
   if (error) {
-    return <div>Error al cargar las carreras: {error.message}</div>;
+    return <h1>Error al cargar las carreras: {error.message}</h1>;
   }
 
   return (
