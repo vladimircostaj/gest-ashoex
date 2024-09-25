@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Ambiente\AmbienteController;
+use App\Http\Controllers\Edificio\EdificioController;
 use App\Http\Controllers\Ubicacion\UbicacionController;
 
 Route::get('/', function () {
@@ -23,6 +24,8 @@ Route::prefix('api')->group(function () {
     Route::get('/ubicacion/{id}', [UbicacionController::class, 'show']);
     Route::put('/ubicacion/{id}', [UbicacionController::class, 'update']);
     Route::delete('/ubicacion/{id}', [UbicacionController::class, 'destroy']);
+    Route::get('/edificio', [EdificioController::class, 'index']);
+    Route::post('/edificio', [EdificioController::class, 'store']);
 });
 
 // Route::apiResource('/ambiente', App\Http\Controllers\Ambiente\AmbienteController::class);
