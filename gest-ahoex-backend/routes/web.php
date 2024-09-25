@@ -9,4 +9,7 @@ Route::get('/', function () {
     return view('welcome');
 });*/
 
+
 Route::post('/curricula/update',[CurriculaController::class, 'update']);
+Route::post('/curricula/eliminar',[CurriculaController::class, 'destroy']);
+

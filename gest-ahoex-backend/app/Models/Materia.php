@@ -9,7 +9,7 @@ class Materia extends Model
 {
     protected $table = 'Carrera';
     protected $primaryKey = 'materia_id';
-    protected $fillable = ['nombre', 'curricula_id'];
+    protected $fillable = ['nombre', 'curricula_id', 'tipo', 'nro_PeriodoAcademico'];
 
     public function curricula()
     {

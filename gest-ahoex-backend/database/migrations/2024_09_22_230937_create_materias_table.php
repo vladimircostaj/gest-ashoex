@@ -16,8 +16,12 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->unsignedInteger('curricula_id');
+            $table->string('tipo'); //regular, electiva, taller de titulacion
+            $table->unsignedInteger('nro_PeriodoAcademico');
+
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            
             $table->foreign('curricula_id')->references('id')->on('curriculas')->onDelete('cascade');
         });
     }

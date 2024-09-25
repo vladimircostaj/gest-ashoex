@@ -16,8 +16,11 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->unsignedInteger('carrera_id');
+            $table->char('nivel', 1);
+            
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            
             $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
         });
     }
