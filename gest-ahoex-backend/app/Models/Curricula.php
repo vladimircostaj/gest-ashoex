@@ -10,7 +10,7 @@ class Curricula extends Model
     use HasFactory;
     protected $table = 'Curricula';
     protected $primaryKey = 'curricula_id';
-    protected $fillable = ['nombre', 'carrera_id'];
+    protected $fillable = ['nombre', 'carrera_id', 'nivel'];
 
     public function carrera()
     {
