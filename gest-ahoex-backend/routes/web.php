@@ -9,4 +9,4 @@ Route::get('/', function () {
     return view('welcome');
 });*/
 
-Route::post('/curricula/eliminar',[CurriculaController::class, 'destroy']);
+Route::delete('/curricula/eliminar',[CurriculaController::class, 'destroy']);
