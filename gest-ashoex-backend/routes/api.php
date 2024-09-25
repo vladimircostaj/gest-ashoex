@@ -4,4 +4,4 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HealthController;
 
-//Endpoints necesarios
+Route::get('/health', [HealthController::class, 'check']);
