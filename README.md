@@ -279,13 +279,31 @@ docker --version
     docker compose down
     ```
 
+- **Crear un Modelo con Migración**:  Este comando creará un modelo y su migración asociada:.
+
+    ```bash
+    php artisan make:model NameModel -m
+    ```
+
+- **Crear un Controlador**:  Para generar un controlador:.
+
+    ```bash
+    php artisan make:controller NameController
+    ```
+
 - **Ejecutar migraciones**: Para aplicar nuevas migraciones en la base de datos.
 
     ```bash
     php artisan migrate
     ```
 
-- **Instalar nuevas dependencias en el frontend**: Usa este comando para añadir paquetes en React.
+- **Listar las rutas en el backend**: Para las rutas disponibles en el servidor de laravel.
+
+    ```bash
+    php artisan route:list
+    ```
+
+- **Instalar nuevas dependencias en el frontend**: Para añadir paquetes en React.
 
     ```bash
     npm install <nombre-paquete>
