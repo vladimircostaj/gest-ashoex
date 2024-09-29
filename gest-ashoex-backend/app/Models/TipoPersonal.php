@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class TipoPersonal extends Model
 {
     protected $table = 'tipo_personals'; 
-    protected $fillable = ['nombre', 'carga_horaria'];
+    protected $fillable = ['nombre'];
 
     function personalAcademico()
     {
