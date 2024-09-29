@@ -15,8 +15,8 @@ class CarreraController extends Controller
 
     public function index()
     {
-        $carreras = Carrera::all();
-        return response()->json($carreras);
+        $carrera = Carrera::all();
+       return response()->json($carrera,200);
     }
 
     /**

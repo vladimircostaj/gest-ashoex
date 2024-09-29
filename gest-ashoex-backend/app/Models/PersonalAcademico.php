@@ -18,5 +18,8 @@ class PersonalAcademico extends Model
         return $this->belongsTo(TipoPersonal::class);
     }
 
+    function grupo(){
+        return $this->hasMany(Grupo::class);
+    }
     use HasFactory;
 }

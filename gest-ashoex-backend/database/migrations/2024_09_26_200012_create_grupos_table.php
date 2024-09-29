@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carreras', function (Blueprint $table) {
+        Schema::create('grupos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->integer('nro_semestres');
+            $table->unsignedInteger('materia_id');
+            $table->Integer('nro_grupo');
             $table->timestamps();
+
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carreras');
+        Schema::dropIfExists('grupos');
     }
 };

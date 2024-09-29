@@ -15,5 +15,11 @@ class Materia extends Model
     {
         return $this->belongsTo(Curricula::class);
     }
+
+    public function grupo()
+    {
+        return $this->hasMany(Grupo::class);
+    }
     use HasFactory;
+
 }
