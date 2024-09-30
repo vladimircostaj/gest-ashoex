@@ -16,12 +16,12 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('carrera_id');
             $table->unsignedBigInteger('materia_id');
-            
+
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            
-            $table->foreign('carrera_id')->references('carrera_id')->on('carreras')->onDelete('cascade');
-            $table->foreign('materia_id')->references('materia_id')->on('materias')->onDelete('cascade');
+
+            $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
         });
     }
 

@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('materias', function (Blueprint $table) {
-            $table->id('materia_id');
+            $table->id();
             $table->string('nombre');
             $table->string('tipo'); //regular, electiva, taller de titulacion
             $table->unsignedInteger('nro_PeriodoAcademico');
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));          
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

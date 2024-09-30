@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('email')->unique();
             $table->integer('telefono')->unique();
-            $table->unsignedInteger('tipo_personal_id');
+            $table->unsignedBigInteger('tipo_personal_id');
             $table->timestamps();
 
             $table->foreign('tipo_personal_id') ->references('id') ->on('tipo_personals')->cascadeOnDelete();

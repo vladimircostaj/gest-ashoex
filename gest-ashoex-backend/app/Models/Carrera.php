@@ -8,7 +8,6 @@ use App\Models\Materia;
 
 class Carrera extends Model
 {
-
     protected $fillable = ['nombre', 'nro_semestres'];
 
     public function materias()
