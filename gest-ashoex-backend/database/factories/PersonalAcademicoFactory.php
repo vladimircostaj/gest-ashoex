@@ -19,16 +19,15 @@ class PersonalAcademicoFactory extends Factory
     public function definition(): array
     {
         // esto es para saber los id's actuales de TipoPersonal, aun falta su refactorizacion. esto sirve para poder generar datos de tipo_personal_id con falsos para los tests con PHPUnit. 
-        $a = TipoPersonal::all()->map(function($tipoPersonal) {
-            return $tipoPersonal->id;
-        })->toArray();
-        $x = min($a[0], $a[1]); 
-        $y = max($a[0], $a[1]);
+        $tipoPersonalIds = TipoPersonal::pluck('id')->toArray();
+        if (empty($tipoPersonalIds)) {
+            throw new \Exception('no existen tipos de personal');
+        }
         return [
             'nombre' => $this->faker->name(), 
             'email' => $this->faker->safeEmail(), 
             'telefono' => '+591'.$this->faker->numerify('########'),
-            'tipo_personal_id' => $this->faker->numberBetween($x, $y),
+            'tipo_personal_id' => $this->faker->randomElement($tipoPersonalIds),
         ];
     }
 }

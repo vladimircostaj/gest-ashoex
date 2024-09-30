@@ -5,6 +5,10 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
+use Database\Factories\PersonalAcademicoFactory;
+
+use App\Models\PersonalAcademico; 
+
 class PersonalAcademicoSeeder extends Seeder
 {
     /**
@@ -12,6 +16,6 @@ class PersonalAcademicoSeeder extends Seeder
      */
     public function run(): void
     {
-        // add registers
+        PersonalAcademico::factory()->count(20)->create();
     }
 }
