@@ -15,4 +15,20 @@ class PersonalAcademico extends Model
         return $this->belongsTo(TipoPersonal::class);
     }
     use HasFactory;
+
+    public function darBaja(): bool 
+    {
+        if ($this->estaDadoDeBaja()) {
+            return false; 
+        } else {
+            $this->estado = config('constants.PERSONAL_ACADEMICO_ESTADOS')[1];
+            $this->save();
+            return true;
+        }
+    }
+
+    private function estaDadoDeBaja(): bool 
+    {
+        return $this->estado == config('constants.PERSONAL_ACADEMICO_ESTADOS')[1];
+    }
 }
