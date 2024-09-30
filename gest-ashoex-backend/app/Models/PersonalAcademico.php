@@ -13,10 +13,11 @@ class PersonalAcademico extends Model
     protected $primaryKey = 'personal_academico_id';
     protected $fillable = ['nombre', 'email', 'telefono'];
 
-    function tipoPersonal()
+    public function grupos()
     {
-        return $this->belongsTo(TipoPersonal::class);
+        return $this->belongsToMany(Grupo::class, 'grupo_personals', 'personal_id', 'grupo_id');
     }
+
 
     use HasFactory;
 }
