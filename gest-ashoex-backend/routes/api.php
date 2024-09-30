@@ -13,9 +13,7 @@ Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras', 'index');
 
 });
-Route::get('/carrera',[CarreraController ::class,'index']);
 
-//rutas grupo
 Route::get('/grupo',[GrupoController::class,'index']);
 Route::post('/grupo',[GrupoController::class,'store']);
 Route::get('/grupo/{id}',[GrupoController::class,'show']);
