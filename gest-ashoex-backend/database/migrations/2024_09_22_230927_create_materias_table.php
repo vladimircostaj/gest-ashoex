@@ -13,16 +13,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('materias', function (Blueprint $table) {
-            $table->id();
+            $table->id('materia_id');
             $table->string('nombre');
-            $table->unsignedInteger('curricula_id');
             $table->string('tipo'); //regular, electiva, taller de titulacion
             $table->unsignedInteger('nro_PeriodoAcademico');
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            
-            $table->foreign('curricula_id')->references('id')->on('curriculas')->onDelete('cascade');
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));          
         });
     }
 
