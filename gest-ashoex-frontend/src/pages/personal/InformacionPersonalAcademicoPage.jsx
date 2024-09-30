@@ -95,7 +95,7 @@ const InformacionPersonalAcademico = () => {
 
         <div style={{ marginTop: "20px" }}>
           <p style={{ margin: "5px 0", color: "#666", fontSize: "18px" }}>
-            <strong>Tipo de Personal:</strong> {user.tipo_personal}
+            <strong>Tipo de Personal:</strong> {user.tipo_personal.nombre}
           </p>
         </div>
       </div>
