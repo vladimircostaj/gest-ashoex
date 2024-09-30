@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Carrera extends Model
 {
-    use HasFactory;
     protected $fillable = ['nombre', 'nro_semestres'];
 
-    public function curriculas()
+    public function materias()
     {
-        return $this->hasMany(Curricula::class);
+        return $this->belongsToMany(Materia::class, 'curriculas', 'carrera_id', 'materia_id');
     }
+
     use HasFactory;
 }

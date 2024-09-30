@@ -14,14 +14,14 @@ return new class extends Migration
     {
         Schema::create('curriculas', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->unsignedInteger('carrera_id');
-            $table->char('nivel', 1);
-            
+            $table->unsignedBigInteger('carrera_id');
+            $table->unsignedBigInteger('materia_id');
+
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            
+
             $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
         });
     }
 

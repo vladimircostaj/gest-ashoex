@@ -7,19 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Materia extends Model
 {
-    protected $table = 'Carrera';
-    protected $primaryKey = 'materia_id';
-    protected $fillable = ['nombre', 'curricula_id', 'tipo', 'nro_PeriodoAcademico'];
+    protected $fillable = ['nombre', 'tipo', 'nro_PeriodoAcademico'];
 
-    public function curricula()
+    public function carreras()
     {
-        return $this->belongsTo(Curricula::class);
+        return $this->belongsToMany(Carrera::class, 'curriculas', 'materia_id', 'carrera_id');
     }
 
-    public function grupo()
-    {
-        return $this->hasMany(Grupo::class);
-    }
     use HasFactory;
 
 }

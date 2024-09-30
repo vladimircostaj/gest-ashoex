@@ -19,7 +19,8 @@ class Grupo extends Model
         return $this->belongsTo(Materia::class);
     }
 
-    public function personal(){
-        return $this->hasMany(PersonalAcademico::class);
+    public function personales()
+    {
+        return $this->belongsToMany(PersonalAcademico::class, 'grupo_personals', 'grupo_id', 'personal_id');
     }
 }

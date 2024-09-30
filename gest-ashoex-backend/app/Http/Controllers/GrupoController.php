@@ -30,30 +30,39 @@ class GrupoController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $grupo = Grupo::find($id);
+        return response()->json($grupo,200);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $grupo = Grupo::find($id);
+    if (!$grupo) {
+        return response()->json(['error' => 'Grupo no encontrado'], 404);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+    $grupo->id_materia = $request->id_materia;
+    $grupo->nro_grupo = $request->nro_grupo;
+    $grupo->save();
+
+    return response()->json([
+        'success' => true,
+        'data' => $grupo
+    ], 200);
+
+    }
+
+
     public function destroy(string $id)
     {
-        //
+        $grupo = Grupo::find($id)->delete();
+        return response()->json([
+            'success'=>true,
+            'data'=> $grupo
+        ],200);
     }
 }
