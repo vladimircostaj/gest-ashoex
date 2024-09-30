@@ -7,4 +7,4 @@ use App\Http\Controllers\HealthController;
 
 Route::get('/health', [HealthController::class, 'check']);
 
-Route::get('/carrera',[CarreraController::class,'index']);
+Route::get('/carrera',[CarreraController ::class,'index']);
