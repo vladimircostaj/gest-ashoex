@@ -1,40 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
+import { obtenerUsuario } from "../../services/registrar_personal_api";
 const InformacionPersonalAcademico = () => {
   const { id } = useParams();
-  const [user, setUser] = useState(null); // Cambia a null para manejar mejor la carga
-  const [loading, setLoading] = useState(true); // Estado para manejar la carga
-  const [error, setError] = useState(null); // Estado para manejar errores
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getUsuario();
-  }, []);
-
-  const getUsuario = async () => {
-    try {
-      const respuesta = await fetch(`http://localhost:8000/api/personal/${id}/informacion`);
-      
-      if (!respuesta.ok) {
-        throw new Error('Error al obtener la información del usuario');
+    const fetchUsuario = async () => {
+      try {
+        const data = await obtenerUsuario(id);
+        setUser(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = await respuesta.json();
-      setUser(data); // Asumiendo que la respuesta es el objeto del usuario
-    } catch (error) {
-      console.error("Error al obtener la información del usuario:", error);
-      setError(error.message); // Guardar el mensaje de error
-    } finally {
-      setLoading(false); // Termina el estado de carga
-    }
-  };
+    fetchUsuario();
+  }, [id]);
 
   if (loading) {
-    return <p>Cargando...</p>; // Mensaje de carga
+    return <p>Cargando...</p>;
   }
 
   if (error) {
-    return <p>Error: {error}</p>; // Mensaje de error
+    return <p>Error: {error}</p>;
   }
 
   return (
@@ -59,7 +52,7 @@ const InformacionPersonalAcademico = () => {
         }}
       >
         <img
-          src={user.avatar || 'https://via.placeholder.com/150'} // Usa un placeholder si no hay avatar
+          src={user.avatar || 'https://via.placeholder.com/150'}
           alt={`${user.name}'s avatar`}
           style={{
             width: "150px",
@@ -95,7 +88,7 @@ const InformacionPersonalAcademico = () => {
 
         <div style={{ marginTop: "20px" }}>
           <p style={{ margin: "5px 0", color: "#666", fontSize: "18px" }}>
-            <strong>Tipo de Personal:</strong> {user.tipo_personal.nombre}
+            <strong>Tipo de Personal:</strong> {user.tipo_personal?.nombre}
           </p>
         </div>
       </div>
