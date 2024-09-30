@@ -3,7 +3,7 @@ const API_URL = 'http://127.0.0.1:8000/api/';
 
 export const registrarPersonal = async (formData) => {
   try {
-    const response = await fetch(`${API_URL}/registrar-personal-academico`, {
+    const response = await fetch(`${API_URL}registrar-personal-academico`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

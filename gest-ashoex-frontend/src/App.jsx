@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={<HealthCheck/>} />
-        <Route path='/Informacion' element={<InformacionPersonalAcademico/>} />
+        <Route path='/personal/:id/informacion' element={<InformacionPersonalAcademico/>} />
         <Route path='/registrar-personal' element={<RegistrarPersonalPage/>} />
       </Routes>
     </Router>

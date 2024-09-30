@@ -22,4 +22,19 @@ class PersonalAcademicoController extends Controller
             'personalAcademico' => $personalAcademico
         ], 201);
     }
+    
+    public function show($id)
+    {
+        // Buscar el registro de PersonalAcademico por ID
+        $personalAcademico = PersonalAcademico::find($id);
+
+        // Verificar si existe
+        if (!$personalAcademico) {
+            return response()->json(['message' => 'Personal académico no encontrado'], 404);
+        }
+
+        // Retornar los datos del personal académico
+        return response()->json($personalAcademico, 200);
+    }
+
 }

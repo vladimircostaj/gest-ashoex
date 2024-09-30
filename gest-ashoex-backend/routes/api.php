@@ -8,3 +8,5 @@ use App\Http\Controllers\PersonalAcademicoController;
 Route::get('/health', [HealthController::class, 'check']);
 
 Route::post('/registrar-personal-academico', [PersonalAcademicoController::class, 'registrar']);
+
+Route::get('/personal/{id}/informacion', [PersonalAcademicoController::class, 'show']);
