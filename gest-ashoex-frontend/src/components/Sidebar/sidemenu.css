@@ -1,0 +1,117 @@
+.sidemenu {
+  background-color: #1c1917;
+  height: 88vh;
+  max-width: 18rem;
+  display: flex;
+  flex-direction: column;
+  left: -100%;
+  padding: 2.5rem 2rem;
+  position: relative;
+  left: 0;
+}
+
+.sidemenu__logo {
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.sidemenu__title {
+  font-size: 2rem;
+  font-family: "Figtree", sans-serif;
+  font-weight: 800;
+  margin-left: 1rem;
+}
+
+.sidemenu__list {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.sidemenu__link {
+  display: flex;
+  gap: 1rem; /* gap-4 */
+  align-items: center;
+  padding: 0.75rem; /* p-3 */
+  border-radius: 0.5rem; /* rounded-lg */
+  font-weight: 600; /* font-semibold */
+  transition: background-color 1s ease; /* transition-colors duration-1000 */
+}
+
+.sidemenu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sidemenu__link:hover {
+  background: linear-gradient(
+    to top right,
+    #5b21b6,
+    #4338ca
+  ); /* hover:bg-gradient-to-tr from-primary-700 to-indigo-600 */
+}
+
+.sidemenu__link span {
+  color: #1e3a8a;
+  font-size: 1.8rem;
+  transition: color 1s ease;
+  font-family: "Figtree", sans-serif;
+}
+
+.sidemenu__link:hover span {
+  color: white;
+}
+
+.sidemenu__link--active {
+  background: linear-gradient(
+    to bottom right,
+    #5b21b6,
+    #4338ca
+  ); /* bg-gradient-to-br from-primary-700 to-indigo-600 */
+}
+
+.sidemenu__link--active span {
+  color: white;
+}
+
+.sidemenu__avatar {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -4px rgba(0, 0, 0, 0.1); /* shadow-lg */
+  background-color: #292524; /* bg-stone-900 */
+  padding: 1.5rem 1rem; /* px-4 py-6 */
+  border-radius: 1rem; /* rounded-2xl */
+  text-align: center;
+}
+
+.sidemenu__sublist {
+  list-style: none;
+  padding-left: 20px; /* Ajusta el espaciado según tus necesidades */
+  display: none; /* Inicialmente oculto */
+}
+
+.sidemenu__sublist {
+  margin: 10px 0;
+  display: block;
+}
+
+.sidemenu__link {
+  cursor: pointer; /* Cambia el cursor al pasar sobre el enlace */
+}
+
+.sidemenu__sublink {
+  text-decoration: none;
+  color: #717171; /* Cambia el color según tu diseño */
+  margin-left: 20px; /* Ajusta el espaciado */
+}
+
+.sidemenu__sublink--active {
+  font-weight: bold; /* Cambia el estilo para el submenú activo */
+}
+
+.sidemenu__container {
+  display: flex;
+  height: 100vh; /* 'h-screen' en Tailwind equivale al 100% de la altura de la ventana */
+  position: relative;
+}

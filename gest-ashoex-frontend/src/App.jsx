@@ -1,14 +1,13 @@
-import { useState } from 'react'
-import HealthCheck from './components/health/health.jsx'
-import './App.css'
+// import { useState } from 'react'
+import "./App.css";
+import { Outlet } from "react-router-dom";
 
 function App() {
-
   return (
     <>
-    <HealthCheck />
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
