@@ -12,6 +12,7 @@ Route::get('/health', [HealthController::class, 'check']);
 
 Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras', 'index');
+    Route::get('/carreras/{id}', 'show');
 
 });
 
