@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Edificio extends Model
 {
+    use HasFactory;
     protected $table = 'edificio';
     protected $primaryKey = 'id_edificio';
+    protected $fillable = ['nombre_edificio', 'geolocalizacion'];
 
-    // Relación de uno a muchos: Un edificio tiene muchas ubicaciones
     public function ubicaciones()
     {
         return $this->hasMany(Ubicacion::class, 'id_edificio');
     }
-    use HasFactory;
 }

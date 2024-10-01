@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Facilidad extends Model
 {
+    use HasFactory;
     protected $table = 'facilidad';
     protected $primaryKey = 'id_facilidad';
+    protected $fillable = ['nombre_facilidad', 'id_aula'];
 
-    // Relación de muchos a uno: Una facilidad pertenece a un aula
     public function aula()
     {
         return $this->belongsTo(Aula::class, 'id_aula');
     }
-    use HasFactory;
 }
