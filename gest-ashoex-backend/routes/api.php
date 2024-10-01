@@ -1,10 +1,12 @@
 <?php
 
-use App\Http\Controllers\PersonalAcademicoController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\ListaPersonalAcademicoController;
 use App\Http\Controllers\HealthController;
+use App\Http\Controllers\PersonalAcademicoController;
 
 Route::get('/health', [HealthController::class, 'check']);
-
+Route::get('/ListaPersonalAcademico', [ListaPersonalAcademicoController::class, 'ListaPersonalAcademico']);
+Route::post('/registrar-personal-academico', [PersonalAcademicoController::class, 'registrar']);
+Route::get('/personal/{id}/informacion', [PersonalAcademicoController::class, 'show']);
 Route::put('/personal-academico/{id}', [PersonalAcademicoController::class,'update']);
