@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Carrera extends Model
 {
-    protected $table = 'Carrera';
+    protected $table = 'carreras';
     protected $primaryKey = 'carrera_id';
     protected $fillable = ['nombre', 'nro_semestres'];
 
