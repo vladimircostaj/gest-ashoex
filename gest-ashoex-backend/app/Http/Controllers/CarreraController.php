@@ -39,7 +39,9 @@ class CarreraController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $carrera=Carrera::find($id);
+        return response()->json($carrera,200);
+
     }
 
     /**
