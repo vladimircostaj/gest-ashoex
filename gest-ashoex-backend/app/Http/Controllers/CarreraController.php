@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Carrera;
 use App\Http\Requests\CrearCarreraRequest;
+use Illuminate\Foundation\Configuration\Exceptions;
 
 class CarreraController extends Controller
 {
@@ -54,6 +55,18 @@ class CarreraController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $carrera = Carrera::find($id);
+        if ($carrera){
+            $carrera->delete();
+            return response()->json([
+                'success'=>true,
+                'data'=>$carrera
+            ],200);
+        }else{
+            return response()->json([
+                'success'=>false,
+                'data'=>$carrera
+            ],404);
+        }
     }
 }
