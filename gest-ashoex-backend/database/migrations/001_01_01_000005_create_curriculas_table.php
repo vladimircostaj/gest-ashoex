@@ -12,13 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('carreras', function (Blueprint $table) {
-            $table->id('carrera_id');
-            $table->string('nombre');
-            $table->integer('nro_semestres');
-            
+        Schema::create('curriculas', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('carrera_id');
+            $table->unsignedBigInteger('materia_id');
+
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+
+            $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
         });
     }
 
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('carreras');
+        Schema::dropIfExists('curriculas');
     }
 };

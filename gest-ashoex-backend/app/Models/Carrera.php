@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Materia;
 
 class Carrera extends Model
 {
-    protected $table = 'carreras';
-    protected $primaryKey = 'carrera_id';
     protected $fillable = ['nombre', 'nro_semestres'];
 
     public function materias()

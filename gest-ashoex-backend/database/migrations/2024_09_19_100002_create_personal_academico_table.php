@@ -17,16 +17,10 @@ return new class extends Migration
             $table->string('nombre');
             $table->string('email')->unique();
             $table->integer('telefono')->unique();
+            $table->unsignedBigInteger('tipo_personal_id');
+            $table->timestamps();
 
-            $table->unsignedInteger('tipo_personal_id');
-
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
-            $table->foreign('tipo_personal_id')
-                ->references('id')
-                ->on('tipo_personals')
-                ->cascadeOnDelete();
+            $table->foreign('tipo_personal_id') ->references('id') ->on('tipo_personals')->cascadeOnDelete();
         });
     }
 

@@ -12,16 +12,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('curriculas', function (Blueprint $table) {
+        Schema::create('materias', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('carrera_id');
-            $table->unsignedBigInteger('materia_id');
-            
+            $table->string('nombre');
+            $table->string('tipo'); //regular, electiva, taller de titulacion
+            $table->unsignedInteger('nro_PeriodoAcademico');
+
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            
-            $table->foreign('carrera_id')->references('carrera_id')->on('carreras')->onDelete('cascade');
-            $table->foreign('materia_id')->references('materia_id')->on('materias')->onDelete('cascade');
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('curriculas');
+        Schema::dropIfExists('materias');
     }
 };

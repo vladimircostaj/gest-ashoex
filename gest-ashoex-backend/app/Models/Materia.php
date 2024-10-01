@@ -7,8 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Materia extends Model
 {
-    protected $table = 'Materia';
-    protected $primaryKey = 'materia_id';
     protected $fillable = ['nombre', 'tipo', 'nro_PeriodoAcademico'];
 
     public function carreras()
@@ -17,4 +15,5 @@ class Materia extends Model
     }
 
     use HasFactory;
+
 }
