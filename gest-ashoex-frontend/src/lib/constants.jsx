@@ -1,6 +1,17 @@
-import { BsHouseCheckFill } from "react-icons/bs";
+import { BsBuildingFillCheck, BsHouseCheckFill } from "react-icons/bs";
 
 export const sideMenuOptions = [
+  {
+    name: "Edificios",
+    path: "/edificios",
+    icon: <BsBuildingFillCheck />, // Puedes usar iconos de tu elección
+    subOptions: [
+      { name: "Registrar edificio", path: "registrar-edificio" },
+      { name: "Ver edificios", path: "ver-edificios" },
+      { name: "Editar edificio", path: "editar-edificio" },
+      { name: "Eliminar edificio", path: "eliminar-edificio" },
+    ],
+  },
   {
     name: "Ambientes",
     path: "/ambientes",

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Facilidad.css"; // Importa el archivo de estilos
+import "./facilidad.css"; // Importa el archivo de estilos
 
 const Facilidad = () => {
   const [facilidades, setFacilidades] = useState([]);
