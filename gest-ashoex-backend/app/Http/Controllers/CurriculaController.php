@@ -46,6 +46,8 @@ class CurriculaController extends Controller
         $curricula = new Curricula();
         $curricula->carrera_id = $request->input('carrera_id');
         $curricula->materia_id = $request->input('materia_id');
+        $curricula->nivel =      $request->input('nivel');
+
         $curricula->save();
 
         return response()->json([
