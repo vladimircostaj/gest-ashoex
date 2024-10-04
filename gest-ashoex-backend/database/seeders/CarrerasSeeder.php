@@ -23,11 +23,11 @@ class CarrerasSeeder extends Seeder
                 'nro_semestres' => 12,
             ],
             [
-                'nombre' => 'Ciencias de la Computación',
+                'nombre' => 'Ingenieria en Informatica',
                 'nro_semestres' => 8,
             ],
             [
-                'nombre' => 'Administración de Empresas',
+                'nombre' => 'Licenciatura en Matematicas',
                 'nro_semestres' => 8,
             ],
         ]);

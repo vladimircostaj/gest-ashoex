@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
 
         // Añadir la semilla CarrerasSeeders
         $this->call(CarrerasSeeder::class);
+        $this->call(MateriasSeeder::class);
     }
 }
