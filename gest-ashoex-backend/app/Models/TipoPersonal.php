@@ -10,7 +10,7 @@ class TipoPersonal extends Model
     protected $table = 'tipo_personals'; 
     protected $fillable = ['nombre'];
 
-    function personalAcademico()
+    function personalAcademicos()
     {
         return $this->hasMany(PersonalAcademico::class);
     }
