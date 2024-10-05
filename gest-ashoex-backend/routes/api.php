@@ -16,7 +16,7 @@ Route::controller(PersonalAcademicoController::class)->group(function () {
 	Route::get('/personal-academicos/{id}', 'index');
     Route::get('/personal/{id}/informacion',  'show');
 
-    Route::post('/registrar-personal-academico', 'registrar');
+    Route::post('/personal-academico', 'registrar');
 
     Route::put('/personal-academico/{id}','update');
         

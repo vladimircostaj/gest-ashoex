@@ -61,20 +61,35 @@ class PersonalAcademicoController extends Controller
         }
     }
 
-    public function registrar(Request $request)
-    {
-        $personalAcademico = PersonalAcademico::create([
-            'nombre' => $request->name,
-            'email' => $request->email,
-            'telefono' => $request->telefono,
-            'estado' => $request->estado,
-            'tipo_personal_id' => $request->tipo_personal_id,
-        ]);
+    public function registrar(Request $request): JsonResponse
+    {   
+        $existingUser = PersonalAcademico::where('email', $request->email)->first();
+        
+        if ($existingUser) {
+            return response()->json([
+                'message' => 'El correo electrónico ya está en uso.',
+            ], 409);
+        }
+        try {
+            $personalAcademico = PersonalAcademico::create([
+                'nombre' => $request->name,
+                'email' => $request->email,
+                'telefono' => $request->telefono,
+                'estado' => $request->estado,
+                'tipo_personal_id' => $request->tipo_personal_id,
+            ]);
 
-        return response()->json([
-            'message' => 'Personal académico registrado exitosamente',
-            'personalAcademico' => $personalAcademico
-        ], 201);
+            return response()->json([
+                'message' => 'Personal académico registrado exitosamente',
+                'personalAcademico' => $personalAcademico
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Error en el registro', 
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show($id)
