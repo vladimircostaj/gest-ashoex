@@ -19,7 +19,7 @@ class CarrerasSeeder extends Seeder
                 'nro_semestres' => 10,
             ],
             [
-                'nombre' => 'Arquitectura',
+                'nombre' => 'Biologia',
                 'nro_semestres' => 12,
             ],
             [

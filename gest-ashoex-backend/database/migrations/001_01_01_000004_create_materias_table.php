@@ -14,8 +14,9 @@ return new class extends Migration
     {
         Schema::create('materias', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('codigo')->unique();
             $table->string('nombre');
-            $table->string('tipo'); //regular, electiva, taller de titulacion
+            $table->string('tipo'); //regular, taller de titulacion
             $table->unsignedInteger('nro_PeriodoAcademico');
 
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

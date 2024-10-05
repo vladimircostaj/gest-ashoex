@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Materia extends Model
 {
-    protected $fillable = ['nombre', 'tipo', 'nro_PeriodoAcademico'];
+    protected $fillable = ['codigo', 'nombre', 'tipo', 'nro_PeriodoAcademico'];
 
     public function carreras()
     {
