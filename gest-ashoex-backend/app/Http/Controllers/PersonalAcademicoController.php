@@ -32,32 +32,53 @@ class PersonalAcademicoController extends Controller
     }
 
     /**
-     * Funcion para dar de baja a un personal academico especifico 
-     * @param Request $request Este es request debe contener un JSON el cual debe tener al menos el id del personal academico a dar de baja, el esqueleto debe ser: {`id`: 'value'} 
-     * @return JsonResponse Pasa como respuesta un respuesta JSON, con un mensaje que describe lo que paso con la peticion
+     * Funcion para dar de baja a un personal academico especificado por su ID
+     * @param int $personalAcademicoID - ID especifico de un personal academico 
+     * @return JsonResponse - retorna una respuesta JSON, que sigue la estructura acordada, con una descripcion de lo que paso con la peticion
      */
-    public function darDeBaja(Request $request): JsonResponse
+    public function darDeBaja(int $personalAcademicoID): JsonResponse
     {
         try {
-            $personalAcademicoID = $request->id; 
             $personalAcademico = PersonalAcademico::find($personalAcademicoID); 
             if (!$personalAcademico) {
-                return response()->json([
-                    'data' => 'El personal academico seleccionado no existe.'
-                ], 404);
+                return parent::response(
+                    false, 
+                    [], 
+                    'Error en la solicitud', 
+                    [
+                        [
+                            'code' => 404, 
+                            'message' => 'El personal academico seleccionado no existe'
+                        ],
+                    ]
+                ); 
             }
-            return response()->json([
-                'data' => (
-                    $personalAcademico->darBaja() ? 
+            $dadoDeBaja = $personalAcademico->darBaja();
+            $errors = []; 
+            if (!$dadoDeBaja) {
+                $errors =  ['code' => 428,
+                    'message' => 'El personal academico debe estar habilitado'];
+            }
+            return parent::response(
+                $dadoDeBaja, 
+                $personalAcademico->toArray(), 
+                (
+                    $dadoDeBaja ? 
                     'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre :
                     'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
-                )
-            ], 200);
+                ),
+                $errors
+            );
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Server error D:', 
-                'error' => $e->getMessage()
-            ], 500);
+            return parent::response(
+                false, 
+                [], 
+                'Error en la solicitud',
+                [
+                    'code' => 500, 
+                    'message' => $e->getMessage()
+                ]
+            ); 
         }
     }
 

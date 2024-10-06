@@ -20,8 +20,7 @@ Route::controller(PersonalAcademicoController::class)->group(function () {
 
     Route::put('/personal-academico/{id}','update');
         
-	Route::patch('/personal-academicos/dar-baja', 'darDeBaja')
-        ->middleware(Sanitizer::class);
-});
+	Route::patch('/personalAcademicos/{id}/dar-baja', 'darDeBaja');
+})->middleware(Sanitizer::class);
 
 Route::get('/ListaPersonalAcademico', [ListaPersonalAcademicoController::class, 'ListaPersonalAcademico']);
