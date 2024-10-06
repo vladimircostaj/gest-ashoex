@@ -67,12 +67,18 @@ class PersonalAcademicoController extends Controller
         
         if ($existingUser) {
             return response()->json([
-                'message' => 'El correo electrónico ya está en uso.',
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 409,
+                    'message' => 'Conflicto'
+                ],
+                'message' => 'Datos de entrada inválidos, registro ya existente'
             ], 409);
         }
         try {
             $personalAcademico = PersonalAcademico::create([
-                'nombre' => $request->name,
+                'nombre' => $request->nombre,
                 'email' => $request->email,
                 'telefono' => $request->telefono,
                 'estado' => $request->estado,
@@ -80,14 +86,21 @@ class PersonalAcademicoController extends Controller
             ]);
 
             return response()->json([
-                'message' => 'Personal académico registrado exitosamente',
-                'personalAcademico' => $personalAcademico
+                'success'=> true,
+                'data' => $personalAcademico,
+                'error'=> null,
+                'message' => 'Personal academico registrado exitosamente',
             ], 201);
 
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Error en el registro', 
-                'error' => $e->getMessage()
+                "success"=> false,
+                "data"=> null,
+                "error"=> [
+                    "code"=> 500,
+                    "message"=> "Error interno del servidor"
+                ],
+                "message"=> $e->getMessage()
             ], 500);
         }
     }
