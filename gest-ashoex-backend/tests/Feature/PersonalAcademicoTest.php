@@ -6,7 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-use App\Models\PersonalAcademico; 
+use App\Models\PersonalAcademico;
+use App\Models\TipoPersonal;
 
 use Database\Seeders\DatabaseSeeder;
 
@@ -19,6 +20,88 @@ class PersonalAcademicoTest extends TestCase
         parent::setUp();
 
         $this->seed(DatabaseSeeder::class);
+    }
+
+    /**
+     * Test para registrar nuevo personal academico
+     */
+    public function testRegistrarPersonalAcademicoExitosamente(): void
+    {
+        $tipoPersonal = TipoPersonal::factory()->create();
+
+        $data = [
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'telefono' => '+59171234567',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => $tipoPersonal->id
+        ];
+
+        $response = $this->postJson('/api/personal-academico', $data);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => 'Personal académico registrado exitosamente',
+            ]);
+
+        $this->assertDatabaseHas('personal_academicos', [
+            'email' => 'john.doe@example.com',
+        ]);
+    }
+
+    /**
+     * Test de registro de personal con email ya en uso
+     */
+    public function testRegistrarPersonalAcademicoEmailYaEnUso(): void
+    {
+        PersonalAcademico::factory()->create([
+            'email' => 'john.doe@example.com'
+        ]);
+
+        $data = [
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'telefono' => '+59171234567',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => 2
+        ];
+
+        $response = $this->postJson('/api/personal-academico', $data);
+
+        $response->assertStatus(409)
+            ->assertJson([
+                'message' => 'El correo electrónico ya está en uso.',
+            ]);
+    }
+
+    /**
+     * Test para manejar errores de registro.
+     */
+    public function testRegistrarPersonalAcademicoErrorDeRegistro(): void
+    {
+        // Mock para simular una excepción durante el proceso de creación
+        $this->mock(PersonalAcademico::class, function ($mock) {
+            $mock->shouldReceive('create')
+                ->andThrow(new \Exception('Database error'));
+        });
+
+        $tipoPersonal = TipoPersonal::factory()->create();
+
+        $data = [
+            'name' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'telefono' => '+59171234567',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => 9999
+        ];
+
+        $response = $this->postJson('/api/personal-academico', $data);
+
+        $response->assertStatus(500)
+            ->assertJson([
+                'message' => 'Error en el registro',
+                // 'error' => 'Database error',
+            ]);
     }
 
     /**
