@@ -7,38 +7,48 @@ use App\Models\Materia;
 
 class MateriaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
-    {
-        try {
-            $materias = Materia::all();    
-            if ($materias->isEmpty()) {
-                return response()->json([
-                    'error' => 'No se encontraron materias',
-                ], Response::HTTP_NOT_FOUND); 
-            }
-            return response()->json($materias, Response::HTTP_OK);    
-        } catch (\Illuminate\Database\QueryException $e) {
+{
+    try {
+        $materias = Materia::all();
+        if ($materias->isEmpty()) {
             return response()->json([
-                'error' => 'Error en la consulta a la base de datos',
-                'detalle' => $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
-    
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return response()->json([
-                'error' => 'No tienes permiso para acceder a estas materias',
-                'detalle' => $e->getMessage(),
-            ], Response::HTTP_FORBIDDEN);
-    
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'Ocurrió un error inesperado',
-                'detalle' => $e->getMessage(),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+                'success' => false,
+                'data' => [],
+                'error' => ['No se encontraron materias'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_NOT_FOUND); 
         }
+        return response()->json([
+            'success' => true,
+            'data' => $materias,
+            'error' => [],
+            'message' => 'Operación exitosa'
+        ], Response::HTTP_OK);
+    } catch (\Illuminate\Database\QueryException $e) {
+        return response()->json([
+            'success' => false,
+            'data' => [],
+            'error' => ['Error en la consulta a la base de datos'],
+            'message' => 'Operación fallida'
+        ], Response::HTTP_BAD_REQUEST);
+    } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+        return response()->json([
+            'success' => false,
+            'data' => [],
+            'error' => ['No tienes permiso para acceder a estas materias'],
+            'message' => 'Operación fallida'
+        ], Response::HTTP_FORBIDDEN);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'data' => [],
+            'error' => ['Ocurrió un error inesperado'],
+            'message' => 'Operación fallida'
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+}
 
     /**
      * Store a newly created resource in storage.
