@@ -5,7 +5,8 @@ use App\Http\Controllers\GrupoController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HealthController;
-use App\Http\Controllers\CurriculaController; 
+use App\Http\Controllers\CurriculaController;
+use App\Http\Controllers\MateriaController; 
 //use App\Models\Carrera;
 
 
@@ -25,6 +26,10 @@ Route::controller(CurriculaController::class)->group(function () {
     Route::get('/curriculas/{id}', 'show');
     Route::post('/curriculas', 'store');
 
+});
+
+Route::controller(MateriaController::class)->group(function () {
+    Route::get('/materias', 'index');
 });
 
 Route::get('/grupo',[GrupoController::class,'index']);
