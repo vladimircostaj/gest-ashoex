@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('personal_academicos', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique()->domain('/^[a-zA-Z0-9.!#$%&\'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/');
-            $table->string('telefono'); // include a simple domain. 
-            $table->string('estado'); // include a simple domain.
+            $table->string('nombre');
+            $table->string('email')->unique();
+            $table->string('telefono'); 
+            $table->enum('estado', config('constants.PERSONAL_ACADEMICO_ESTADOS'))->default(config('constants.PERSONAL_ACADEMICO_ESTADOS')[0]);
 
             $table->unsignedInteger('tipo_personal_id'); 
 
@@ -27,9 +27,10 @@ return new class extends Migration
                 ->references('id')
                 ->on('tipo_personals')
                 ->cascadeOnDelete();
-        }); 
 
-        // add a trigger. 
+        }); 
+        DB::statement("ALTER TABLE personal_academicos ADD CONSTRAINT email_format CHECK (email ~* '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')");        
+        DB::statement("ALTER TABLE personal_academicos ADD CONSTRAINT phone_format CHECK ( telefono ~* '^\+591\d{8}$')");
     }
 
     /**
