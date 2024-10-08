@@ -40,7 +40,22 @@ class CarreraController extends Controller
     public function show(string $id)
     {
         $carrera=Carrera::find($id);
-        return response()->json($carrera,200);
+        if($carrera){
+            
+            return response()->json([
+                "success"=> true,
+                "data"=> [],
+                "error"=> [],
+                "message"=> "Operacion exitosa"
+            ],200);  
+        }else{
+            return response()->json([
+                "success"=> false,
+                "data"=> [],
+                "error"=> ["La carrera no existe"],
+                "message"=> "Operacion fallida"
+            ],404);  
+        }
 
     }
 
