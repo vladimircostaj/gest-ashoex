@@ -60,7 +60,23 @@ class CurriculaController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $curricula=Curricula::find($id);
+        if($curricula){
+            
+            return response()->json([
+                "success"=> true,
+                "data"=> [],
+                "error"=> [],
+                "message"=> "Operacion exitosa"
+            ],200);  
+        }else{
+            return response()->json([
+                "success"=> false,
+                "data"=> [],
+                "error"=> ["La curricula no encontrada"],
+                "message"=> "Operacion fallida"
+            ],200);  
+        }
     }
 
     /**
