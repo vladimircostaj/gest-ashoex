@@ -73,9 +73,9 @@ class CurriculaController extends Controller
             return response()->json([
                 "success"=> false,
                 "data"=> [],
-                "error"=> ["La curricula no encontrada"],
+                "error"=> ["La curricula no existe"],
                 "message"=> "Operacion fallida"
-            ],200);  
+            ],404);  
         }
     }
 
