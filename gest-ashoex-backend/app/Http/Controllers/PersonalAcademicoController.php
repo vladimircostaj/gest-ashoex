@@ -93,26 +93,74 @@ class PersonalAcademicoController extends Controller
     public function update(Request $request, $id)
     {
 
-        $personalAcademico = PersonalAcademico::find($id);
+        $personalAcademico = PersonalAcademico::with('tipoPersonal')->find($id);
 
         if (!$personalAcademico) {
             return response()->json([
-                'message' => 'Personal académico no encontrado.'
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 404,
+                    'message' => 'Personal académico no encontrado.'
+                ],
+                'message' => 'Error en la solicitud.'
             ], 404);
         }
 
-        $personalAcademico->nombre = $request->input('name');
-        $personalAcademico->email = $request->input('email');
-        $personalAcademico->telefono = $request->input('telefono');
-        $personalAcademico->estado = $request->input('estado');
-        $personalAcademico->tipo_personal_id = $request->input('tipo_personal_id');
+        $emailExistente = PersonalAcademico::where('email', $request->input('email'))->where('id', '!=', $id)->exists();
 
-        $personalAcademico->save();
+        if ($emailExistente) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 400,
+                    'message' => 'El correo electrónico ya está registrado.'
+                ],
+                'message' => 'Error en la solicitud.'
+            ], 400);
+        }
 
-        return response()->json([
-            'message' => 'Personal académico actualizado exitosamente.',
-            'personal_academico' => $personalAcademico
-        ], 200);
+        try {
+
+            $request->validate([
+                'nombre' => 'required|string',
+                'email' => 'required|email',
+                'telefono' => 'required|string',
+                'estado' => 'required|string',
+                'tipo_personal_id' => 'required|integer|exists:tipo_personals,id'
+            ]);
+
+            $personalAcademico->nombre = $request->input('nombre');
+            $personalAcademico->email = $request->input('email');
+            $personalAcademico->telefono = $request->input('telefono');
+            $personalAcademico->estado = $request->input('estado');
+            $personalAcademico->tipo_personal_id = $request->input('tipo_personal_id');
+
+            $personalAcademico->save();
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'personal_academico' => $personalAcademico,
+                    'message' => 'Personal académico actualizado exitosamente.'
+                ],
+                'error' => null,
+                'message' => 'Operación exitosa.'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 400,
+                    'message' => 'Datos de entrada inválidos.'
+                ],
+                'message' => 'Error en la solicitud.'
+            ], 400);
+        }
+
     }
 
 }
