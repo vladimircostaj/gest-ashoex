@@ -24,6 +24,7 @@ Route::controller(CarreraController::class)->group(function () {
 Route::controller(CurriculaController::class)->group(function () {
     Route::get('/curriculas', 'index');
     Route::get('/curriculas/{id}', 'show');
+    Route::put('curriculas/{id}','update');
     Route::post('/curriculas', 'store');
 
 });
