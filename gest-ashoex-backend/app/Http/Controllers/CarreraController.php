@@ -70,8 +70,8 @@ class CarreraController extends Controller
             return response()->json([
                 "success"=> false,
                 "data"=> [],
-                "error"=> [],
-                "message"=> "Carrera no encontrada"
+                "error"=> ["Carrera no encontrada"],
+                "message"=> "Operaccion fallida"
             ],404);
         }
     }
