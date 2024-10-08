@@ -96,7 +96,7 @@ class CurriculaController extends Controller
             "success"=> true,
             "data"=> [],
             "error"=> ["id no encontrado"],
-            "message"=> "Operacion exitosa"
+            "message"=> "Operacion fallida"
         ], 404);
        }
        
