@@ -113,13 +113,17 @@ class CarreraController extends Controller
         if ($carrera){
             $carrera->delete();
             return response()->json([
-                'success'=>true,
-                'data'=>$carrera
+                "success"=> true,
+                "data"=> [],
+                "error"=> [],
+                "message"=> "Operacion exitosa"
             ],200);
         }else{
             return response()->json([
-                'success'=>false,
-                'data'=>$carrera
+                "success"=> false,
+                "data"=> [],
+                "error"=> ["Carrera no encontrada"],
+                "message"=> "Operaccion fallida"
             ],404);
         }
     }
