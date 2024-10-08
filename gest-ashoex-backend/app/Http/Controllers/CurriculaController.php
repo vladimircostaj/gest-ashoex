@@ -97,7 +97,7 @@ class CurriculaController extends Controller
                 "data"=>[],
                 "error"=>[],
                 "message"=>"Curricula no encontrada"
-            ],200); 
+            ],404); 
         }
         
     }
