@@ -3,16 +3,16 @@
     "info": {
         "title": "API de Gestión de Personal Académico",
         "description": "API para gestionar la lista de todo el personal académico registrado",
-        "version": "1.0.0"
+        "version": ""
     },
     "paths": {
-        "/api/personal-academico": {
+        "/api/personales": {
             "get": {
                 "tags": [
                     "Personal Académico"
                 ],
                 "summary": "Obtener lista de personal académico",
-                "operationId": "3b4ccadd2d792df9e99ef4105e3a454a",
+                "operationId": "bb866400a2f1fbf634d0256db987aa52",
                 "responses": {
                     "200": {
                         "description": "Lista obtenida exitosamente",

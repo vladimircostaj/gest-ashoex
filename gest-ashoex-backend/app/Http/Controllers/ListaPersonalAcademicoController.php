@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 /**
  * @OA\Info(
  *     title="API de Gestión de Personal Académico",
- *     version="1.0.0",
+ *     version="",
  *     description="API para gestionar la lista de todo el personal académico registrado"
  * )
  */
@@ -17,7 +17,7 @@ class ListaPersonalAcademicoController extends Controller
 {
   /**
  * @OA\Get(
- *     path="/api/personal-academico",
+ *     path="/api/personales",
  *     summary="Obtener lista de personal académico",
  *     tags={"Personal Académico"},
  *     @OA\Response(
