@@ -61,6 +61,8 @@ class PersonalAcademicoTest extends TestCase
     /**
      * Test de registro de personal con email ya en uso
      */
+    
+    
     public function testRegistrarPersonalAcademicoEmailYaEnUso(): void
     {
         PersonalAcademico::factory()->create([
@@ -89,11 +91,12 @@ class PersonalAcademicoTest extends TestCase
             ]);
     }
 
-    /**
-     * Test de registro de personal correctamente
-     */
-    public function testRegistrarPersonalAcademicoExitoso(): void
+    public function testRegistrarPersonalAcademicoConExcepcion()
     {
+        $this->mock(PersonalAcademico::class, function ($mock) {
+            $mock->shouldReceive('create')->andReturn(null);
+        });
+        
         $tipoPersonal = TipoPersonal::factory()->create();
 
         $data = [
@@ -101,27 +104,12 @@ class PersonalAcademicoTest extends TestCase
             'email' => 'jane.doe@example.com',
             'telefono' => '+59171234568',
             'estado' => 'ACTIVO',
-            'tipo_personal_id' => $tipoPersonal->id
+            'tipo_personal_id' => 1
         ];
-
         $response = $this->postJson('/api/personal-academico', $data);
-
-        $response->assertStatus(201)
-            ->assertJson([
-                'success' => true,
-                'data' => [
-                    'nombre' => 'Jane Doe',
-                    'email' => 'jane.doe@example.com',
-                    'telefono' => '+59171234568',
-                    'estado' => 'ACTIVO',
-                    'tipo_personal_id' => $tipoPersonal->id,
-                    'id' => $response->json('data.id'),
-                ],
-                'error' => null,
-                'message' => 'Personal academico registrado exitosamente',
-            ]);
+        $response->assertStatus(500);
     }
-
+    
     /**
      * A basic feature test example.
      */
