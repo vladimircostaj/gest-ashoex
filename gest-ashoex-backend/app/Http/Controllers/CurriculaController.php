@@ -68,13 +68,38 @@ class CurriculaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-       $request ->validate([
-        'nombre'=>'required|max:255',
-        'materias'=>'required',
-       ]);
+        $rules = [
+            'carrera_id' => 'nullable|integer|exists:carreras,id',
+            'materia_id' => 'nullable|integer|exists:materias,id',
+            
+        ];
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json([
+                "success"=> false,
+                "data"=> [],
+                "error"=> $validator->errors(),
+                "message"=> "Operacion fallida"
+            ], 422);
+        }
        $curricula = Curricula::find($id);
-       $curricula->update($request->all);
-       return redirect()->back()->with('success','la curricula ha sido actualizada');
+       if ($curricula){
+        $curricula->update($request->all);
+        return response()->json([
+            "success"=> true,
+            "data"=> [],
+            "error"=> [],
+            "message"=> "Operacion exitosa"
+        ], 200);
+       }else{
+        return response()->json([
+            "success"=> true,
+            "data"=> [],
+            "error"=> ["id no encontrado"],
+            "message"=> "Operacion exitosa"
+        ], 404);
+       }
+       
     }
 
     /**
