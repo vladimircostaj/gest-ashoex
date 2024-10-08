@@ -259,6 +259,8 @@ docker --version
 
 2. **Acceder al backend**: El backend estará disponible en `http://localhost:8000`.
 
+3. **Documentación con Swagger**: La documentación estará disponible en `http://localhost:8000/api/documentation#/`.
+
 ### Frontend(React con Vite)
 
 1. **Levantar el servidor de Vite**: Desde la carpeta `gest-ashoex-frontend`, inicia el servidor de desarrollo.
