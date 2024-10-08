@@ -83,7 +83,22 @@ class CurriculaController extends Controller
     public function destroy(string $id)
     {
         $curricula = Curricula::find($id);
-        $curricula->delete();
-        return redirect()->back()->with('success','la curricula ha sido eliminada con exito');
+        if($curricula){
+            $curricula->delete();
+        return response()->json([
+                "success"=>true,
+                "data"=>[],
+                "error"=>[],
+                "message"=>"Operacion exitosa"
+        ],200);
+        }else{
+            return response()->json([
+                "success"=>false,
+                "data"=>[],
+                "error"=>[],
+                "message"=>"Curricula no encontrada"
+            ],200); 
+        }
+        
     }
 }
