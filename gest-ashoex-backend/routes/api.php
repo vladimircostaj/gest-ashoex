@@ -26,6 +26,7 @@ Route::controller(CurriculaController::class)->group(function () {
     Route::get('/curriculas/{id}', 'show');
     Route::put('curriculas/{id}','update');
     Route::post('/curriculas', 'store');
+    Route::delete('/curriculas/{id}','destroy');
 
 });
 
