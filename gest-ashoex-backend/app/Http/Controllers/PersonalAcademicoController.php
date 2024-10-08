@@ -141,10 +141,7 @@ class PersonalAcademicoController extends Controller
 
             return response()->json([
                 'success' => true,
-                'data' => [
-                    'personal_academico' => $personalAcademico,
-                    'message' => 'Personal académico actualizado exitosamente.'
-                ],
+                'data' => $personalAcademico,
                 'error' => null,
                 'message' => 'Operación exitosa.'
             ], 200);
