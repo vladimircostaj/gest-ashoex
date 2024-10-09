@@ -5,6 +5,22 @@ namespace App\Http\Controllers;
 use App\Models\Aula;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Schema(
+ *     schema="Aula",
+ *     type="object",
+ *     title="Aula",
+ *     required={"numero_aula", "capacidad", "habilitada", "id_ubicacion"},
+ *     properties={
+ *         @OA\Property(property="id_aula", type="integer", example=1),
+ *         @OA\Property(property="numero_aula", type="string", example="A101"),
+ *         @OA\Property(property="capacidad", type="integer", example=30),
+ *         @OA\Property(property="habilitada", type="boolean", example=true),
+ *         @OA\Property(property="id_ubicacion", type="integer", example=2)
+ *     }
+ * )
+ */
+
 class AulaController extends Controller
 {
     /**
@@ -47,20 +63,4 @@ class AulaController extends Controller
         $aula = Aula::create($request->all());
         return response()->json($aula, 201);
     }
-
-    /**
-     * @OA\Schema(
-     *     schema="Aula",
-     *     type="object",
-     *     title="Aula",
-     *     required={"numero_aula", "capacidad", "habilitada", "id_ubicacion"},
-     *     properties={
-     *         @OA\Property(property="id_aula", type="integer", example=1),
-     *         @OA\Property(property="numero_aula", type="string", example="A101"),
-     *         @OA\Property(property="capacidad", type="integer", example=30),
-     *         @OA\Property(property="habilitada", type="boolean", example=true),
-     *         @OA\Property(property="id_ubicacion", type="integer", example=2),
-     *     }
-     * )
-     */
 }
