@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ambientes;
 
-use App\Models\Uso;
+use App\Http\Controllers\Controller;
+use App\Models\Ambientes\Uso;
 use Illuminate\Http\Request;
 
 class UsoController extends Controller

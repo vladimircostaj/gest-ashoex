@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ambientes;
 
 use App\Http\Controllers\Controller;
-use App\Models\Edificio;
+use App\Models\Ambientes\Edificio;
 use Illuminate\Http\Request;
 
 class EdificioController extends Controller

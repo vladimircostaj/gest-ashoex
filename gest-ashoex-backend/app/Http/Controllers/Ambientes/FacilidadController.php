@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ambientes;
 
-use App\Models\Facilidad;
+use App\Models\Ambientes\Facilidad;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class FacilidadController extends Controller
 {

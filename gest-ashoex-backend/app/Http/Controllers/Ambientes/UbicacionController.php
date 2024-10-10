@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use App\Models\Ubicacion;
+namespace App\Http\Controllers\Ambientes;
+use App\Http\Controllers\Controller;
+use App\Models\Ambientes\Ubicacion;
 use Illuminate\Http\Request;
 
 class UbicacionController extends Controller

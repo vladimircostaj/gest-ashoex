@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ambientes;
 
-use App\Models\Aula;
+use App\Models\Ambientes\Aula;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AulaController extends Controller
 {
