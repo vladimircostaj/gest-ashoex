@@ -1,0 +1,157 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Gestión de Personal Académico",
+        "description": "API para gestionar la lista de todo el personal académico registrado",
+        "version": ""
+    },
+    "paths": {
+        "/api/personales": {
+            "get": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Obtener lista de personal académico",
+                "operationId": "bb866400a2f1fbf634d0256db987aa52",
+                "responses": {
+                    "200": {
+                        "description": "Lista obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "Tipo_personal": {
+                                                        "type": "string",
+                                                        "example": "Auxiliar"
+                                                    },
+                                                    "telefono": {
+                                                        "type": "string",
+                                                        "example": "68570572"
+                                                    },
+                                                    "personal_academico_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tipo_personal_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Luis Fernando Cardenas Morales"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "luisfernando@gmail.com"
+                                                    },
+                                                    "estado": {
+                                                        "type": "string",
+                                                        "example": "Activo"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No se encontraron datos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 204
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "No se encontró datos"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista vacía"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Error en la solicitud",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Datos de entrada inválidos: {error}"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en la solicitud"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Personal Académico",
+            "description": "Personal Académico"
+        }
+    ]
+}
