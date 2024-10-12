@@ -3,63 +3,60 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Carrera;
+use App\OpenApi\Schemas\CarreraSchema;
+
 use App\Http\Requests\CrearCarreraRequest;
-use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Response;
+
 
 class CarreraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
-     public function index()
-     {
-         try {
-             $carreras = Carrera::all();    
-                  if ($carreras->isEmpty()) {
-                 return response()->json([
-                     'success' => false,
-                     'data' => [],
-                     'error' => ['No se encontraron carreras'],
-                     'message' => 'Operación fallida'
-                 ], Response::HTTP_NOT_FOUND); 
-             }     
-             return response()->json([
-                 'success' => true,
-                 'data' => $carreras,
-                 'error' => [],
-                 'message' => 'Operación exitosa'
-             ], Response::HTTP_OK);     
-         } catch (\Illuminate\Database\QueryException $e) {
-             return response()->json([
-                 'success' => false,
-                 'data' => [],
-                 'error' => ['Error en la consulta a la base de datos'],
-                 'message' => 'Operación fallida'
-             ], Response::HTTP_BAD_REQUEST);     
-         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-             return response()->json([
-                 'success' => false,
-                 'data' => [],
-                 'error' => ['No tienes permiso para acceder a estas carreras'],
-                 'message' => 'Operación fallida'
-             ], Response::HTTP_FORBIDDEN);     
-         } catch (\Exception $e) {
-             return response()->json([
-                 'success' => false,
-                 'data' => [],
-                 'error' => ['Ocurrió un error inesperado'],
-                 'message' => 'Operación fallida'
-             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function index()
+    {
+        try {
+            $carreras = Carrera::all();    
+            if ($carreras->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'error' => ['No se encontraron carreras'],
+                    'message' => 'Operación fallida'
+                ], Response::HTTP_NOT_FOUND); 
+            }     
+            return response()->json([
+                'success' => true,
+                'data' => $carreras,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);     
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['Error en la consulta a la base de datos'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_BAD_REQUEST);     
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['No tienes permiso para acceder a estas carreras'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_FORBIDDEN);     
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['Ocurrió un error inesperado'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+ 
     public function store(CrearCarreraRequest $request)
     {
         $validated = $request->validated();
@@ -68,63 +65,54 @@ class CarreraController extends Controller
         return response()->json([
             'message' => 'Carrera creada exitosamente',
             'carrera' => $carrera,
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
-    /**
-     * Display the specified resource.
-     */
+  
     public function show(string $id)
     {
-        $carrera=Carrera::find($id);
-        if($carrera){
+        $carrera = Carrera::find($id);
+        if ($carrera) {
+            // Oculta los timestamps
+            $carrera->makeHidden(['created_at', 'updated_at']);
             
             return response()->json([
-                "success"=> true,
-                "data"=> [],
-                "error"=> [],
-                "message"=> "Operacion exitosa"
-            ],200);  
-        }else{
+                'success' => true,
+                'data' => $carrera,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);
+        } else {
             return response()->json([
-                "success"=> false,
-                "data"=> [],
-                "error"=> ["La carrera no existe"],
-                "message"=> "Operacion fallida"
-            ],404);  
+                'success' => false,
+                'data' => [],
+                'error' => ['La carrera no existe'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_NOT_FOUND);
         }
-
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
+    
+  
     public function destroy(string $id)
     {
         $carrera = Carrera::find($id);
-        if ($carrera){
+        if ($carrera) {
             $carrera->delete();
             return response()->json([
-                "success"=> true,
-                "data"=> [],
-                "error"=> [],
-                "message"=> "Operacion exitosa"
-            ],200);
-        }else{
+                "success" => true,
+                "data" => [],
+                "error" => [],
+                "message" => "Operación exitosa"
+            ], Response::HTTP_OK);
+        } else {
             return response()->json([
-                "success"=> false,
-                "data"=> [],
-                "error"=> ["Carrera no encontrada"],
-                "message"=> "Operaccion fallida"
-            ],404);
+                "success" => false,
+                "data" => [],
+                "error" => ["Carrera no encontrada"],
+                "message" => "Operación fallida"
+            ], Response::HTTP_NOT_FOUND);
         }
     }
+
+   
 }
