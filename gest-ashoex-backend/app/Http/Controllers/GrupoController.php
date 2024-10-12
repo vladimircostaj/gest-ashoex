@@ -41,19 +41,23 @@ class GrupoController extends Controller
     public function update(Request $request, string $id)
     {
         $grupo = Grupo::find($id);
-    if (!$grupo) {
-        return response()->json(['error' => 'Grupo no encontrado'], 404);
-    }
+        if (!$grupo) {
+            return response()->json(['error' => 'Grupo no encontrado'], 404);
+        }
 
-    $grupo->id_materia = $request->id_materia;
-    $grupo->nro_grupo = $request->nro_grupo;
-    $grupo->save();
+        // Validación de los datos
+        $datos = $request->validate([
+            'materia_id' => 'required',
+            'nro_grupo' => 'required',
+        ]);
 
-    return response()->json([
-        'success' => true,
-        'data' => $grupo
-    ], 200);
+        // Actualizar el grupo con los datos validados
+        $grupo->update($datos);
 
+        return response()->json([
+            'success' => true,
+            'data' => $grupo
+        ], 200);
     }
 
 
