@@ -92,7 +92,61 @@ class CarreraController extends Controller
         }
     }
     
-  
+    /**
+     * @OA\Delete(
+     *     path="/api/carreras/{id}",
+     *     tags={"Carrera"},
+     *     summary="Elimina una carrera por el id que se tiene ",
+     *     description="Devuelve el estado de salud del sistema",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la carrera",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Eliminado con exito",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                  @OA\Items(type="object"),
+     *                  example="[]"
+     *              ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(type="object"),
+     *                  example="[]"
+     *              ),
+     *             @OA\Property(property="message", type="string", example="Operacion exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error al eliminar una carrera",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",
+     *                  @OA\Items(type="object"),
+     *                  example="[]"
+     *              ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="code", type="integer", example="422"),
+     *                      @OA\Property(property="detail", type="string", example="el id proporcionado no esta relacionado con una carrera")
+     *                      )
+     *                      
+     *                  ),
+     *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         $carrera = Carrera::find($id);
@@ -108,8 +162,11 @@ class CarreraController extends Controller
             return response()->json([
                 "success" => false,
                 "data" => [],
-                "error" => ["Carrera no encontrada"],
-                "message" => "Operación fallida"
+                "error" => [[
+                            "code"=>Response::HTTP_NOT_FOUND,
+                            "detail"=>'el id proporcionado no esta relacionado con una carrera',
+                    ]],
+                "message" => "Error"
             ], Response::HTTP_NOT_FOUND);
         }
     }
