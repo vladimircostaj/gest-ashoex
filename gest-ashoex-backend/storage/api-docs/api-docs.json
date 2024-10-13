@@ -60,7 +60,7 @@
                             }
                         }
                     },
-                    "422": {
+                    "404": {
                         "description": "Error al eliminar una carrera",
                         "content": {
                             "application/json": {
@@ -144,6 +144,153 @@
                     }
                 }
             }
+        },
+        "/api/materias": {
+            "post": {
+                "tags": [
+                    "Materia"
+                ],
+                "summary": "Crea una nueva materia",
+                "description": "Este endpoint permite crear una nueva materia en el sistema.",
+                "operationId": "6d2751d41fdddb317afd753ab2d78f1e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "codigo",
+                                    "nombre",
+                                    "tipo",
+                                    "nro_PeriodoAcademico"
+                                ],
+                                "properties": {
+                                    "codigo": {
+                                        "description": "Código único de la materia",
+                                        "type": "integer",
+                                        "example": 123456
+                                    },
+                                    "nombre": {
+                                        "description": "Nombre de la materia",
+                                        "type": "string",
+                                        "example": "Matemáticas Avanzadas"
+                                    },
+                                    "tipo": {
+                                        "description": "Tipo de materia (regular, taller de titulación, etc.)",
+                                        "type": "string",
+                                        "example": "regular"
+                                    },
+                                    "nro_PeriodoAcademico": {
+                                        "description": "Número del periodo académico",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Materia creada con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "codigo": {
+                                                    "type": "integer",
+                                                    "example": 123456
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Matemáticas Avanzadas"
+                                                },
+                                                "tipo": {
+                                                    "type": "string",
+                                                    "example": "regular"
+                                                },
+                                                "nro_PeriodoAcademico": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2024-01-01T12:00:00Z"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Error al crear la materia: Detalles del error."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
@@ -154,6 +301,10 @@
         {
             "name": "Health Check",
             "description": "Health Check"
+        },
+        {
+            "name": "Materia",
+            "description": "Materia"
         }
     ]
 }
