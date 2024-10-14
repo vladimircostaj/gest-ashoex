@@ -15,59 +15,122 @@ class CarreraController extends Controller
      * Display a listing of the resource.
      */
 
-     public function index()
-     {
-         try {
-             $carreras = Carrera::all();    
-                  if ($carreras->isEmpty()) {
-                 return response()->json([
-                     'success' => false,
-                     'data' => [],
-                     'error' => ['No se encontraron carreras'],
-                     'message' => 'Operación fallida'
-                 ], Response::HTTP_NOT_FOUND); 
-             }     
-             return response()->json([
-                 'success' => true,
-                 'data' => $carreras,
-                 'error' => [],
-                 'message' => 'Operación exitosa'
-             ], Response::HTTP_OK);     
-         } catch (\Illuminate\Database\QueryException $e) {
-             return response()->json([
-                 'success' => false,
-                 'data' => [],
-                 'error' => ['Error en la consulta a la base de datos'],
-                 'message' => 'Operación fallida'
-             ], Response::HTTP_BAD_REQUEST);     
-         } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-             return response()->json([
-                 'success' => false,
-                 'data' => [],
-                 'error' => ['No tienes permiso para acceder a estas carreras'],
-                 'message' => 'Operación fallida'
-             ], Response::HTTP_FORBIDDEN);     
-         } catch (\Exception $e) {
-             return response()->json([
-                 'success' => false,
-                 'data' => [],
-                 'error' => ['Ocurrió un error inesperado'],
-                 'message' => 'Operación fallida'
-             ], Response::HTTP_INTERNAL_SERVER_ERROR);
-         }
-     }
+    public function index()
+    {
+        try {
+            $carreras = Carrera::all();
+            if ($carreras->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'error' => ['No se encontraron carreras'],
+                    'message' => 'Operación fallida'
+                ], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json([
+                'success' => true,
+                'data' => $carreras,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);
+        } catch (\Illuminate\Database\QueryException $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['Error en la consulta a la base de datos'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_BAD_REQUEST);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['No tienes permiso para acceder a estas carreras'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_FORBIDDEN);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['Ocurrió un error inesperado'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/api/carreras",
+     *     tags={"Carreras"},
+     *     summary="Almacena una nueva carrera en la base de datos",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"nombre","nro_semestres"},
+     *             @OA\Property(property="nombre", type="string", example="Licenciatura en Ingeniería Informática"),
+     *             @OA\Property(property="nro_semestres", type="number", example=10)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Carrera creada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Ejemplo"),
+     *                     @OA\Property(property="nro_semestres", type="number", example=10)
+     *                 )
+     *             ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(), example={}),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="400"),
+     *                     @OA\Property(property="detail", type="string", example="El campo 'nombre' es requerido.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en la conexión a la base de datos"
+     *     )
+     * )
      */
     public function store(CrearCarreraRequest $request)
     {
         $validated = $request->validated();
-        $carrera = Carrera::create(['nombre' => $validated['nombre']]);
+        $carrera = Carrera::create(['nombre' => $validated['nombre'], 'nro_semestres' => $validated['nro_semestres']]);
 
         return response()->json([
-            'message' => 'Carrera creada exitosamente',
-            'carrera' => $carrera,
+            'success' => true,
+            'data' => [
+                [
+                    'nombre' => $carrera->nombre,
+                    'nro_semestres' => $carrera->nro_semestres,
+                    'updated_at' => $carrera->updated_at,
+                    'created_at' => $carrera->created_at,
+                    'id' => $carrera->id
+                ]
+            ],
+            'error' => [],
+            'message' => 'Operación exitosa'
         ], 201);
     }
 
@@ -76,24 +139,23 @@ class CarreraController extends Controller
      */
     public function show(string $id)
     {
-        $carrera=Carrera::find($id);
-        if($carrera){
-            
-            return response()->json([
-                "success"=> true,
-                "data"=> [],
-                "error"=> [],
-                "message"=> "Operacion exitosa"
-            ],200);  
-        }else{
-            return response()->json([
-                "success"=> false,
-                "data"=> [],
-                "error"=> ["La carrera no existe"],
-                "message"=> "Operacion fallida"
-            ],404);  
-        }
+        $carrera = Carrera::find($id);
+        if ($carrera) {
 
+            return response()->json([
+                "success" => true,
+                "data" => [],
+                "error" => [],
+                "message" => "Operacion exitosa"
+            ], 200);
+        } else {
+            return response()->json([
+                "success" => false,
+                "data" => [],
+                "error" => ["La carrera no existe"],
+                "message" => "Operacion fallida"
+            ], 404);
+        }
     }
 
     /**
@@ -110,21 +172,21 @@ class CarreraController extends Controller
     public function destroy(string $id)
     {
         $carrera = Carrera::find($id);
-        if ($carrera){
+        if ($carrera) {
             $carrera->delete();
             return response()->json([
-                "success"=> true,
-                "data"=> [],
-                "error"=> [],
-                "message"=> "Operacion exitosa"
-            ],200);
-        }else{
+                "success" => true,
+                "data" => [],
+                "error" => [],
+                "message" => "Operacion exitosa"
+            ], 200);
+        } else {
             return response()->json([
-                "success"=> false,
-                "data"=> [],
-                "error"=> ["Carrera no encontrada"],
-                "message"=> "Operaccion fallida"
-            ],404);
+                "success" => false,
+                "data" => [],
+                "error" => ["Carrera no encontrada"],
+                "message" => "Operaccion fallida"
+            ], 404);
         }
     }
 }
