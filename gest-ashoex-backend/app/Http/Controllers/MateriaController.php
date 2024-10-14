@@ -1,54 +1,55 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Materia;
 
 class MateriaController extends Controller
 {
-    
+
     public function index()
-{
-    try {
-        $materias = Materia::all();
-        if ($materias->isEmpty()) {
+    {
+        try {
+            $materias = Materia::all();
+            if ($materias->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'data' => [],
+                    'error' => ['No se encontraron materias'],
+                    'message' => 'Operación fallida'
+                ], Response::HTTP_NOT_FOUND);
+            }
+            return response()->json([
+                'success' => true,
+                'data' => $materias,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);
+        } catch (\Illuminate\Database\QueryException $e) {
             return response()->json([
                 'success' => false,
                 'data' => [],
-                'error' => ['No se encontraron materias'],
+                'error' => ['Error en la consulta a la base de datos'],
                 'message' => 'Operación fallida'
-            ], Response::HTTP_NOT_FOUND); 
+            ], Response::HTTP_BAD_REQUEST);
+        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['No tienes permiso para acceder a estas materias'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_FORBIDDEN);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['Ocurrió un error inesperado'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        return response()->json([
-            'success' => true,
-            'data' => $materias,
-            'error' => [],
-            'message' => 'Operación exitosa'
-        ], Response::HTTP_OK);
-    } catch (\Illuminate\Database\QueryException $e) {
-        return response()->json([
-            'success' => false,
-            'data' => [],
-            'error' => ['Error en la consulta a la base de datos'],
-            'message' => 'Operación fallida'
-        ], Response::HTTP_BAD_REQUEST);
-    } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-        return response()->json([
-            'success' => false,
-            'data' => [],
-            'error' => ['No tienes permiso para acceder a estas materias'],
-            'message' => 'Operación fallida'
-        ], Response::HTTP_FORBIDDEN);
-    } catch (\Exception $e) {
-        return response()->json([
-            'success' => false,
-            'data' => [],
-            'error' => ['Ocurrió un error inesperado'],
-            'message' => 'Operación fallida'
-        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
-}
 
     /**
      * @OA\Post(
@@ -124,7 +125,6 @@ class MateriaController extends Controller
                 "error" => [],
                 "message" => "Operación exitosa"
             ], Response::HTTP_CREATED);
-
         } catch (\Exception $e) {
             return response()->json([
                 "success" => false,
@@ -150,64 +150,64 @@ class MateriaController extends Controller
     }
 
     /**
- * @OA\Put(
- *     path="/api/materiasUpdate/{id}",
- *     summary="Actualizar una materia",
- *     description="Actualiza los datos de una materia específica.",
- *     @OA\Parameter(
- *         name="id",
- *         in="path",
- *         required=true,
- *         description="ID de la materia a actualizar",
- *         @OA\Schema(type="integer")
- *     ),
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             @OA\Property(property="codigo", type="integer", example=1000001),
- *             @OA\Property(property="nombre", type="string", example="Ingles Avanzado"),
- *             @OA\Property(property="tipo", type="string", example="regular"),
- *             @OA\Property(property="nro_PeriodoAcademico", type="integer", example=2),
- *         )
- *     ),
- *     @OA\Response(
- *         response=200,
- *         description="Operación exitosa",
- *         @OA\JsonContent(
- *             @OA\Property(property="success", type="boolean", example=true),
- *             @OA\Property(property="data", type="object", ref="#/components/schemas/Materia"), // Cambiado a object y referenciado
- *             @OA\Property(property="error", type="array", @OA\Items()),
- *             @OA\Property(property="message", type="string", example="Operación exitosa")
- *         )
- *     ),
- *     @OA\Response(
- *         response=404,
- *         description="Materia no encontrada",
- *         @OA\JsonContent(
- *             @OA\Property(property="success", type="boolean", example=false),
- *             @OA\Property(property="data", type="array", @OA\Items()),
- *             @OA\Property(property="error", type="array", @OA\Items(
- *                 @OA\Property(property="code", type="integer", example=404),
- *                 @OA\Property(property="detail", type="string", example="Materia no encontrada")
- *             )),
- *             @OA\Property(property="message", type="string", example="Error")
- *         )
- *     ),
- *     @OA\Response(
- *         response=500,
- *         description="Error interno del servidor",
- *         @OA\JsonContent(
- *             @OA\Property(property="success", type="boolean", example=false),
- *             @OA\Property(property="data", type="array", @OA\Items()),
- *             @OA\Property(property="error", type="array", @OA\Items(
- *                 @OA\Property(property="code", type="integer", example=500),
- *                 @OA\Property(property="detail", type="string", example="Error al actualizar la materia")
- *             )),
- *             @OA\Property(property="message", type="string", example="Error")
- *         )
- *     )
- * )
- */
+     * @OA\Put(
+     *     path="/api/materiasUpdate/{id}",
+     *     summary="Actualizar una materia",
+     *     description="Actualiza los datos de una materia específica.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de la materia a actualizar",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="codigo", type="integer", example=1000001),
+     *             @OA\Property(property="nombre", type="string", example="Ingles Avanzado"),
+     *             @OA\Property(property="tipo", type="string", example="regular"),
+     *             @OA\Property(property="nro_PeriodoAcademico", type="integer", example=2),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object"),
+     *             @OA\Property(property="error", type="array", @OA\Items()),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Materia no encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items()),
+     *             @OA\Property(property="error", type="array", @OA\Items(
+     *                 @OA\Property(property="code", type="integer", example=404),
+     *                 @OA\Property(property="detail", type="string", example="Materia no encontrada")
+     *             )),
+     *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items()),
+     *             @OA\Property(property="error", type="array", @OA\Items(
+     *                 @OA\Property(property="code", type="integer", example=500),
+     *                 @OA\Property(property="detail", type="string", example="Error al actualizar la materia")
+     *             )),
+     *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     )
+     * )
+     */
 
     public function update(Request $request, string $id)
     {
@@ -217,14 +217,14 @@ class MateriaController extends Controller
             'tipo' => 'string|nullable',
             'nro_PeriodoAcademico' => 'integer|nullable',
         ]);
-    
+
         try {
             // Buscar materia
             $materia = Materia::findOrFail($id);
-    
+
             // Solo actualizar los campos que estén presentes en la solicitud
             $materia->update(array_filter(array: $validatedData));
-    
+
             // Devolver la respuesta en el formato JSON
             return response()->json([
                 "success" => true,
@@ -238,7 +238,6 @@ class MateriaController extends Controller
                 "error" => [],
                 "message" => "Operación exitosa"
             ], Response::HTTP_OK);
-    
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 "success" => false,
@@ -265,7 +264,7 @@ class MateriaController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
-    
+
 
 
     /**

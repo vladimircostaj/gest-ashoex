@@ -6,10 +6,134 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/carreras": {
+            "post": {
+                "tags": [
+                    "Carreras"
+                ],
+                "summary": "Almacena una nueva carrera en la base de datos",
+                "operationId": "3430b5198844e6744484d7e1b441db8f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "nro_semestres"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Licenciatura en Ingeniería Informática"
+                                    },
+                                    "nro_semestres": {
+                                        "type": "number",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Carrera creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Ejemplo"
+                                                    },
+                                                    "nro_semestres": {
+                                                        "type": "number",
+                                                        "example": 10
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "400"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo 'nombre' es requerido."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la conexión a la base de datos"
+                    }
+                }
+            }
+        },
         "/api/carreras/{id}": {
             "delete": {
                 "tags": [
-                    "Carrera"
+                    "Carreras"
                 ],
                 "summary": "Elimina una carrera por el id que se tiene ",
                 "description": "Devuelve el estado de salud del sistema",
@@ -291,12 +415,167 @@
                     }
                 }
             }
+        },
+        "/api/materiasUpdate/{id}": {
+            "put": {
+                "summary": "Actualizar una materia",
+                "description": "Actualiza los datos de una materia específica.",
+                "operationId": "b7e5d4c02aaf0cf2b5aa0ca66f0cd6d8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la materia a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "codigo": {
+                                        "type": "integer",
+                                        "example": 1000001
+                                    },
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Ingles Avanzado"
+                                    },
+                                    "tipo": {
+                                        "type": "string",
+                                        "example": "regular"
+                                    },
+                                    "nro_PeriodoAcademico": {
+                                        "type": "integer",
+                                        "example": 2
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Materia no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 404
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Materia no encontrada"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Error al actualizar la materia"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
-            "name": "Carrera",
-            "description": "Carrera"
+            "name": "Carreras",
+            "description": "Carreras"
         },
         {
             "name": "Health Check",
