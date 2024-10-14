@@ -150,12 +150,123 @@ class MateriaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
+ * @OA\Put(
+ *     path="/api/materiasUpdate/{id}",
+ *     summary="Actualizar una materia",
+ *     description="Actualiza los datos de una materia específica.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID de la materia a actualizar",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             @OA\Property(property="codigo", type="integer", example=1000001),
+ *             @OA\Property(property="nombre", type="string", example="Ingles Avanzado"),
+ *             @OA\Property(property="tipo", type="string", example="regular"),
+ *             @OA\Property(property="nro_PeriodoAcademico", type="integer", example=2),
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="object", ref="#/components/schemas/Materia"), // Cambiado a object y referenciado
+ *             @OA\Property(property="error", type="array", @OA\Items()),
+ *             @OA\Property(property="message", type="string", example="Operación exitosa")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Materia no encontrada",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", @OA\Items(
+ *                 @OA\Property(property="code", type="integer", example=404),
+ *                 @OA\Property(property="detail", type="string", example="Materia no encontrada")
+ *             )),
+ *             @OA\Property(property="message", type="string", example="Error")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", @OA\Items(
+ *                 @OA\Property(property="code", type="integer", example=500),
+ *                 @OA\Property(property="detail", type="string", example="Error al actualizar la materia")
+ *             )),
+ *             @OA\Property(property="message", type="string", example="Error")
+ *         )
+ *     )
+ * )
+ */
+
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'codigo' => 'integer|nullable',
+            'nombre' => 'string|max:255|nullable',
+            'tipo' => 'string|nullable',
+            'nro_PeriodoAcademico' => 'integer|nullable',
+        ]);
+    
+        try {
+            // Buscar materia
+            $materia = Materia::findOrFail($id);
+    
+            // Solo actualizar los campos que estén presentes en la solicitud
+            $materia->update(array_filter(array: $validatedData));
+    
+            // Devolver la respuesta en el formato JSON
+            return response()->json([
+                "success" => true,
+                "data" => [
+                    [
+                        "id" => $materia->id,
+                        "nombre" => $materia->nombre,
+                        "descripcion" => "Materia actualizada." // Cambiado a "Materia actualizada."
+                    ]
+                ],
+                "error" => [],
+                "message" => "Operación exitosa"
+            ], Response::HTTP_OK);
+    
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return response()->json([
+                "success" => false,
+                "data" => [],
+                "error" => [
+                    [
+                        "code" => Response::HTTP_NOT_FOUND,
+                        "detail" => 'Materia no encontrada'
+                    ]
+                ],
+                "message" => "Error"
+            ], Response::HTTP_NOT_FOUND);
+        } catch (\Exception $e) {
+            return response()->json([
+                "success" => false,
+                "data" => [],
+                "error" => [
+                    [
+                        "code" => Response::HTTP_INTERNAL_SERVER_ERROR,
+                        "detail" => 'Error al actualizar la materia: ' . $e->getMessage(),
+                    ]
+                ],
+                "message" => "Error"
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
+    
+
 
     /**
      * Remove the specified resource from storage.
