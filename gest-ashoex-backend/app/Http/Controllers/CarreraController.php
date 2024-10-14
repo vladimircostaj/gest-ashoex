@@ -3,17 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Carrera;
+use App\OpenApi\Schemas\CarreraSchema;
+
 use App\Http\Requests\CrearCarreraRequest;
-use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Http\Response;
+
 
 class CarreraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
     public function index()
     {
@@ -134,40 +132,84 @@ class CarreraController extends Controller
         ], 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         $carrera = Carrera::find($id);
         if ($carrera) {
+            // Oculta los timestamps
+            $carrera->makeHidden(['created_at', 'updated_at']);
 
             return response()->json([
-                "success" => true,
-                "data" => [],
-                "error" => [],
-                "message" => "Operacion exitosa"
-            ], 200);
+                'success' => true,
+                'data' => $carrera,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);
         } else {
             return response()->json([
-                "success" => false,
-                "data" => [],
-                "error" => ["La carrera no existe"],
-                "message" => "Operacion fallida"
-            ], 404);
+                'success' => false,
+                'data' => [],
+                'error' => ['La carrera no existe'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/api/carreras/{id}",
+     *     tags={"Carreras"},
+     *     summary="Elimina una carrera por el id que se tiene ",
+     *     description="Devuelve el estado de salud del sistema",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la carrera",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Eliminado con exito",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                  @OA\Items(type="object"),
+     *                  example="[]"
+     *              ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(type="object"),
+     *                  example="[]"
+     *              ),
+     *             @OA\Property(property="message", type="string", example="Operacion exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Error al eliminar una carrera",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",
+     *                  @OA\Items(type="object"),
+     *                  example="[]"
+     *              ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(
+     *                      type="object",
+     *                      @OA\Property(property="code", type="integer", example="422"),
+     *                      @OA\Property(property="detail", type="string", example="el id proporcionado no esta relacionado con una carrera")
+     *                      )
+     *                      
+     *                  ),
+     *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     )
+     * )
      */
     public function destroy(string $id)
     {
@@ -178,15 +220,18 @@ class CarreraController extends Controller
                 "success" => true,
                 "data" => [],
                 "error" => [],
-                "message" => "Operacion exitosa"
-            ], 200);
+                "message" => "Operación exitosa"
+            ], Response::HTTP_OK);
         } else {
             return response()->json([
                 "success" => false,
                 "data" => [],
-                "error" => ["Carrera no encontrada"],
-                "message" => "Operaccion fallida"
-            ], 404);
+                "error" => [[
+                    "code" => Response::HTTP_NOT_FOUND,
+                    "detail" => 'el id proporcionado no esta relacionado con una carrera',
+                ]],
+                "message" => "Error"
+            ], Response::HTTP_NOT_FOUND);
         }
     }
 }
