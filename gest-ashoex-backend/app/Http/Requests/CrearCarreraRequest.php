@@ -6,6 +6,8 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class CrearCarreraRequest extends FormRequest
 {
+
+
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -14,15 +16,11 @@ class CrearCarreraRequest extends FormRequest
         return true;
     }
 
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
     public function rules(): array
     {
         return [
             'nombre' => ['required', 'max:40'],
+            'nro_semestres' => ['required', 'numeric', 'min:1', 'max:12']
         ];
     }
 }
