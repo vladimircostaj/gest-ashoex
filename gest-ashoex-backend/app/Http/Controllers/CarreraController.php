@@ -56,7 +56,62 @@ class CarreraController extends Controller
         }
     }
 
- 
+/**
+     * @OA\Post(
+     *     path="/api/carreras",
+     *     tags={"Carreras"},
+     *     summary="Almacena una nueva carrera en la base de datos",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"nombre","nro_semestres"},
+     *             @OA\Property(property="nombre", type="string", example="Licenciatura en Ingeniería Informática"),
+     *             @OA\Property(property="nro_semestres", type="number", example=10)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Carrera creada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Ejemplo"),
+     *                     @OA\Property(property="nro_semestres", type="number", example=10)
+     *                 )
+     *             ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(), example={}),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="400"),
+     *                     @OA\Property(property="detail", type="string", example="El campo 'nombre' es requerido.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en la conexión a la base de datos"
+     *     )
+     * )
+     */
     public function store(CrearCarreraRequest $request)
     {
         $validated = $request->validated();
@@ -68,7 +123,60 @@ class CarreraController extends Controller
         ], Response::HTTP_CREATED);
     }
 
-  
+/**
+ * @OA\Get(
+ *     path="/api/carreras/{id}",
+ *     tags={"Carreras"},
+ *     summary="Obtiene los detalles de una carrera por su ID",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         @OA\Schema(type="integer"),
+ *         description="ID de la carrera"
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="nombre", type="string", example="Ingeniera Informatica"),
+ *                 @OA\Property(property="nro_semestres", type="number", example=10)
+ *             ),
+ *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={}),
+ *             @OA\Property(property="message", type="string", example="Operación exitosa")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="La carrera no existe",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+ *             @OA\Property(property="error", type="array", 
+ *                 @OA\Items(type="string", example="La carrera no existe")),
+ *             @OA\Property(property="message", type="string", example="Operación fallida")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error en el servidor interno",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+ *             @OA\Property(property="error", type="array", 
+ *                 @OA\Items(type="string", example="Ocurrió un error inesperado")),
+ *             @OA\Property(property="message", type="string", example="Operación fallida")
+ *         )
+ *     )
+ * )
+ */
+
     public function show(string $id)
     {
         $carrera = Carrera::find($id);
