@@ -2,20 +2,24 @@
 
 namespace Database\Factories;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\TipoPersonal;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\TipoPersonal>
  */
 class TipoPersonalFactory extends Factory
 {
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
     protected $model = TipoPersonal::class;
-
     public function definition()
     {
         return [
-            'nombre' => $this->faker->randomElement(['Docente']),
+            'nombre' => $this->faker->word(),
         ];
     }
 }

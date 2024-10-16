@@ -62,20 +62,48 @@ class PersonalAcademicoController extends Controller
         }
     }
 
-    public function registrar(Request $request)
-    {
-        $personalAcademico = PersonalAcademico::create([
-            'nombre' => $request->name,
-            'email' => $request->email,
-            'telefono' => $request->telefono,
-            'estado' => $request->estado,
-            'tipo_personal_id' => $request->tipo_personal_id,
-        ]);
+    public function registrar(Request $request): JsonResponse
+    {   
+        $existingUser = PersonalAcademico::where('email', $request->email)->first();
+        
+        if ($existingUser) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 409,
+                    'message' => 'Conflicto'
+                ],
+                'message' => 'Datos de entrada inválidos, registro ya existente'
+            ], 409);
+        }
+        try {
+            $personalAcademico = PersonalAcademico::create([
+                'nombre' => $request->nombre,
+                'email' => $request->email,
+                'telefono' => $request->telefono,
+                'estado' => $request->estado,
+                'tipo_personal_id' => $request->tipo_personal_id,
+            ]);
 
-        return response()->json([
-            'message' => 'Personal académico registrado exitosamente',
-            'personalAcademico' => $personalAcademico
-        ], 201);
+            return response()->json([
+                'success'=> true,
+                'data' => $personalAcademico,
+                'error'=> null,
+                'message' => 'Personal academico registrado exitosamente',
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "success"=> false,
+                "data"=> null,
+                "error"=> [
+                    "code"=> 500,
+                    "message"=> "Error interno del servidor"
+                ],
+                "message"=> $e->getMessage()
+            ], 500);
+        }
     }
 
     public function show($id)

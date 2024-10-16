@@ -22,6 +22,94 @@ class PersonalAcademicoTest extends TestCase
     }
 
     /**
+     * Test para registrar nuevo personal academico
+     */
+    public function testRegistrarPersonalAcademicoExitosamente(): void
+    {
+        $tipoPersonal = TipoPersonal::factory()->create();
+
+        $data = [
+            'nombre' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'telefono' => '+59171234567',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => $tipoPersonal->id
+        ];
+
+        $response = $this->postJson('/api/personal-academico', $data);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'nombre' => 'John Doe',
+                    'email' => 'john.doe@example.com',
+                    'telefono' => '+59171234567',
+                    'estado' => 'ACTIVO',
+                    'tipo_personal_id' => $tipoPersonal->id,
+                ],
+                'error' => null,
+                'message' => 'Personal academico registrado exitosamente',
+            ]);
+
+        $this->assertDatabaseHas('personal_academicos', [
+            'email' => 'john.doe@example.com',
+        ]);
+    }
+
+    /**
+     * Test de registro de personal con email ya en uso
+     */
+    
+    
+    public function testRegistrarPersonalAcademicoEmailYaEnUso(): void
+    {
+        PersonalAcademico::factory()->create([
+            'email' => 'john.doe@example.com'
+        ]);
+
+        $data = [
+            'nombre' => 'John Doe',
+            'email' => 'john.doe@example.com',
+            'telefono' => '+59171234567',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => 2
+        ];
+
+        $response = $this->postJson('/api/personal-academico', $data);
+
+        $response->assertStatus(409)
+            ->assertJson([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 409,
+                    'message' => 'Conflicto',
+                ],
+                'message' => 'Datos de entrada inválidos, registro ya existente',
+            ]);
+    }
+
+    public function testRegistrarPersonalAcademicoConExcepcion()
+    {
+        $this->mock(PersonalAcademico::class, function ($mock) {
+            $mock->shouldReceive('create')->andReturn(null);
+        });
+        
+        $tipoPersonal = TipoPersonal::factory()->create();
+
+        $data = [
+            'nombre' => 'Jane Doe',
+            'email' => 'jane.doe@example.com',
+            'telefono' => '+59171234568',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => 1
+        ];
+        $response = $this->postJson('/api/personal-academico', $data);
+        $response->assertStatus(500);
+    }
+    
+    /**
      * A basic feature test example.
      */
     public function test_example(): void
