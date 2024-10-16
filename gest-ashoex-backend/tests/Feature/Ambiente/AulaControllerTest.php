@@ -11,8 +11,6 @@ use Tests\TestCase;
 class AulaControllerTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
-
-    // Ejecutar el seeder para poblar las tablas necesarias
     protected function setUp(): void
     {
         parent::setUp();
@@ -52,4 +50,33 @@ class AulaControllerTest extends TestCase
             'numero_aula' => 'A101',
         ]);
     }
+
+    /**
+     * Test para registrar un aula con un número ya en uso
+     */
+    public function testRegistrarAulaConNumeroYaEnUso(): void
+    {
+        $aula = Aula::factory()->create(['numero_aula' => 'A101']);
+
+        $data = [
+            'numero_aula' => 'A101',  // El mismo número de aula
+            'capacidad' => 60,
+            'habilitada' => true,
+            'id_ubicacion' => $aula->id_ubicacion,
+        ];
+
+        $response = $this->postJson('/api/aulas', $data);
+
+        $response->assertStatus(409)
+            ->assertJson([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 409,
+                    'message' => 'Conflicto',
+                ],
+                'message' => 'Datos de entrada inválidos, aula ya registrada',
+            ]);
+    }
+
 }
