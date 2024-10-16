@@ -71,4 +71,11 @@ class EdificioTest extends TestCase
         $response = $this->delete('/api/edificios/99999');
         $response->assertStatus(404);
     }
+
+    public function test_delete_edificio_satisfactoriamente(): void
+    {
+        $edificio = Edificio::factory()->create();
+        $response = $this->delete("/api/edificios/{$edificio->id_edificio}");
+        $response->assertStatus(204);
+    }
 }
