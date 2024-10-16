@@ -58,4 +58,11 @@ class EdificioTest extends TestCase
         $response = $this->put("/api/edificios/{$edificio->id_edificio}", ['nombre_edificio' => '']);
         $response->assertStatus(422);
     }
+
+    public function test_delete_edificio_elimina_recurso(): void
+    {
+        $edificio = Edificio::factory()->create();
+        $response = $this->delete("/api/edificios/{$edificio->id_edificio}");
+        $response->assertStatus(204);
+    }
 }
