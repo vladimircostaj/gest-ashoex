@@ -16,4 +16,11 @@ class EdificioTest extends TestCase
         $response = $this->get('/api/edificios');
         $response->assertStatus(200);
     }
+
+    public function test_get_edificios_devuelve_formato_json(): void
+    {
+        Edificio::factory()->create();
+        $response = $this->get('/api/edificios');
+        $response->assertJsonStructure([['id_edificio', 'nombre_edificio', 'geolocalizacion', 'created_at', 'updated_at', 'ubicaciones']]);
+    }
 }
