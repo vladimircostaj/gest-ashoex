@@ -141,4 +141,26 @@ class AulaControllerTest extends TestCase
                 'message' => 'Aula no encontrada',
             ]);
     }
+    /**
+     * Test para dar de baja a un aula
+     */
+    public function testDarDeBajaAula(): void
+    {
+        $aula = Aula::factory()->create(['habilitada' => true]);
+
+        $data = ['habilitada' => false];
+
+        $response = $this->patchJson("/api/aulas/{$aula->id_aula}/baja", $data);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'message' => 'Aula dada de baja correctamente',
+            ]);
+
+        $this->assertDatabaseHas('aula', [
+            'id_aula' => $aula->id_aula,
+            'habilitada' => false,
+        ]);
+    }
 }
