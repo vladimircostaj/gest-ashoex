@@ -111,4 +111,19 @@ class AulaControllerTest extends TestCase
             'capacidad' => 70,
         ]);
     }
+    /**
+     * Test para eliminar un aula
+     */
+    public function testEliminarAulaExitosamente(): void
+    {
+        $aula = Aula::factory()->create();
+
+        $response = $this->deleteJson("/api/aulas/{$aula->id_aula}");
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseMissing('aula', [
+            'id_aula' => $aula->id_aula,
+        ]);
+    }
 }
