@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders\Ambientes;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +17,7 @@ class EdificioTableSeeder extends Seeder
             ['nombre_edificio' => 'Edificio Laboratorios', 'geolocalizacion' => '16.516,-68.165', 'created_at' => now(), 'updated_at' => now()],
             ['nombre_edificio' => 'Edificio Industrial', 'geolocalizacion' => '16.518,-68.166', 'created_at' => now(), 'updated_at' => now()],
             ['nombre_edificio' => 'Edificio Fisica', 'geolocalizacion' => '16.520,-68.167', 'created_at' => now(), 'updated_at' => now()],
-            
+
         ]);
     }
 }

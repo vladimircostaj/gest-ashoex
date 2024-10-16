@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders\Ambientes;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -15,7 +17,7 @@ class UsoTableSeeder extends Seeder
             ['tipo_uso' => 'LAboratorio de computacion', 'id_aula' => 5, 'created_at' => now(), 'updated_at' => now()],
             ['tipo_uso' => 'Defensa de Tesis', 'id_aula' => 6, 'created_at' => now(), 'updated_at' => now()],
             ['tipo_uso' => 'Talleres', 'id_aula' => 7, 'created_at' => now(), 'updated_at' => now()],
-            
+
         ]);
     }
 }
