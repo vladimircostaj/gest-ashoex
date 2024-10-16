@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Ambientes;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ambientes\StoreUsoRequest;
+use App\Http\Requests\Ambientes\UpdateUsoRequest;
 use App\Models\Ambientes\Uso;
 use Illuminate\Http\Request;
 
@@ -11,48 +13,86 @@ class UsoController extends Controller
     // Obtener todos los usos
     public function index()
     {
-        return Uso::all();
+        $usos = Uso::all();
+        return response()->json([
+            'success' => true,
+            'data' => $usos,
+            'error' => null,
+            'message' => 'Lista de usos recuperada exitosamente'
+        ]);
     }
 
     // Obtener un uso por su ID
     public function show($id)
     {
-        return Uso::findOrFail($id);
+        $uso = Uso::find($id);
+
+        if (!$uso) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Uso no encontrado',
+                'message' => ''
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $uso,
+            'error' => null,
+            'message' => 'Uso recuperado exitosamente'
+        ]);
     }
 
     // Crear un nuevo uso
-    public function store(Request $request)
+    public function store(StoreUsoRequest $request)
     {
-        $request->validate([
-            'tipo_uso' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
-        ]);
+         $uso = Uso::create($request->validated());
 
-        $uso = Uso::create($request->all());
-
-        return response()->json($uso, 201);
+        return response()->json([
+            'success' => true,
+            'data' => $uso,
+            'error' => null,
+            'message' => 'Uso registrado exitosamente'
+        ], 201);
     }
 
     // Actualizar un uso existente
-    public function update(Request $request, $id)
+    public function update(UpdateUsoRequest $request, $id)
     {
-        $request->validate([
-            'tipo_uso' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
-        ]);
-
         $uso = Uso::findOrFail($id);
-        $uso->update($request->all());
+        $uso->update($request->validated());
 
-        return response()->json($uso, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $uso,
+            'error' => null,
+            'message' => 'Uso actualizado exitosamente'
+        ]);
     }
 
     // Eliminar un uso
     public function destroy($id)
     {
-        $uso = Uso::findOrFail($id);
+        $uso = Uso::find($id);
+
+        if (!$uso) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Uso no encontrado',
+                'message' => ''
+            ], 404);
+        }
+
         $uso->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'success' => true,
+            'data' => null,
+            'error' => null,
+            'message' => 'Uso eliminado exitosamente'
+        ]);
+    
     }
 }

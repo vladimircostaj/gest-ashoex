@@ -11,7 +11,7 @@ class StoreAulaRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreAulaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'numero_aula' => 'required|string|max:30|unique:aulas,numero_aula',
+            'capacidad' => 'nullable|integer',
+            'habilitada' => 'boolean',
+            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
         ];
     }
 }

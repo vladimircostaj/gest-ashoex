@@ -11,7 +11,7 @@ class StoreUsoRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreUsoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'tipo_uso' => 'required|string|max:100',
+            'id_aula' => 'required|exists:aula,id_aula',
         ];
     }
 }

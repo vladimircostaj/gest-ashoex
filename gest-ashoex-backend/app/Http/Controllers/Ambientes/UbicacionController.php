@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Ambientes;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ambientes\StoreUbicacionRequest;
+use App\Http\Requests\Ambientes\UpdateUbicacionRequest;
 use App\Models\Ambientes\Ubicacion;
 use Illuminate\Http\Request;
 
@@ -10,49 +12,86 @@ class UbicacionController extends Controller
     // Obtener todas las ubicaciones con sus aulas
     public function index()
     {
-        return Ubicacion::with('aulas')->get();
+        $ubicaciones = Ubicacion::with('aulas')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $ubicaciones,
+            'error' => null,
+            'message' => 'Lista de ubicaciones recuperada exitosamente'
+        ]);
     }
 
     // Obtener una ubicación por su ID, incluyendo las aulas, usos y facilidades
     public function show($id)
     {
-        return Ubicacion::with('aulas.usos', 'aulas.facilidades')->findOrFail($id);
+        $ubicacion = Ubicacion::with('aulas.usos', 'aulas.facilidades')->findOrFail($id);
+
+        if (!$ubicacion) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Ubicación no encontrada',
+                'message' => ''
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $ubicacion,
+            'error' => null,
+            'message' => 'Ubicación recuperada exitosamente'
+        ]);
     }
 
     // Crear una nueva ubicación
-    public function store(Request $request)
+    public function store(StoreUbicacionRequest $request)
     {
-        $request->validate([
-            'piso' => 'required|integer',
-            'id_edificio' => 'required|exists:edificio,id_edificio',
-        ]);
+        $ubicacion = Ubicacion::create($request->validated());
 
-        $ubicacion = Ubicacion::create($request->all());
-
-        return response()->json($ubicacion, 201);
+        return response()->json([
+            'success' => true,
+            'data' => $ubicacion,
+            'error' => null,
+            'message' => 'Ubicación registrada exitosamente'
+        ], 201);
     }
 
     // Actualizar una ubicación existente
-    public function update(Request $request, $id)
+    public function update(UpdateUbicacionRequest $request, $id)
     {
-        $request->validate([
-            'piso' => 'required|integer',
-            'id_edificio' => 'required|exists:edificio,id_edificio',
-        ]);
-
         $ubicacion = Ubicacion::findOrFail($id);
-        $ubicacion->update($request->all());
+        $ubicacion->update($request->validated());
 
-        return response()->json($ubicacion, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $ubicacion,
+            'error' => null,
+            'message' => 'Ubicación actualizada exitosamente'
+        ]);
     }
 
     // Eliminar una ubicación
     public function destroy($id)
     {
-        $ubicacion = Ubicacion::findOrFail($id);
+        $ubicacion = Ubicacion::find($id);
+
+        if (!$ubicacion) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Ubicación no encontrada',
+                'message' => ''
+            ], 404);
+        }
+
         $ubicacion->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'success' => true,
+            'data' => null,
+            'error' => null,
+            'message' => 'Ubicación eliminada exitosamente'
+        ]);
     }
 }
 

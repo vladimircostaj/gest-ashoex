@@ -11,7 +11,7 @@ class UpdateEdificioRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateEdificioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre_edificio' => 'required|string|max:100',
+            'geolocalizacion' => 'nullable|string|max:255',
         ];
     }
 }

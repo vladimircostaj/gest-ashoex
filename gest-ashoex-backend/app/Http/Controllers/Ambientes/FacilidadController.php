@@ -5,55 +5,94 @@ namespace App\Http\Controllers\Ambientes;
 use App\Models\Ambientes\Facilidad;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Ambientes\StoreFacilidadRequest;
+use App\Http\Requests\Ambientes\UpdateFacilidadRequest;
 
 class FacilidadController extends Controller
 {
     // Obtener todas las facilidades
     public function index()
     {
-        return Facilidad::all();
+        $facilidades = Facilidad::all();
+        return response()->json([
+            'success' => true,
+            'data' => $facilidades,
+            'error' => null,
+            'message' => 'Lista de facilidades recuperada exitosamente'
+        ]);
     }
 
     // Obtener una facilidad por su ID
     public function show($id)
     {
-        return Facilidad::findOrFail($id);
+        $facilidad = Facilidad::find($id);
+
+        if (!$facilidad) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Facilidad no encontrada',
+                'message' => ''
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $facilidad,
+            'error' => null,
+            'message' => 'Facilidad recuperada exitosamente'
+        ]);
     }
 
     // Crear una nueva facilidad
-    public function store(Request $request)
+    public function store(StoreFacilidadRequest $request)
     {
-        $request->validate([
-            'nombre_facilidad' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
-        ]);
+        $facilidad = Facilidad::create($request->validated());
 
-        $facilidad = Facilidad::create($request->all());
-
-        return response()->json($facilidad, 201);
+        return response()->json([
+            'success' => true,
+            'data' => $facilidad,
+            'error' => null,
+            'message' => 'Facilidad registrada exitosamente'
+        ], 201);
     }
 
     // Actualizar una facilidad existente
-    public function update(Request $request, $id)
+    public function update(UpdateFacilidadRequest $request, $id)
     {
-        $request->validate([
-            'nombre_facilidad' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
-        ]);
-
         $facilidad = Facilidad::findOrFail($id);
-        $facilidad->update($request->all());
+        $facilidad->update($request->validated());
 
-        return response()->json($facilidad, 200);
+        return response()->json([
+            'success' => true,
+            'data' => $facilidad,
+            'error' => null,
+            'message' => 'Facilidad actualizada exitosamente'
+        ]);
     }
 
     // Eliminar una facilidad
     public function destroy($id)
     {
-        $facilidad = Facilidad::findOrFail($id);
+        $facilidad = Facilidad::find($id);
+
+        if (!$facilidad) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Facilidad no encontrada',
+                'message' => ''
+            ], 404);
+        }
+
         $facilidad->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'success' => true,
+            'data' => null,
+            'error' => null,
+            'message' => 'Facilidad eliminada exitosamente'
+        ]);
     }
 }
 

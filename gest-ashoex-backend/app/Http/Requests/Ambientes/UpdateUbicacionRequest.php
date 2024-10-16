@@ -11,7 +11,7 @@ class UpdateUbicacionRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateUbicacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'piso' => 'required|integer',
+            'id_edificio' => 'required|exists:edificio,id_edificio',
         ];
     }
 }

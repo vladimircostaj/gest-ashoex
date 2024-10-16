@@ -11,7 +11,7 @@ class UpdateFacilidadRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class UpdateFacilidadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre_facilidad' => 'required|string|max:100',
+            'id_aula' => 'required|exists:aula,id_aula',
         ];
     }
 }

@@ -11,7 +11,7 @@ class StoreEdificioRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,8 @@ class StoreEdificioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre_edificio' => 'required|string|max:100|unique:edificios,nombre_edificio',
+            'geolocalizacion' => 'nullable|string|max:255',
         ];
     }
 }
