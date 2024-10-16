@@ -51,4 +51,11 @@ class EdificioTest extends TestCase
         $response = $this->put("/api/edificios/{$edificio->id_edificio}", $data);
         $response->assertStatus(200)->assertJsonFragment($data);
     }
+
+    public function test_put_edificio_falla_con_datos_invalidos(): void
+    {
+        $edificio = Edificio::factory()->create();
+        $response = $this->put("/api/edificios/{$edificio->id_edificio}", ['nombre_edificio' => '']);
+        $response->assertStatus(422);
+    }
 }
