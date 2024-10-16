@@ -44,12 +44,394 @@
                     }
                 }
             }
+        },
+        "/api/lista-personal-academico": {
+            "get": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Obtiene la lista de todo el personal académico",
+                "operationId": "1440f2c8fb1c5eb0bc5c0d4cb93df0a7",
+                "responses": {
+                    "200": {
+                        "description": "Lista de personal académico obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PersonalAcademico"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/personal-academicos/{id}": {
+            "get": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Obtiene la información de un personal académico por ID",
+                "operationId": "eedce4c9260bc29b7bf3528213271707",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalAcademico"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Personal académico no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/personal-academicos/{id}/dar-baja": {
+            "patch": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Dar de baja a un personal académico",
+                "operationId": "903f9781bca9093416748362e9c76325",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Baja exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Se dio de baja correctamente al personal academico: Juan"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Personal académico no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/registrar-personal-academico": {
+            "post": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Registrar un nuevo personal académico",
+                "operationId": "7c5a74d568beb4c953a3c826af0d93e4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "email",
+                                    "telefono",
+                                    "estado",
+                                    "tipo_personal_id"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "juan.perez@example.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "+591123456789"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "ACTIVO"
+                                    },
+                                    "tipo_personal_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Personal académico registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalAcademico"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Datos inválidos"
+                    }
+                }
+            }
+        },
+        "/api/personal/{id}/informacion": {
+            "get": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Mostrar la información de un personal académico por ID",
+                "operationId": "93e782a616e08453123e7476edd57f32",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Información del personal académico obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalAcademico"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Personal académico no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/personal-academico/{id}": {
+            "put": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Actualizar la información de un personal académico",
+                "operationId": "97169f518c2c30789d0bc64a809b9fd2",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "telefono",
+                                    "estado",
+                                    "tipo_personal_id"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "juan.perez@example.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "+591123456789"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "activo"
+                                    },
+                                    "tipo_personal_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Personal académico actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonalAcademico"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Personal académico no encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PersonalAcademico": {
+                "title": "Personal Académico",
+                "description": "Modelo que representa a un miembro del personal académico",
+                "properties": {
+                    "id": {
+                        "description": "ID único del personal académico",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del personal académico",
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "email": {
+                        "description": "Correo electrónico del personal académico",
+                        "type": "string",
+                        "example": "juan.perez@example.com"
+                    },
+                    "telefono": {
+                        "description": "Número de teléfono del personal académico",
+                        "type": "string",
+                        "example": "+591123456789"
+                    },
+                    "estado": {
+                        "description": "Estado del personal académico",
+                        "type": "string",
+                        "example": "ACTIVO"
+                    },
+                    "tipo_personal_id": {
+                        "description": "ID del tipo de personal académico",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tipoPersonal": {
+                        "$ref": "#/components/schemas/TipoPersonal"
+                    }
+                },
+                "type": "object"
+            },
+            "TipoPersonal": {
+                "title": "Tipo de Personal",
+                "description": "Modelo que representa los diferentes tipos de personal académico",
+                "properties": {
+                    "id": {
+                        "description": "ID único del tipo de personal",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del tipo de personal",
+                        "type": "string",
+                        "example": "Profesor"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "Usuario",
+                "description": "Modelo que representa a un usuario en el sistema",
+                "properties": {
+                    "id": {
+                        "description": "ID único del usuario",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nombre del usuario",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Correo electrónico del usuario",
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                    },
+                    "email_verified_at": {
+                        "description": "Fecha en la que el correo electrónico fue verificado",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-16T15:00:00Z"
+                    },
+                    "created_at": {
+                        "description": "Fecha de creación del usuario",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-15T08:00:00Z"
+                    },
+                    "updated_at": {
+                        "description": "Fecha de última actualización del usuario",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-16T09:00:00Z"
+                    },
+                    "remember_token": {
+                        "description": "Token de recordatorio para el usuario",
+                        "type": "string",
+                        "example": "XaBiqGJieKaS3wKlJ4cP5D"
+                    }
+                },
+                "type": "object"
+            }
         }
     },
     "tags": [
         {
             "name": "Health Check",
             "description": "Health Check"
+        },
+        {
+            "name": "Personal Académico",
+            "description": "Personal Académico"
         }
     ]
 }
