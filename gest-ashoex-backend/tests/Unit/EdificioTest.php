@@ -65,4 +65,10 @@ class EdificioTest extends TestCase
         $response = $this->delete("/api/edificios/{$edificio->id_edificio}");
         $response->assertStatus(204);
     }
+
+    public function test_delete_edificio_inexistente_returns_404(): void
+    {
+        $response = $this->delete('/api/edificios/99999');
+        $response->assertStatus(404);
+    }
 }
