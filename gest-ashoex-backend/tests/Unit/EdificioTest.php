@@ -37,4 +37,10 @@ class EdificioTest extends TestCase
         $response = $this->post('/api/edificios', $data);
         $response->assertStatus(201)->assertJsonFragment($data);
     }
+
+    public function test_post_edificio_falla_con_datos_no_validos(): void
+    {
+        $response = $this->post('/api/edificios', ['nombre_edificio' => '']);
+        $response->assertStatus(422);
+    }
 }
