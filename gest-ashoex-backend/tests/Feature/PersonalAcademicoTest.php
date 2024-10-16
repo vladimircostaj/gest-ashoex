@@ -6,9 +6,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-use App\Models\PersonalAcademico;
+use App\Models\PersonalAcademico; 
 use App\Models\TipoPersonal;
-
 use Database\Seeders\DatabaseSeeder;
 
 class PersonalAcademicoTest extends TestCase
@@ -155,5 +154,55 @@ class PersonalAcademicoTest extends TestCase
             ->assertJson([
                 'data' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
             ]);
+    }
+
+    public function testVisualizarPersonalAcademico()
+    {
+        $tipoPersonal = TipoPersonal::factory()->create([
+            'nombre' => 'Docente',
+        ]);
+
+        $personalAcademico = PersonalAcademico::factory()->create([
+            'tipo_personal_id' => $tipoPersonal->id,
+            'estado' => 'ACTIVO', 
+        ]);
+        $response = $this->getJson("/api/personal-academicos/{$personalAcademico->id}");
+
+        $response->dump();
+        $response->assertStatus(200);
+
+        $response->assertJsonStructure([
+            'success',
+            'data' => [
+                'id',
+                'nombre',
+                'email',
+                'telefono',
+                'estado',
+                'tipo_personal' => [
+                    'id',
+                    'nombre',
+                ],
+            ],
+            'error',
+            'message',
+        ]);
+
+        $response->assertJson([
+            'success' => true,
+            'message' => 'Operación exitosa',
+            'data' => [
+                'id' => $personalAcademico->id,
+                'nombre' => $personalAcademico->nombre,
+                'email' => $personalAcademico->email,
+                'telefono' => $personalAcademico->telefono,
+                'estado' => 'ACTIVO',
+                'tipo_personal' => [
+                    'id' => $tipoPersonal->id,
+                    'nombre' => 'Docente',
+                ],
+            ],
+        ]);
+
     }
 }

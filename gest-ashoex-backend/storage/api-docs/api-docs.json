@@ -1,0 +1,55 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Health Check",
+        "description": "API para verificar el estado de salud del sistema",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/health": {
+            "get": {
+                "tags": [
+                    "Health Check"
+                ],
+                "summary": "Verifica el estado de la API y la conexión a la base de datos",
+                "description": "Devuelve el estado de salud del sistema",
+                "operationId": "7134f626524ee8957bd6315b959ed4e1",
+                "responses": {
+                    "200": {
+                        "description": "Estado de salud correcto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "healthy"
+                                        },
+                                        "database": {
+                                            "type": "string",
+                                            "example": "Connected"
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la conexión a la base de datos"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Health Check",
+            "description": "Health Check"
+        }
+    ]
+}

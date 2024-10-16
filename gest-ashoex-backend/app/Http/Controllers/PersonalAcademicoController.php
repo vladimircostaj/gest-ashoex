@@ -8,24 +8,25 @@ use Illuminate\Http\{
 };
 
 use App\Models\PersonalAcademico;
+use Exception;
 
 class PersonalAcademicoController extends Controller
 {
     public function index(int $id): JsonResponse
     {
         try {
-            $personalAcademico = PersonalAcademico::find($id); 
+            $personalAcademico = PersonalAcademico::find($id);
             return response()->json(
-                $personalAcademico, 
+                $personalAcademico,
                 (
-                    !$personalAcademico? 
-                    404: 
+                    !$personalAcademico ?
+                    404 :
                     200
                 )
             );
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Server error D:', 
+                'message' => 'Server error D:',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -39,8 +40,8 @@ class PersonalAcademicoController extends Controller
     public function darDeBaja(Request $request): JsonResponse
     {
         try {
-            $personalAcademicoID = $request->id; 
-            $personalAcademico = PersonalAcademico::find($personalAcademicoID); 
+            $personalAcademicoID = $request->id;
+            $personalAcademico = PersonalAcademico::find($personalAcademicoID);
             if (!$personalAcademico) {
                 return response()->json([
                     'data' => 'El personal academico seleccionado no existe.'
@@ -48,14 +49,14 @@ class PersonalAcademicoController extends Controller
             }
             return response()->json([
                 'data' => (
-                    $personalAcademico->darBaja() ? 
-                    'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre :
-                    'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
+                    $personalAcademico->darBaja() ?
+                    'Se dio de baja correctamente al personal academico: ' . $personalAcademico->nombre :
+                    'El personal academico: ' . $personalAcademico->nombre . ' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
                 )
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Server error D:', 
+                'message' => 'Server error D:',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -107,15 +108,40 @@ class PersonalAcademicoController extends Controller
 
     public function show($id)
     {
-        // Buscar el registro de PersonalAcademico por ID
-        $personalAcademico = PersonalAcademico::with('tipoPersonal')->find($id);
-        // Verificar si existe
-        if (!$personalAcademico) {
-            return response()->json(['message' => 'Personal académico no encontrado'], 404);
-        }
+        try {
+            // Buscar el registro de PersonalAcademico por ID
+            $personalAcademico = PersonalAcademico::with('tipoPersonal')->find($id);
+            // Verificar si existe
+            if (!$personalAcademico) {
+                return response()->json([
+                    'success' => false,
+                    'data' => null,
+                    'error' => [
+                        'code' => 404,
+                        'message' => 'Personal académico no encontrado'
+                    ],
+                    'message' => 'Error en la solicitud'
+                ], 404);
+            }
 
-        // Retornar los datos del personal académico
-        return response()->json($personalAcademico, 200);
+            // Retornar los datos del personal académico
+            return response()->json([
+                'success' => true,
+                'data' => $personalAcademico,
+                'error' => null,
+                'message' => 'Operación exitosa'
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 500,
+                    'message' => $e->getMessage()
+                ],
+                'message' => 'Error en la solicitud'
+            ], 500);
+        }
     }
 
     public function update(Request $request, $id)
