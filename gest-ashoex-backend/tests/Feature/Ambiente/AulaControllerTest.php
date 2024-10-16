@@ -79,4 +79,36 @@ class AulaControllerTest extends TestCase
             ]);
     }
 
+     /**
+     * Test para actualizar un aula existente
+     */
+    public function testActualizarAulaExitosamente(): void
+    {
+        $aula = Aula::factory()->create();
+
+        $data = [
+            'numero_aula' => 'A102',
+            'capacidad' => 70,
+            'habilitada' => false,
+            'id_ubicacion' => $aula->id_ubicacion,
+        ];
+
+        $response = $this->putJson("/api/aulas/{$aula->id_aula}", $data);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'numero_aula' => 'A102',
+                    'capacidad' => 70,
+                    'habilitada' => false,
+                ],
+                'message' => 'Aula actualizada exitosamente',
+            ]);
+
+        $this->assertDatabaseHas('aula', [
+            'numero_aula' => 'A102',
+            'capacidad' => 70,
+        ]);
+    }
 }
