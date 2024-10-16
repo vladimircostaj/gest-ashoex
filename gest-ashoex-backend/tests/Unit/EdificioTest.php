@@ -23,11 +23,18 @@ class EdificioTest extends TestCase
         $response = $this->get('/api/edificios');
         $response->assertJsonStructure([['id_edificio', 'nombre_edificio', 'geolocalizacion', 'created_at', 'updated_at', 'ubicaciones']]);
     }
-    
+
     public function test_get_edificio_individual_devuelve_el_recurso_correcto(): void
     {
         $edificio = Edificio::factory()->create();
         $response = $this->get("/api/edificios/{$edificio->id_edificio}");
         $response->assertStatus(200)->assertJson(['id_edificio' => $edificio->id_edificio]);
+    }
+
+    public function test_post_edificio_crea_nuevo_recurso(): void
+    {
+        $data = ['nombre_edificio' => 'Nuevo Edificio', 'geolocalizacion' => 'Centro'];
+        $response = $this->post('/api/edificios', $data);
+        $response->assertStatus(201)->assertJsonFragment($data);
     }
 }
