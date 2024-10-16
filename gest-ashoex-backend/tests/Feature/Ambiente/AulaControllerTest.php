@@ -126,4 +126,19 @@ class AulaControllerTest extends TestCase
             'id_aula' => $aula->id_aula,
         ]);
     }
+
+    /**
+     * Test para obtener un aula que no existe
+     */
+    public function testMostrarAulaNoExistente(): void
+    {
+        $response = $this->getJson('/api/aulas/-1');
+
+        $response->assertNotFound()
+            ->assertJson([
+                'success' => false,
+                'data' => null,
+                'message' => 'Aula no encontrada',
+            ]);
+    }
 }
