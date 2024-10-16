@@ -43,4 +43,12 @@ class EdificioTest extends TestCase
         $response = $this->post('/api/edificios', ['nombre_edificio' => '']);
         $response->assertStatus(422);
     }
+
+    public function test_put_edificio_recursos_de_actualizacion(): void
+    {
+        $edificio = Edificio::factory()->create();
+        $data = ['nombre_edificio' => 'Edificio Actualizado'];
+        $response = $this->put("/api/edificios/{$edificio->id_edificio}", $data);
+        $response->assertStatus(200)->assertJsonFragment($data);
+    }
 }
