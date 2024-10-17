@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Materia;
+use App\Http\Requests\CrearMateriaRequest;
 
 class MateriaController extends Controller
 {
@@ -104,40 +105,22 @@ class MateriaController extends Controller
      *     )
      * )
      */
-    public function store(Request $request)
+    public function store(CrearMateriaRequest $request)
     {
-        $validatedData = $request->validate([
-            'codigo' => 'required|unique:materias,codigo|integer',
-            'nombre' => 'required|string|max:255',
-            'tipo' => 'required|string',
-            'nro_PeriodoAcademico' => 'required|integer',
+        $validatedData = $request->validated();
+        $materia = Materia::create([
+            'codigo' => $validatedData['codigo'],
+            'nombre' => $validatedData['nombre'],
+            'tipo' => $validatedData['tipo'],
+            'nro_PeriodoAcademico' => $validatedData['nro_PeriodoAcademico'],
         ]);
-        try {
-            $materia = Materia::create([
-                'codigo' => $validatedData['codigo'],
-                'nombre' => $validatedData['nombre'],
-                'tipo' => $validatedData['tipo'],
-                'nro_PeriodoAcademico' => $validatedData['nro_PeriodoAcademico'],
-            ]);
-            return response()->json([
-                "success" => true,
-                "data" => $materia,
-                "error" => [],
-                "message" => "Operación exitosa"
-            ], Response::HTTP_CREATED);
-        } catch (\Exception $e) {
-            return response()->json([
-                "success" => false,
-                "data" => [],
-                "error" => [
-                    [
-                        "code" => Response::HTTP_INTERNAL_SERVER_ERROR,
-                        "detail" => 'Error al crear la materia: ' . $e->getMessage(),
-                    ]
-                ],
-                "message" => "Error"
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+        return response()->json([
+            "success" => true,
+            "data" => $materia,
+            "error" => [],
+            "message" => "Operación exitosa"
+        ], Response::HTTP_CREATED);
+        
     }
 
 

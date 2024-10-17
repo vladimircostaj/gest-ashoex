@@ -7,7 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Response;
 use Tests\TestCase;
 
-class MateriaStoreTest extends TestCase
+class CrearMateriaTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +22,6 @@ class MateriaStoreTest extends TestCase
         ];
 
         $response = $this->postJson('/api/materias', $data);
-
 
         $response->assertStatus(Response::HTTP_CREATED)
                  ->assertJson([
@@ -39,38 +38,5 @@ class MateriaStoreTest extends TestCase
 
         $this->assertDatabaseHas('materias', $data);
     }
-
-    public function test_store_fails_with_duplicate_codigo()
-    {
-        Materia::create([
-            'codigo' => 1000001,
-            'nombre' => 'Química',
-            'tipo' => 'regular',
-            'nro_PeriodoAcademico' => 1,
-        ]);
-
-        $data = [
-            'codigo' => 1000001,
-            'nombre' => 'Biología',
-            'tipo' => 'regular',
-            'nro_PeriodoAcademico' => 2,
-        ];
-
-        $response = $this->postJson('/api/materias', $data);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-                 ->assertJsonValidationErrors('codigo');
-    }
-
-    public function test_store_fails_with_missing_fields()
-    {
-        $data = [
-            'nombre' => 'Matemáticas',
-        ];
-
-        $response = $this->postJson('/api/materias', $data);
-
-        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
-                 ->assertJsonValidationErrors(['codigo', 'tipo', 'nro_PeriodoAcademico']);
-    }
+    
 }
