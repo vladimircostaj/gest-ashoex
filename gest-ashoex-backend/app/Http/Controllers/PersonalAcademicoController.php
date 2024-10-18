@@ -54,7 +54,7 @@ class PersonalAcademicoController extends Controller
                 ); 
             }
             $dadoDeBaja = $personalAcademico->darBaja();
-            $errors = []; 
+            $errors = [];
             if (!$dadoDeBaja) {
                 $errors =  ['code' => 428,
                     'message' => 'El personal academico debe estar habilitado'];
