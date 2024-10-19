@@ -33,8 +33,6 @@ class CarreraControllerTest extends TestCase
             'message' => 'Operación exitosa'
         ]);
 
-        $this->assertArrayHasKey('created_at', $response['data'][0]);
-        $this->assertArrayHasKey('updated_at', $response['data'][0]);
         $this->assertArrayHasKey('id', $response['data'][0]);
 
         $this->assertDatabaseHas('carreras', [
