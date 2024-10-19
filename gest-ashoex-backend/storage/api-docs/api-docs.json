@@ -83,7 +83,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "422": {
                         "description": "Error de validación",
                         "content": {
                             "application/json": {
@@ -102,17 +102,27 @@
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "code": {
+                                                    "status": {
                                                         "type": "string",
-                                                        "example": "400"
+                                                        "example": "422"
                                                     },
                                                     "detail": {
                                                         "type": "string",
-                                                        "example": "El campo 'nombre' es requerido."
+                                                        "example": "El campo nombre es obligatorio."
                                                     }
                                                 },
                                                 "type": "object"
-                                            }
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo nombre es obligatorio."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo nro semestres es obligatorio"
+                                                }
+                                            ]
                                         },
                                         "message": {
                                             "type": "string",
