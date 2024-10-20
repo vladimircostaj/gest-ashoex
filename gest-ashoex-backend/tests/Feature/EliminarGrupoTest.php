@@ -30,16 +30,15 @@ class EliminarGrupoTest extends TestCase
     }
 
     public function test_eliminar_grupo_no_existente(): void
-{
-    $response = $this->delete("/api/grupo/999");
+    {
+        $response = $this->delete("/api/grupo/999");
 
-    $response->assertStatus(404);
+        $response->assertStatus(404);
 
-
-    $response->assertJson([
+        $response->assertJson([
         'success' => false,
         'message' => 'Grupo no encontrado',
-    ]);
-}
+        ]);
+    }
 
 }
