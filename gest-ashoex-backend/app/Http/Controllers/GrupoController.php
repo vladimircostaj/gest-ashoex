@@ -70,12 +70,69 @@ class GrupoController extends Controller{
     }
 
 
-    public function destroy(string $id)
-    {
-        $grupo = Grupo::find($id)->delete();
+    /**
+ * @OA\Delete(
+ *     path="/api/grupo/{id}",
+ *     summary="Eliminar un grupo",
+ *     description="Elimina un grupo especificado por su ID",
+ *     tags={"Grupos"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID del grupo a eliminar",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="string"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="El grupo ha sido eliminado con éxito",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="success",
+ *                 type="boolean",
+ *                 example=true
+ *             ),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="boolean",
+ *                 example=true
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Grupo no encontrado",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="success",
+ *                 type="boolean",
+ *                 example=false
+ *             ),
+ *             @OA\Property(
+ *                 property="message",
+ *                 type="string",
+ *                 example="Grupo no encontrado"
+ *             )
+ *         )
+ *     )
+ * )
+ */
+public function destroy(string $id)
+{
+    $grupo = Grupo::find($id);
+    if ($grupo) {
+        $grupo->delete();
         return response()->json([
-            'success'=>true,
-            'data'=> $grupo
-        ],200);
+            'success' => true,
+            'data' => true,
+        ], 200);
+    } else {
+        return response()->json([
+            'success' => false,
+            'message' => 'Grupo no encontrado'
+        ], 404);
     }
+ }
 }
