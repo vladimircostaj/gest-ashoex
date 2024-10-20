@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HealthController;
 use App\Http\Controllers\CurriculaController;
-use App\Http\Controllers\MateriaController; 
+use App\Http\Controllers\MateriaController;
 //use App\Models\Carrera;
 
 
@@ -16,7 +16,7 @@ Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras', 'index');
     Route::get('/carreras/{id}', 'show');
     Route::delete('/carreras/{id}','destroy');
-    
+
 
 
 });
@@ -39,4 +39,6 @@ Route::post('/grupo',[GrupoController::class,'store']);
 Route::get('/grupo/{id}',[GrupoController::class,'show']);
 Route::put('/grupo/{id}',[GrupoController::class,'update']);
 Route::delete('/grupo/{id}',[GrupoController::class,'destroy']);
+Route::delete('/Porgrupo/{id}',[GrupoController::class,'EliminarPorGrupo']);
+
 

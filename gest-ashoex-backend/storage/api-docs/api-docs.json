@@ -6,212 +6,65 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/api/grupo": {
-            "get": {
-                "tags": ["Grupo"],
-                "summary": "Obtener lista de grupos",
-                "operationId": "470f68cef0c2e0c921e746cc90766f82",
-                "responses": {
-                    "200": {
-                        "description": "Obtener lista de grupos",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "object",
-                                        "properties": {
-                                            "id_materia": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "nro_grupo": {
-                                                "type": "integer",
-                                                "example": "9"
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "post": {
-                "tags": ["Grupo"],
-                "summary": "Crear un nuevo grupo, la materia del id debe existir obligatoriamente",
-                "operationId": "createGrupo",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "materia_id": {
-                                        "type": "integer",
-                                        "description": "ID de la materia",
-                                        "example": 1
-                                    },
-                                    "nro_grupo": {
-                                        "type": "integer",
-                                        "description": "Número del grupo",
-                                        "example": 9
-                                    }
-                                },
-                                "required": ["id_materia", "nro_grupo"]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Grupo creado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "materia_id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "nro_grupo": {
-                                            "type": "integer",
-                                            "example": 9
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2024-10-12T10:00:00Z"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Solicitud inválida. Datos faltantes o incorrectos"
-                    },
-                    "500": {
-                        "description": "Error del servidor al intentar crear el grupo"
-                    }
-                }
-            }
-        },
         "/api/grupo/{id}": {
-            "put": {
-                "tags": ["Grupo"],
-                "summary": "Actualizar un grupo ya existente",
-                "operationId": "updateGrupo",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "description": "ID del grupo a actualizar"
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "type": "object",
-                                "properties": {
-                                    "id_materia": {
-                                        "type": "integer",
-                                        "description": "ID de la materia",
-                                        "example": 1
-                                    },
-                                    "nro_grupo": {
-                                        "type": "integer",
-                                        "description": "Número del grupo",
-                                        "example": 9
-                                    }
-                                },
-                                "required": ["id_materia", "nro_grupo"]
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Grupo actualizado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "id_materia": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "nro_grupo": {
-                                            "type": "integer",
-                                            "example": 9
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2024-10-12T12:00:00Z"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Grupo no encontrado"
-                    },
-                    "400": {
-                        "description": "Solicitud inválida. Datos faltantes o incorrectos"
-                    },
-                    "500": {
-                        "description": "Error del servidor al intentar actualizar el grupo"
-                    }
-                }
-            },
             "delete": {
-                "tags": ["Grupo"],
-                "summary": "Eliminar un grupo existente",
-                "operationId": "deleteGrupo",
+                "tags": [
+                    "Grupos"
+                ],
+                "summary": "Eliminar un grupo",
+                "description": "Elimina un grupo especificado por su ID",
+                "operationId": "8b2d2a7a78ab1d6c0550875061e20e23",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID del grupo a eliminar",
                         "required": true,
                         "schema": {
-                            "type": "integer"
-                        },
-                        "description": "ID del grupo a eliminar"
+                            "type": "string"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Grupo eliminado exitosamente",
+                        "description": "El grupo ha sido eliminado con éxito",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "object",
                                     "properties": {
                                         "success": {
                                             "type": "boolean",
                                             "example": true
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
                                         }
-                                    }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "404": {
-                        "description": "Grupo no encontrado"
-                    },
-                    "500": {
-                        "description": "Error del servidor al intentar eliminar el grupo"
+                        "description": "Grupo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Grupo no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -258,12 +111,12 @@
     },
     "tags": [
         {
-            "name": "Health Check",
-            "description": "Health Check"
+            "name": "Grupos",
+            "description": "Grupos"
         },
         {
-            "name": "Grupo",
-            "description": "Endpoints relacionados con la gestión de grupos"
+            "name": "Health Check",
+            "description": "Health Check"
         }
     ]
 }
