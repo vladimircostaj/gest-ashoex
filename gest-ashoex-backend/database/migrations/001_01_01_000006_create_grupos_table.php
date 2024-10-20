@@ -17,8 +17,11 @@ return new class extends Migration
             $table->Integer('nro_grupo');
             $table->timestamps();
 
+            $table->unique(['materia_id', 'nro_grupo']);
+
             $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
         });
+        DB::statement('ALTER TABLE grupos ADD CONSTRAINT grupoMayorCero CHECK (nro_grupo >= 0)');
     }
 
     /**
