@@ -22,8 +22,8 @@ class CrearMateriaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => ['required', 'unique:materias,codigo', 'integer'],
-            'nombre' => ['required', 'string', 'max:255'],
+            'codigo' => ['required','integer', 'unique:materias,codigo'],
+            'nombre' => ['required', 'string', 'max:80'],
             'tipo' => ['required', 'string'],
             'nro_PeriodoAcademico' => ['required', 'integer'],
         ];
