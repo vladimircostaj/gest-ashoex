@@ -31,6 +31,8 @@ Route::controller(CurriculaController::class)->group(function () {
 
 Route::controller(MateriaController::class)->group(function () {
     Route::get('/materias', 'index');
+    Route::post('/materias', 'store');
+
 });
 
 Route::get('/grupo',[GrupoController::class,'index']);
