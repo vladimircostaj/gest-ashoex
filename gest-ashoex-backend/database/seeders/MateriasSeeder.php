@@ -58,6 +58,7 @@ class MateriasSeeder extends Seeder
             ['codigo' => $this->codigoSISMateria(),'nombre' => 'Algebra Lineal Avanzada', 'tipo' => 'regular', 'nro_PeriodoAcademico' => 2],
             ['codigo' => $this->codigoSISMateria(),'nombre' => 'Modelaje y Simulacion', 'tipo' => 'regular', 'nro_PeriodoAcademico' => 3],
             ['codigo' => $this->codigoSISMateria(),'nombre' => 'Optimizacion', 'tipo' => 'regular', 'nro_PeriodoAcademico' => 3],
+            ['codigo' => $this->codigoSISMateria(),'nombre' => 'Optimizacion II', 'tipo' => 'regular', 'nro_PeriodoAcademico' => 3],
             ['codigo' => $this->codigoSISMateria(),'nombre' => 'Trabajo de Grado', 'tipo' => 'taller de titulacion', 'nro_PeriodoAcademico' => 2],    
         ];
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\CrearCurriculaRequest;
+use App\Http\Requests\ActualizarCurriculaRequest;
 
 use App\Models\Curricula;
 use App\Models\Materia;
@@ -100,35 +102,21 @@ class CurriculaController extends Controller
  *     )
  * )
  */
-    public function store(Request $request){
-        $rules = [
-            'carrera_id' => 'required|integer|exists:carreras,id',
-            'materia_id' => 'required|integer|exists:materias,id',
-            
-        ];
+public function store(CrearCurriculaRequest $request)
+{
+    $curricula = new Curricula();
+    $curricula->carrera_id = $request->input('carrera_id');
+    $curricula->materia_id = $request->input('materia_id');
+    $curricula->nivel = $request->input('nivel');
 
-        $validator = Validator::make($request->all(), $rules);
+    $curricula->save();
 
-        if ($validator->fails()) {
-            return response()->json([
-                'errors' => $validator->errors(),
-                'code' => 422
-            ], 422);
-        }
-
-        $curricula = new Curricula();
-        $curricula->carrera_id = $request->input('carrera_id');
-        $curricula->materia_id = $request->input('materia_id');
-        $curricula->nivel =      $request->input('nivel');
-
-        $curricula->save();
-
-        return response()->json([
-            'message' => 'Curricula creada exitosamente',
-            'curricula' => $curricula,
-            'code' => 201
-        ], 201);
-    }
+    return response()->json([
+        'message' => 'Curricula creada exitosamente',
+        'curricula' => $curricula,
+        'code' => 201
+    ], 201);
+}
 
     /**
  * @OA\Get(
@@ -177,26 +165,33 @@ class CurriculaController extends Controller
  * )
  */
 
-    public function show(string $id)
-    {
-        $curricula=Curricula::find($id);
-        if($curricula){
-            
-            return response()->json([
-                "success"=> true,
-                "data"=> [],
-                "error"=> [],
-                "message"=> "Operacion exitosa"
-            ],200);  
-        }else{
-            return response()->json([
-                "success"=> false,
-                "data"=> [],
-                "error"=> ["La curricula no existe"],
-                "message"=> "Operacion fallida"
-            ],404);  
-        }
-    }
+ public function show(string $id)
+ {
+     $curricula = Curricula::find($id);
+ 
+     if ($curricula) {
+         return response()->json([
+             "success" => true,
+             "data" => [
+                 "id" => $curricula->id,
+                 "carrera_id" => $curricula->carrera_id,
+                 "materia_id" => $curricula->materia_id,
+                 "nivel" => $curricula->nivel,
+                 "electiva"=>$curricula->electiva,
+             ],
+             "error" => [],
+             "message" => "Operación exitosa"
+         ], 200);
+     } else {
+         return response()->json([
+             "success" => false,
+             "data" => [],
+             "error" => ["La curricula no existe"],
+             "message" => "Operación fallida"
+         ], 404);
+     }
+ }
+ 
 
     /**
  * @OA\Put(
@@ -263,41 +258,38 @@ class CurriculaController extends Controller
  * )
  */
 
-    public function update(Request $request, string $id)
-    {
-        $rules = [
-            'carrera_id' => 'nullable|integer|exists:carreras,id',
-            'materia_id' => 'nullable|integer|exists:materias,id',
-            
-        ];
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return response()->json([
-                "success"=> false,
-                "data"=> [],
-                "error"=> $validator->errors(),
-                "message"=> "Operacion fallida"
-            ], 422);
-        }
-       $curricula = Curricula::find($id);
-       if ($curricula){
-        $curricula->update($request->all);
-        return response()->json([
-            "success"=> true,
-            "data"=> [],
-            "error"=> [],
-            "message"=> "Operacion exitosa"
-        ], 200);
-       }else{
-        return response()->json([
-            "success"=> true,
-            "data"=> [],
-            "error"=> ["id no encontrado"],
-            "message"=> "Operacion fallida"
-        ], 404);
-       }
-       
-    }
+
+ public function update(ActualizarCurriculaRequest $request, string $id)
+ {
+     $curricula = Curricula::find($id);
+     
+     if ($curricula) {
+         $data = $request->only(['carrera_id', 'materia_id', 'nivel', 'electiva']);
+         $curricula->update($data);
+ 
+         return response()->json([
+             "success" => true,
+             "data" => [
+                 "id" => $curricula->id,
+                 "carrera_id" => $curricula->carrera_id,
+                 "materia_id" => $curricula->materia_id,
+                 "nivel" => $curricula->nivel,
+                 "electiva" => $curricula->electiva,
+             ],
+             "error" => [],
+             "message" => "Operación exitosa"
+         ], 200);
+     } else {
+         return response()->json([
+             "success" => false,
+             "data" => [],
+             "error" => ["ID no encontrado"],
+             "message" => "Operación fallida"
+         ], 404);
+     }
+ }
+ 
+ 
 
    /**
  * @OA\Delete(
