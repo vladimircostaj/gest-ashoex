@@ -9,9 +9,41 @@ use App\Models\Curricula;
 use App\Models\Materia;
 class CurriculaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   /**
+ * @OA\Get(
+ *     path="/api/curriculas",
+ *     summary="Obtener todas las Curriculas",
+ *     description="Devuelve una lista de todas las Curriculas registradas",
+ *     tags={"Curriculas"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="curriculas", type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="carrera_id", type="integer", example=1),
+ *                     @OA\Property(property="materia_id", type="integer", example=2),
+ *                     @OA\Property(property="nivel", type="integer", example=3)
+ *                 )
+ *             ),
+ *             @OA\Property(property="code", type="integer", example=200)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="No hay curriculas registradas",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="No hay curriculas registradas"),
+ *             @OA\Property(property="code", type="integer", example=404)
+ *         )
+ *     )
+ * )
+ */
+
     public function index()
     {
         $curriculas = Curricula::all();
@@ -25,8 +57,49 @@ class CurriculaController extends Controller
         }
 
     /**
-     * Store a newly created resource in storage.
-     */
+ * @OA\Post(
+ *     path="/api/curriculas",
+ *     summary="Crear una nueva Curricula",
+ *     description="Registra una nueva Curricula en el sistema",
+ *     tags={"Curriculas"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="carrera_id", type="integer", example=1, description="ID de la Carrera"),
+ *             @OA\Property(property="materia_id", type="integer", example=2, description="ID de la Materia"),
+ *             @OA\Property(property="nivel", type="integer", example=3, description="Nivel de la Curricula")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=201,
+ *         description="Curricula creada exitosamente",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="Curricula creada exitosamente"),
+ *             @OA\Property(property="curricula", type="object", example={
+ *                 "id": 1,
+ *                 "carrera_id": 1,
+ *                 "materia_id": 2,
+ *                 "nivel": 3
+ *             }),
+ *             @OA\Property(property="code", type="integer", example=201)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Errores de validación",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="errors", type="object", 
+ *                @OA\Property(property="carrera_id", type="string", example="El campo carrera_id es requerido"),
+ *                @OA\Property(property="materia_id", type="string", example="El campo materia_id es requerido")
+ *             ),
+ *             @OA\Property(property="code", type="integer", example=422)
+ *         )
+ *     )
+ * )
+ */
     public function store(Request $request){
         $rules = [
             'carrera_id' => 'required|integer|exists:carreras,id',
@@ -58,8 +131,52 @@ class CurriculaController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
+ * @OA\Get(
+ *     path="/api/curriculas/{id}",
+ *     summary="Obtener detalles de una Curricula",
+ *     description="Devuelve los detalles de una Curricula específica según su ID",
+ *     tags={"Curriculas"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID de la Curricula a mostrar",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="object", example={
+ *                 "id": 1,
+ *                 "carrera_id": 2,
+ *                 "materia_id": 3,
+ *                 "nivel": 4
+ *             }),
+ *             @OA\Property(property="error", type="array", @OA\Items()),
+ *             @OA\Property(property="message", type="string", example="Operacion exitosa")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Curricula no encontrada",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", 
+ *                @OA\Items(type="string", example="La curricula no existe")
+ *             ),
+ *             @OA\Property(property="message", type="string", example="Operacion fallida")
+ *         )
+ *     )
+ * )
+ */
+
     public function show(string $id)
     {
         $curricula=Curricula::find($id);
@@ -82,8 +199,70 @@ class CurriculaController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
+ * @OA\Put(
+ *     path="/api/curriculas/{id}",
+ *     summary="Actualizar una Curricula",
+ *     description="Actualiza los detalles de una Curricula existente",
+ *     tags={"Curriculas"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID de la Curricula a actualizar",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="carrera_id", type="integer", example=1, description="ID de la Carrera (opcional)"),
+ *             @OA\Property(property="materia_id", type="integer", example=2, description="ID de la Materia (opcional)"),
+ *             @OA\Property(property="nivel", type="integer", example=3, description="Nivel de la Curricula (opcional)")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", @OA\Items()),
+ *             @OA\Property(property="message", type="string", example="Operacion exitosa")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Curricula no encontrada",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", 
+ *                @OA\Items(type="string", example="id no encontrado")
+ *             ),
+ *             @OA\Property(property="message", type="string", example="Operacion fallida")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Errores de validación",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="object", 
+ *                @OA\Property(property="carrera_id", type="string", example="El campo carrera_id no es válido"),
+ *                @OA\Property(property="materia_id", type="string", example="El campo materia_id no es válido")
+ *             ),
+ *             @OA\Property(property="message", type="string", example="Operacion fallida")
+ *         )
+ *     )
+ * )
+ */
+
     public function update(Request $request, string $id)
     {
         $rules = [
@@ -120,9 +299,47 @@ class CurriculaController extends Controller
        
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+   /**
+ * @OA\Delete(
+ *     path="/api/curriculas/{id}",
+ *     summary="Eliminar una Curricula",
+ *     description="Elimina una Curricula existente según su ID",
+ *     tags={"Curriculas"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID de la Curricula a eliminar",
+ *         required=true,
+ *         @OA\Schema(
+ *             type="integer"
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", @OA\Items()),
+ *             @OA\Property(property="message", type="string", example="Operacion exitosa")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Curricula no encontrada",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items()),
+ *             @OA\Property(property="error", type="array", 
+ *                @OA\Items(type="string", example="Curricula no encontrada")
+ *             ),
+ *             @OA\Property(property="message", type="string", example="Operacion fallida")
+ *         )
+ *     )
+ * )
+ */
     public function destroy(string $id)
     {
         $curricula = Curricula::find($id);

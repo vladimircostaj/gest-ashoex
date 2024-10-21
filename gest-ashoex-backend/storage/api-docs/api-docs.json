@@ -83,7 +83,7 @@
                             }
                         }
                     },
-                    "400": {
+                    "422": {
                         "description": "Error de validación",
                         "content": {
                             "application/json": {
@@ -102,17 +102,27 @@
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "code": {
+                                                    "status": {
                                                         "type": "string",
-                                                        "example": "400"
+                                                        "example": "422"
                                                     },
                                                     "detail": {
                                                         "type": "string",
-                                                        "example": "El campo 'nombre' es requerido."
+                                                        "example": "El campo nombre es obligatorio."
                                                     }
                                                 },
                                                 "type": "object"
-                                            }
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo nombre es obligatorio."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo nro semestres es obligatorio"
+                                                }
+                                            ]
                                         },
                                         "message": {
                                             "type": "string",
@@ -348,6 +358,547 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/curriculas": {
+            "get": {
+                "tags": [
+                    "Curriculas"
+                ],
+                "summary": "Obtener todas las Curriculas",
+                "description": "Devuelve una lista de todas las Curriculas registradas",
+                "operationId": "109a33536fb65129cd3a8900a463d830",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "curriculas": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "carrera_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "nivel": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay curriculas registradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No hay curriculas registradas"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Curriculas"
+                ],
+                "summary": "Crear una nueva Curricula",
+                "description": "Registra una nueva Curricula en el sistema",
+                "operationId": "805f76a007ee525ab3958960be9a7850",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "carrera_id": {
+                                        "description": "ID de la Carrera",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "materia_id": {
+                                        "description": "ID de la Materia",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "nivel": {
+                                        "description": "Nivel de la Curricula",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Curricula creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Curricula creada exitosamente"
+                                        },
+                                        "curricula": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "carrera_id": 1,
+                                                "materia_id": 2,
+                                                "nivel": 3
+                                            }
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 201
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Errores de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "errors": {
+                                            "properties": {
+                                                "carrera_id": {
+                                                    "type": "string",
+                                                    "example": "El campo carrera_id es requerido"
+                                                },
+                                                "materia_id": {
+                                                    "type": "string",
+                                                    "example": "El campo materia_id es requerido"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 422
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/curriculas/{id}": {
+            "get": {
+                "tags": [
+                    "Curriculas"
+                ],
+                "summary": "Obtener detalles de una Curricula",
+                "description": "Devuelve los detalles de una Curricula específica según su ID",
+                "operationId": "2df587cd035c734468e089e7cafcaf88",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Curricula a mostrar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": {
+                                                "id": 1,
+                                                "carrera_id": 2,
+                                                "materia_id": 3,
+                                                "nivel": 4
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curricula no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "La curricula no existe"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Curriculas"
+                ],
+                "summary": "Actualizar una Curricula",
+                "description": "Actualiza los detalles de una Curricula existente",
+                "operationId": "37db5b64005608e8dc3056d044ff7575",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Curricula a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "carrera_id": {
+                                        "description": "ID de la Carrera (opcional)",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "materia_id": {
+                                        "description": "ID de la Materia (opcional)",
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "nivel": {
+                                        "description": "Nivel de la Curricula (opcional)",
+                                        "type": "integer",
+                                        "example": 3
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curricula no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "id no encontrado"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Errores de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "carrera_id": {
+                                                    "type": "string",
+                                                    "example": "El campo carrera_id no es válido"
+                                                },
+                                                "materia_id": {
+                                                    "type": "string",
+                                                    "example": "El campo materia_id no es válido"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Curriculas"
+                ],
+                "summary": "Eliminar una Curricula",
+                "description": "Elimina una Curricula existente según su ID",
+                "operationId": "e6d1ba010f61c2698949ccac51719b3b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la Curricula a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Curricula no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Curricula no encontrada"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operacion fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/grupo/{id}": {
+            "delete": {
+                "tags": [
+                    "Grupos"
+                ],
+                "summary": "Eliminar un grupo",
+                "description": "Elimina un grupo especificado por su ID",
+                "operationId": "8b2d2a7a78ab1d6c0550875061e20e23",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del grupo a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "El grupo ha sido eliminado con éxito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Grupo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Grupo no encontrado"
                                         }
                                     },
                                     "type": "object"
@@ -704,6 +1255,14 @@
         {
             "name": "Carreras",
             "description": "Carreras"
+        },
+        {
+            "name": "Curriculas",
+            "description": "Curriculas"
+        },
+        {
+            "name": "Grupos",
+            "description": "Grupos"
         },
         {
             "name": "Health Check",
