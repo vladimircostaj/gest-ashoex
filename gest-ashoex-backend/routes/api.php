@@ -16,8 +16,8 @@ Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras', 'index');
     Route::get('/carreras/{id}', 'show');
     Route::delete('/carreras/{id}','destroy');
-
-
+    Route::put('/carreras/{id}', 'update');
+    Route::post('/carreras', 'store');
 
 });
 

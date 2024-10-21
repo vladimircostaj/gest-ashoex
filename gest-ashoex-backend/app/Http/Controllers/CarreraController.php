@@ -7,6 +7,7 @@ use App\Models\Carrera;
 use App\OpenApi\Schemas\CarreraSchema;
 
 use App\Http\Requests\CrearCarreraRequest;
+use App\Http\Requests\ActualizarCarreraRequest;
 use Illuminate\Http\Response;
 
 
@@ -290,6 +291,96 @@ class CarreraController extends Controller
                     "detail" => 'el id proporcionado no esta relacionado con una carrera',
                 ]],
                 "message" => "Error"
+            ], Response::HTTP_NOT_FOUND);
+        }
+    }
+    
+    /**
+     * @OA\Put(
+     *     path="/api/carreras/{id}",
+     *     tags={"Carreras"},
+     *     summary="Actualiza una carrera existente por su ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID de la carrera a actualizar"
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"nombre","nro_semestres"},
+     *             @OA\Property(property="nombre", type="string", example="Licenciatura en Ingeniería Informática"),
+     *             @OA\Property(property="nro_semestres", type="number", example=10)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Carrera actualizada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="nombre", type="string", example="Licenciatura en Ingeniería Informática"),
+     *                 @OA\Property(property="nro_semestres", type="number", example=10)
+     *             ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={}),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Carrera no encontrada",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array", 
+     *                 @OA\Items(type="string", example="La carrera no existe")),
+     *             @OA\Property(property="message", type="string", example="Operación fallida")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Datos de entrada inválidos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array", 
+     *                 @OA\Items(type="string", example="Unprocessable Entity")),
+     *             @OA\Property(property="message", type="string", example="Errores de validación")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en el servidor"
+     *     )
+     * )
+     */
+    public function update(ActualizarCarreraRequest $request, string $id)
+    {
+        $carrera = Carrera::find($id);
+        
+        if ($carrera) {
+            $validated = $request->validated();
+            $carrera->update($validated);
+
+            return response()->json([
+                'success' => true,
+                'data' => $carrera,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['La carrera no existe'],
+                'message' => 'Operación fallida'
             ], Response::HTTP_NOT_FOUND);
         }
     }
