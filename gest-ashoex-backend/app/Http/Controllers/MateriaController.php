@@ -316,12 +316,106 @@ class MateriaController extends Controller
     }
 
 
+/**
+ * @OA\Delete(
+ *     path="/api/materias/{id}",
+ *     summary="Eliminar una materia",
+ *     description="Elimina una materia específica por su ID.",
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID de la materia a eliminar",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Materia eliminada con éxito",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(property="data", type="array", @OA\Items(type="object")),
+ *             @OA\Property(property="error", type="array", @OA\Items(type="object")),
+ *             @OA\Property(property="message", type="string", example="Operación exitosa")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Materia no encontrada",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items(type="object")),
+ *             @OA\Property(property="error", type="array", @OA\Items(
+ *                 @OA\Property(property="code", type="integer", example=404),
+ *                 @OA\Property(property="detail", type="string", example="Materia no encontrada")
+ *             )),
+ *             @OA\Property(property="message", type="string", example="Error")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="array", @OA\Items(type="object")),
+ *             @OA\Property(property="error", type="array", @OA\Items(
+ *                 @OA\Property(property="code", type="integer", example=500),
+ *                 @OA\Property(property="detail", type="string", example="Error al eliminar la materia")
+ *             )),
+ *             @OA\Property(property="message", type="string", example="Error")
+ *         )
+ *     )
+ * )
+ */
+public function destroy(string $id)
+{
+    $validatedData = $request->validate([
+        'codigo' => 'integer|nullable',
+        'nombre' => 'string|max:255|nullable',
+        'tipo' => 'string|nullable',
+        'nro_PeriodoAcademico' => 'integer|nullable',
+    ]);
+    try {
+        // Buscar la materia por su ID
+        $materia = Materia::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        // Eliminar la materia
+        $materia->delete();
+
+        // Respuesta en caso de éxito
+        return response()->json([
+            "success" => true,
+            "data" => [],
+            "error" => [],
+            "message" => "Operación exitosa"
+        ], Response::HTTP_OK);
+
+    } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        //  Respuesta si no se encuentra la materia
+        return response()->json([
+            "success" => false,
+            "data" => [],
+            "error" => [
+                [
+                    "code" => Response::HTTP_NOT_FOUND,
+                    "detail" => 'Materia no encontrada'
+                ]
+            ],
+            "message" => "Error"
+        ], Response::HTTP_NOT_FOUND);
+    } catch (\Exception $e) {
+        // Cualquier otro error
+        return response()->json([
+            "success" => false,
+            "data" => [],
+            "error" => [
+                [
+                    "code" => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    "detail" => 'Error al eliminar la materia: ' . $e->getMessage(),
+                ]
+            ],
+            "message" => "Error"
+        ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 }
+}
+
