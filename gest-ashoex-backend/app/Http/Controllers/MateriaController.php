@@ -125,11 +125,78 @@ class MateriaController extends Controller
 
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/api/materias/{id}",
+     *     tags={"Materia"},
+     *     summary="Obtiene los detalles de una materia por su ID",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID de la materia"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Operación exitosa",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="codigo", type="integer", example=8948440),
+     *                 @OA\Property(property="nombre", type="string", example="Fisica General"),
+     *                 @OA\Property(property="nro_PeriodoAcademico", type="number", example=2)
+     *             ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={}),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="La materia no existe",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array", 
+     *                 @OA\Items(type="string", example="La materia no existe")),
+     *             @OA\Property(property="message", type="string", example="Operación fallida")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en el servidor interno",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array", 
+     *                 @OA\Items(type="string", example="Ocurrió un error inesperado")),
+     *             @OA\Property(property="message", type="string", example="Operación fallida")
+     *         )
+     *     )
+     * )
      */
     public function show(string $id)
     {
-        //
+        $materia = Materia::find($id);
+        if ($materia) {
+            $materia->makeHidden(['created_at', 'updated_at']);
+            return response()->json([
+                'success' => true,
+                'data' => $materia,
+                'error' => [],
+                'message' => 'Operación exitosa'
+            ], Response::HTTP_OK);
+        } else {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['La materia no existe'],
+                'message' => 'Operación fallida'
+            ], Response::HTTP_NOT_FOUND);
+        }
     }
 
     /**

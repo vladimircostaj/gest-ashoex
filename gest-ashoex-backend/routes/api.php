@@ -32,7 +32,7 @@ Route::controller(CurriculaController::class)->group(function () {
 Route::controller(MateriaController::class)->group(function () {
     Route::get('/materias', 'index');
     Route::post('/materias', 'store');
-
+    Route::get('/materias/{id}','show');
 });
 
 Route::get('/grupo',[GrupoController::class,'index']);
