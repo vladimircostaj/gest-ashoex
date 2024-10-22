@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
+            $table->unique(['materia_id', 'nro_grupo']);
         });
     }
 
