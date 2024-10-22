@@ -11,6 +11,7 @@ class Aula extends Model
     protected $table = 'aula';
     protected $primaryKey = 'id_aula';
     protected $fillable = ['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function ubicacion()
     {

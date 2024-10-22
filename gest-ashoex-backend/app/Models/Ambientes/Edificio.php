@@ -11,6 +11,8 @@ class Edificio extends Model
     protected $table = 'edificio';
     protected $primaryKey = 'id_edificio';
     protected $fillable = ['nombre_edificio', 'geolocalizacion'];
+    protected $hidden = ['created_at', 'updated_at'];
+    
 
     public function ubicaciones()
     {

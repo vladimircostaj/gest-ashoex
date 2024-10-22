@@ -11,6 +11,7 @@ class Ubicacion extends Model
     protected $table = 'ubicacion';
     protected $primaryKey = 'id_ubicacion';
     protected $fillable = ['piso', 'id_edificio'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function edificio()
     {
