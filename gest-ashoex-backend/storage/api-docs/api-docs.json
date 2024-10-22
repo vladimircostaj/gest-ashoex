@@ -369,6 +369,195 @@
             }
         },
         "/api/curriculas": {
+          
+            "post": {
+                "tags": [
+                    "Curricula"
+                ],
+                "summary": "Almacena una nueva Curricula en la base de datos",
+                "operationId": "805f76a007ee525ab3958960be9a7850",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "carrera_id",
+                                    "materia_id",
+                                    "nivel",
+                                    "electiva"
+                                ],
+                                "properties": {
+                                    "carrera_id": {
+                                        "type": "number",
+                                        "example": 5
+                                    },
+                                    "materia_id": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "nivel": {
+                                        "type": "number",
+                                        "example": 7
+                                    },
+                                    "electiva": {
+                                        "type": "boolean",
+                                        "example": false
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Curricula creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": 1
+                                                    },
+                                                    "carrera_id": {
+                                                        "type": "number",
+                                                        "example": 5
+                                                    },
+                                                    "materia_id": {
+                                                        "type": "number",
+                                                        "example": 10
+                                                    },
+                                                    "nivel": {
+                                                        "type": "number",
+                                                        "example": 7
+                                                    },
+                                                    "electiva": {
+                                                        "type": "boolean",
+                                                        "example": false
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-09-01T00:00:00.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-09-01T00:00:00.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "400"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo 'nivel' es requerido."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la conexión a la base de datos"
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "The selected carrera_id is invalid."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/health": {
+
             "get": {
                 "tags": [
                     "Curriculas"
@@ -439,102 +628,7 @@
                     }
                 }
             },
-            "post": {
-                "tags": [
-                    "Curriculas"
-                ],
-                "summary": "Crear una nueva Curricula",
-                "description": "Registra una nueva Curricula en el sistema",
-                "operationId": "805f76a007ee525ab3958960be9a7850",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "carrera_id": {
-                                        "description": "ID de la Carrera",
-                                        "type": "integer",
-                                        "example": 1
-                                    },
-                                    "materia_id": {
-                                        "description": "ID de la Materia",
-                                        "type": "integer",
-                                        "example": 2
-                                    },
-                                    "nivel": {
-                                        "description": "Nivel de la Curricula",
-                                        "type": "integer",
-                                        "example": 3
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Curricula creada exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Curricula creada exitosamente"
-                                        },
-                                        "curricula": {
-                                            "type": "object",
-                                            "example": {
-                                                "id": 1,
-                                                "carrera_id": 1,
-                                                "materia_id": 2,
-                                                "nivel": 3
-                                            }
-                                        },
-                                        "code": {
-                                            "type": "integer",
-                                            "example": 201
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Errores de validación",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "errors": {
-                                            "properties": {
-                                                "carrera_id": {
-                                                    "type": "string",
-                                                    "example": "El campo carrera_id es requerido"
-                                                },
-                                                "materia_id": {
-                                                    "type": "string",
-                                                    "example": "El campo materia_id es requerido"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "code": {
-                                            "type": "integer",
-                                            "example": 422
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
+            
         "/api/curriculas/{id}": {
             "get": {
                 "tags": [
@@ -1387,6 +1481,13 @@
     },
     "tags": [
         {
+            "name": "Carrera",
+            "description": "Carrera"
+        },
+        {
+            "name": "Curricula",
+            "description": "Curricula"
+
             "name": "Carreras",
             "description": "Carreras"
         },
@@ -1397,6 +1498,7 @@
         {
             "name": "Grupos",
             "description": "Grupos"
+
         },
         {
             "name": "Health Check",

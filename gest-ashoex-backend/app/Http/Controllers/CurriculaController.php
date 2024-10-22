@@ -9,6 +9,7 @@ use App\Http\Requests\ActualizarCurriculaRequest;
 
 use App\Models\Curricula;
 use App\Models\Materia;
+
 class CurriculaController extends Controller
 {
    /**
@@ -45,7 +46,6 @@ class CurriculaController extends Controller
  *     )
  * )
  */
-
     public function index()
     {
         $curriculas = Curricula::all();
@@ -59,64 +59,113 @@ class CurriculaController extends Controller
         }
 
     /**
- * @OA\Post(
- *     path="/api/curriculas",
- *     summary="Crear una nueva Curricula",
- *     description="Registra una nueva Curricula en el sistema",
- *     tags={"Curriculas"},
- *     @OA\RequestBody(
- *         required=true,
- *         @OA\JsonContent(
- *             type="object",
- *             @OA\Property(property="carrera_id", type="integer", example=1, description="ID de la Carrera"),
- *             @OA\Property(property="materia_id", type="integer", example=2, description="ID de la Materia"),
- *             @OA\Property(property="nivel", type="integer", example=3, description="Nivel de la Curricula")
- *         )
- *     ),
- *     @OA\Response(
- *         response=201,
- *         description="Curricula creada exitosamente",
- *         @OA\JsonContent(
- *             type="object",
- *             @OA\Property(property="message", type="string", example="Curricula creada exitosamente"),
- *             @OA\Property(property="curricula", type="object", example={
- *                 "id": 1,
- *                 "carrera_id": 1,
- *                 "materia_id": 2,
- *                 "nivel": 3
- *             }),
- *             @OA\Property(property="code", type="integer", example=201)
- *         )
- *     ),
- *     @OA\Response(
- *         response=422,
- *         description="Errores de validación",
- *         @OA\JsonContent(
- *             type="object",
- *             @OA\Property(property="errors", type="object", 
- *                @OA\Property(property="carrera_id", type="string", example="El campo carrera_id es requerido"),
- *                @OA\Property(property="materia_id", type="string", example="El campo materia_id es requerido")
- *             ),
- *             @OA\Property(property="code", type="integer", example=422)
- *         )
- *     )
- * )
- */
-public function store(CrearCurriculaRequest $request)
-{
-    $curricula = new Curricula();
-    $curricula->carrera_id = $request->input('carrera_id');
-    $curricula->materia_id = $request->input('materia_id');
-    $curricula->nivel = $request->input('nivel');
+     * @OA\Post(
+     *     path="/api/curriculas",
+     *     tags={"Curricula"},
+     *     summary="Almacena una nueva Curricula en la base de datos",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"carrera_id", "materia_id", "nivel", "electiva"},
+     *             @OA\Property(property="carrera_id", type="number", example=5),
+     *             @OA\Property(property="materia_id", type="number", example=10),
+     *             @OA\Property(property="nivel", type="number", example=7),
+     *             @OA\Property(property="electiva", type="boolean", example=false)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Curricula creada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="number", example=1),
+     *                     @OA\Property(property="carrera_id", type="number", example=5),
+     *                     @OA\Property(property="materia_id", type="number", example=10),
+     *                     @OA\Property(property="nivel", type="number", example=7),
+     *                     @OA\Property(property="electiva", type="boolean", example=false),
+     *                     @OA\Property(property="created_at", type="string", example="2021-09-01T00:00:00.000000Z"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-09-01T00:00:00.000000Z")
+     *                 )
+     *             ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(), example={}),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="400"),
+     *                     @OA\Property(property="detail", type="string", example="El campo 'nivel' es requerido.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en la conexión a la base de datos"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Unprocessable Content",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="detail", type="string", example="The selected carrera_id is invalid.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error"),
+     *         )
+     *     )
+     * )
+     */
+    public function store(Request $request){
+        $rules = [
+            'carrera_id' => 'required|integer|exists:carreras,id',
+            'materia_id' => 'required|integer|exists:materias,id',
+            'nivel' => 'required|integer',
+            'electiva' => 'required|boolean'
+            
+        ];
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'errors' => $validator->errors(),
+                'message' => 'Operacion fallida',
+            ], 422);
+        }
 
-    $curricula->save();
-
+        $curricula = new Curricula();
+        $curricula->carrera_id = $request->input('carrera_id');
+        $curricula->materia_id = $request->input('materia_id');
+        $curricula->nivel =      $request->input('nivel');
+        $curricula->electiva =   $request->input('electiva');
     return response()->json([
-        'message' => 'Curricula creada exitosamente',
-        'curricula' => $curricula,
-        'code' => 201
-    ], 201);
-}
+            'success' => true,
+            'data' => $curricula, 
+            'error' => [],
+            'message' => 'Operacion exitosa',
+        ], 201);
+    }
+
 
     /**
  * @OA\Get(
@@ -164,7 +213,6 @@ public function store(CrearCurriculaRequest $request)
  *     )
  * )
  */
-
  public function show(string $id)
  {
      $curricula = Curricula::find($id);
@@ -257,8 +305,6 @@ public function store(CrearCurriculaRequest $request)
  *     )
  * )
  */
-
-
  public function update(ActualizarCurriculaRequest $request, string $id)
  {
      $curricula = Curricula::find($id);
