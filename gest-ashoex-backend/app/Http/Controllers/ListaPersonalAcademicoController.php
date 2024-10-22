@@ -17,7 +17,7 @@ class ListaPersonalAcademicoController extends Controller
 {
   /**
  * @OA\Get(
- *     path="/api/personales",
+ *     path="/api/personal-academicos",
  *     summary="Obtener lista de personal académico",
  *     tags={"Personal Académico"},
  *     @OA\Response(
