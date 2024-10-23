@@ -8,6 +8,7 @@ use Illuminate\Http\{
 };
 
 use App\Models\PersonalAcademico;
+use Exception;
 
 class PersonalAcademicoController extends Controller
 {
@@ -41,8 +42,8 @@ class PersonalAcademicoController extends Controller
             return response()->json(
                 $personalAcademico,
                 (
-                    !$personalAcademico?
-                    404:
+                    !$personalAcademico ?
+                    404 :
                     200
                 )
             );
@@ -90,7 +91,6 @@ class PersonalAcademicoController extends Controller
                     'data' => 'El personal académico seleccionado no existe.'
                 ], 404);
             }
-
             // Llamar al método darBaja
             if ($personalAcademico->darBaja()) {
                 return response()->json([
@@ -112,7 +112,7 @@ class PersonalAcademicoController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/api/registrar-personal-academico",
+     *     path="/api/personal-academico",
      *     tags={"Personal Académico"},
      *     summary="Registrar un nuevo personal académico",
      *     @OA\RequestBody(
@@ -137,22 +137,48 @@ class PersonalAcademicoController extends Controller
      *     )
      * )
      */
-    public function registrar(Request $request)
+    public function registrar(Request $request): JsonResponse
     {
-        $validated = $request->validate([
-            'nombre' => 'required|string|max:255',
-            'email' => 'required|email|unique:personal_academicos,email',
-            'telefono' => 'required|string|max:20',
-            'estado' => 'required|string|in:ACTIVO,DESPEDIDO', // Reemplaza por los valores permitidos
-            'tipo_personal_id' => 'required|integer|exists:tipo_personals,id',
-        ]);
+        $existingUser = PersonalAcademico::where('email', $request->email)->first();
 
-        $personalAcademico = PersonalAcademico::create($validated);
+        if ($existingUser) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 409,
+                    'message' => 'Conflicto'
+                ],
+                'message' => 'Datos de entrada inválidos, registro ya existente'
+            ], 409);
+        }
+        try {
+            $personalAcademico = PersonalAcademico::create([
+                'nombre' => $request->nombre,
+                'email' => $request->email,
+                'telefono' => $request->telefono,
+                'estado' => $request->estado,
+                'tipo_personal_id' => $request->tipo_personal_id,
+            ]);
 
-        return response()->json([
-            'message' => 'Personal académico registrado exitosamente',
-            'personalAcademico' => $personalAcademico
-        ], 201);
+            return response()->json([
+                'success'=> true,
+                'data' => $personalAcademico,
+                'error'=> null,
+                'message' => 'Personal academico registrado exitosamente',
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                "success"=> false,
+                "data"=> null,
+                "error"=> [
+                    "code"=> 500,
+                    "message"=> "Error interno del servidor"
+                ],
+                "message"=> $e->getMessage()
+            ], 500);
+        }
     }
 
 
@@ -181,15 +207,40 @@ class PersonalAcademicoController extends Controller
      */
     public function show($id)
     {
-        // Buscar el registro de PersonalAcademico por ID
-        $personalAcademico = PersonalAcademico::with('tipoPersonal')->find($id);
-        // Verificar si existe
-        if (!$personalAcademico) {
-            return response()->json(['message' => 'Personal académico no encontrado'], 404);
-        }
+        try {
+            // Buscar el registro de PersonalAcademico por ID
+            $personalAcademico = PersonalAcademico::with('tipoPersonal')->find($id);
+            // Verificar si existe
+            if (!$personalAcademico) {
+                return response()->json([
+                    'success' => false,
+                    'data' => null,
+                    'error' => [
+                        'code' => 404,
+                        'message' => 'Personal académico no encontrado'
+                    ],
+                    'message' => 'Error en la solicitud'
+                ], 404);
+            }
 
-        // Retornar los datos del personal académico
-        return response()->json($personalAcademico, 200);
+            // Retornar los datos del personal académico
+            return response()->json([
+                'success' => true,
+                'data' => $personalAcademico,
+                'error' => null,
+                'message' => 'Operación exitosa'
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 500,
+                    'message' => $e->getMessage()
+                ],
+                'message' => 'Error en la solicitud'
+            ], 500);
+        }
     }
 
     /**

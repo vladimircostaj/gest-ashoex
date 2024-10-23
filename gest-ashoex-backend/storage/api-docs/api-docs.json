@@ -145,13 +145,13 @@
                 }
             }
         },
-        "/api/registrar-personal-academico": {
+        "/api/personal-academico": {
             "post": {
                 "tags": [
                     "Personal Académico"
                 ],
                 "summary": "Registrar un nuevo personal académico",
-                "operationId": "7c5a74d568beb4c953a3c826af0d93e4",
+                "operationId": "7aeac96429885f41e2b8e7bdf40107e4",
                 "requestBody": {
                     "required": true,
                     "content": {
