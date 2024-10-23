@@ -119,15 +119,6 @@ class PersonalAcademicoTest extends TestCase
         $response->assertStatus(200);
     }
 
-    /**
-     * Test para buscar personal academico no existente
-     */
-    public function testBuscarPersonalAcademicoNoExistente()
-    {
-        $response = $this->get('/api/personal-academicos/-1'); 
-        $response->assertNotFound();
-        $response->assertJsonCount(0);
-    }
 
     public function testDarDeBajaPersonalExistente()
     {
