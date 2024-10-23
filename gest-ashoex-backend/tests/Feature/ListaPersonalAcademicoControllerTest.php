@@ -26,9 +26,9 @@ class ListaPersonalAcademicoControllerTest extends TestCase
         DB::table('personal_academicos')->insert([
             [
                 'id' => 1,
-                'name' => 'Luis Fernando Cardenas Morales',
-                'email' => 'luisfernando@gmail.com',
-                'telefono' => '68570572',
+                'name' => 'Patrick Almanza',
+                'email' => 'patralm@gmail.com',
+                'telefono' => '69756409',
                 'estado' => 'Activo',
                 'tipo_personal_id' => 1
             ]
@@ -47,7 +47,7 @@ class ListaPersonalAcademicoControllerTest extends TestCase
                     'telefono' => '69756409',
                     'personal_academico_id' => 1,
                     'tipo_personal_id' => 1,
-                    'name' => 'LPatrick Almanza',
+                    'name' => 'Patrick Almanza',
                     'email' => 'patralm@gmail.com',
                     'estado' => 'Activo'
                 ]
