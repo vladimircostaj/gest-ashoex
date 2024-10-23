@@ -12,31 +12,6 @@ use Exception;
 
 class PersonalAcademicoController extends Controller
 {
-    public function index(int $id): JsonResponse
-    {
-        try {
-            $personalAcademico = PersonalAcademico::find($id);
-            return response()->json(
-                $personalAcademico,
-                (
-                    !$personalAcademico ?
-                    404 :
-                    200
-                )
-            );
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Server error D:',
-                'error' => $e->getMessage()
-            ], 500);
-        }
-    }
-
-    /**
-     * Funcion para dar de baja a un personal academico especifico 
-     * @param Request $request Este es request debe contener un JSON el cual debe tener al menos el id del personal academico a dar de baja, el esqueleto debe ser: {`id`: 'value'} 
-     * @return JsonResponse Pasa como respuesta un respuesta JSON, con un mensaje que describe lo que paso con la peticion
-     */
     public function darDeBaja(Request $request): JsonResponse
     {
         try {
@@ -56,7 +31,7 @@ class PersonalAcademicoController extends Controller
             ], 200);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'Server error D:',
+                'message' => 'Server error',
                 'error' => $e->getMessage()
             ], 500);
         }
