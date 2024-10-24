@@ -138,7 +138,7 @@ class PersonalAcademicoController extends Controller
             ], 404);
         }
 
-        $personalAcademico->nombre = $request->input('name');
+        $personalAcademico->nombre = $request->input('nombre');
         $personalAcademico->email = $request->input('email');
         $personalAcademico->telefono = $request->input('telefono');
         $personalAcademico->estado = $request->input('estado');
