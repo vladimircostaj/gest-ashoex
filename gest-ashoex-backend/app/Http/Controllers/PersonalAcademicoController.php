@@ -20,10 +20,10 @@ class PersonalAcademicoController extends Controller
     
     }
 
-    public function darDeBaja(Request $request): JsonResponse
+    public function darDeBaja(int $id): JsonResponse
     {
         try {
-            $personalAcademicoID = $request->id;
+            $personalAcademicoID = $id;
             $personalAcademico = PersonalAcademico::find($personalAcademicoID);
             if (!$personalAcademico) {
                 return parent::response(
