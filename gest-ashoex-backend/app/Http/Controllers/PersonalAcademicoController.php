@@ -12,25 +12,52 @@ use Exception;
 
 class PersonalAcademicoController extends Controller
 {
-    public function index(int $id): JsonResponse
-    {
-        try {
-            $personalAcademico = PersonalAcademico::find($id);
-            return response()->json(
-                $personalAcademico,
-                (
-                    !$personalAcademico ?
-                    404 :
-                    200
-                )
-            );
-        } catch (\Exception $e) {
+    public function ListaPersonalAcademico()
+{
+    try {
+        $personalAcademicos = DB::table('personal_academicos')
+            ->join('tipo_personals', 'personal_academicos.tipo_personal_id', '=', 'tipo_personals.id')
+            ->select(
+                'tipo_personals.nombre as Tipo_personal',
+                'personal_academicos.telefono',
+                'personal_academicos.id as personal_academico_id',
+                'tipo_personals.id as tipo_personal_id',
+                'personal_academicos.name',
+                'personal_academicos.email',
+                'personal_academicos.estado'
+            )
+            ->get();
+
+        if ($personalAcademicos->isEmpty()) {
             return response()->json([
-                'message' => 'Server error D:',
-                'error' => $e->getMessage()
-            ], 500);
+                'success' => false,
+                'data' => [],
+                'error' => [
+                    'code' => 204,
+                    'message' => 'No se encontró datos'
+                ],
+                'message' => 'Lista vacía'
+            ], 204);
         }
+
+        return response()->json([
+            'success' => true,
+            'data' => $personalAcademicos,
+            'error' => null,
+            'message' => 'Operación exitosa'
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'success' => false,
+            'data' => null,
+            'error' => [
+                'code' => 404,
+                'message' => 'Datos de entrada inválidos: ' . $e->getMessage()
+            ],
+            'message' => 'Error en la solicitud'
+        ], 404);
     }
+}
 
     /**
      * Funcion para dar de baja a un personal academico especifico 
