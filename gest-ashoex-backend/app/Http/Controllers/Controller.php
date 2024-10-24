@@ -15,16 +15,16 @@ abstract class Controller
      * @param array $errors - single errors with code and message ex. ['code' => value, 'message' => value]
      * @return JsonResponse
      */
-    public function response(bool $success, array $data, string $message, array $errors): JsonResponse
+    public function response(bool $success, array $data, string $msg, array $error): JsonResponse
     {
         return response()->json(
             [
                 'success' => $success, 
                 'data' => $data, 
-                'message' => $message, 
-                'errors' => $errors
+                'message' => $msg, 
+                'error' => $error
             ], 
-            200
+            (empty($error)? 200: $error['code'])
         );
     }
 }
