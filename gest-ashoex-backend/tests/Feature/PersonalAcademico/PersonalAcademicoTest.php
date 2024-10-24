@@ -12,7 +12,7 @@ use Database\Seeders\DatabaseSeeder;
 
 class PersonalAcademicoTest extends TestCase
 {
-    use RefreshDatabase; // limpia la base de datos con con cada llamada a los test
+    use RefreshDatabase; // limpira la base de datos con con cada llamada a los test
     
     public function setUp(): void
     {
@@ -119,16 +119,17 @@ class PersonalAcademicoTest extends TestCase
         $response->assertStatus(200);
     }
 
+
     public function testDarDeBajaPersonalExistente()
     {
-        $response = $this->patchJson('/api/personalAcademicos/-1/dar-baja'); 
-        $response->assertOk();
-
         $personalAcademico = PersonalAcademico::factory()->create();
-        $response = $this->patchJson('/api/personalAcademicos/'.$personalAcademico->id.'/dar-baja'); 
+        $data = [
+            'id' => $personalAcademico->id
+        ];
+        $response = $this->patchJson('/api/personal-academicos/dar-baja', $data); 
         $response->assertOk()
             ->assertJson([
-                'message' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
+                'data' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
             ]);
         $this->assertDatabaseHas(
             'personal_academicos', 
@@ -139,10 +140,10 @@ class PersonalAcademicoTest extends TestCase
                 'estado' => config('constants.PERSONAL_ACADEMICO_ESTADOS')[1]
             ]
         );
-        $response = $this->patchJson('/api/personalAcademicos/'.$personalAcademico->id.'/dar-baja'); 
-        $response->assertStatus(200)
+        $response = $this->patchJson('/api/personal-academicos/dar-baja', $data); 
+        $response->assertOk()
             ->assertJson([
-                'message' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
+                'data' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
             ]);
     }
 
