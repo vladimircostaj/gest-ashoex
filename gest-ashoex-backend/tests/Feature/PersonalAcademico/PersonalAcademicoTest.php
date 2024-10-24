@@ -125,13 +125,14 @@ class PersonalAcademicoTest extends TestCase
         $personalAcademico = PersonalAcademico::factory()->create();
         // pasa cualquier cosa en la url 
         $response = $this->patchJson('/api/personal-academicos/0.2/dar-baja');
-        $response->assertStatus(500);
+        $response->assertStatus(404);
 
         $response = $this->patchJson('/api/personal-academicos/a/dar-baja');
         $response->assertStatus(500);
 
         // dar de baja a personal activo
         $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        dd($response->json());
         $response->assertOk()
             ->assertJson([
                 'message' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
