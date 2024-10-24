@@ -123,13 +123,19 @@ class PersonalAcademicoTest extends TestCase
     public function testDarDeBajaPersonalExistente()
     {
         $personalAcademico = PersonalAcademico::factory()->create();
-        $data = [
-            'id' => $personalAcademico->id
-        ];
-        $response = $this->patchJson('/api/personal-academicos/dar-baja', $data); 
+        // pasa cualquier cosa en la url 
+        $response = $this->patchJson('/api/personal-academicos/0.2/dar-baja');
+        $response->assertStatus(404);
+
+        $response = $this->patchJson('/api/personal-academicos/a/dar-baja');
+        $response->assertStatus(500);
+
+        // dar de baja a personal activo
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        dd($response->json());
         $response->assertOk()
             ->assertJson([
-                'data' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
+                'message' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
             ]);
         $this->assertDatabaseHas(
             'personal_academicos', 
@@ -140,10 +146,11 @@ class PersonalAcademicoTest extends TestCase
                 'estado' => config('constants.PERSONAL_ACADEMICO_ESTADOS')[1]
             ]
         );
-        $response = $this->patchJson('/api/personal-academicos/dar-baja', $data); 
-        $response->assertOk()
+        // dar de baja a personal dado de baja anteriormente
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        $response->assertStatus(400)
             ->assertJson([
-                'data' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
+                'message' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
             ]);
     }
 
