@@ -17,6 +17,7 @@ Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras/{id}', 'show');
     Route::delete('/carreras/{id}', 'destroy');
     Route::post('/carreras', 'store');
+    Route::put('/carreras/{id}', 'update');
 });
 
 Route::controller(CurriculaController::class)->group(function () {
