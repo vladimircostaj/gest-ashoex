@@ -1297,6 +1297,216 @@
                 }
             }
         },
+        "/api/gruposUpdate/{id}": {
+            "put": {
+                "tags": [
+                    "Grupos"
+                ],
+                "summary": "Actualiza los datos de un grupo previamente creado",
+                "operationId": "updateGrupo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del grupo a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "materia_id": {
+                                        "description": "ID de la materia a la que pertenece el grupo",
+                                        "type": "integer"
+                                    },
+                                    "nro_grupo": {
+                                        "description": "Número del grupo dentro de la materia",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Grupo actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "nro_grupo": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Grupo actualizado"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Grupo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 404
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Grupo no encontrado"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto: Ya existe un grupo con este número en la misma materia",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 409
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Ya existe un grupo con este número en la misma materia"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor al actualizar el grupo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Error al actualizar el grupo: [mensaje del error]"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/health": {
             "get": {
                 "tags": [
