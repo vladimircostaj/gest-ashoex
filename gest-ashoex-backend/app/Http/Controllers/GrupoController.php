@@ -28,28 +28,98 @@ class GrupoController extends Controller{
         return response()->json($grupos,200);
 
     }
-    public function store(GrupoRequest $request)
+/**
+     * @OA\Post(
+     *     path="/api/grupo",
+     *     tags={"Grupos"},
+     *     summary="Almacena un nuevo grupo en la base de datos",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"materia_id","nro_grupo"},
+     *             @OA\Property(property="materia_id", type="number", example=10),
+     *             @OA\Property(property="nro_grupo", type="number", example=10)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Grupo creado exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="materia_id", type="number", example="10"),
+     *                     @OA\Property(property="nro_grupo", type="number", example=10)
+     *                 )
+     *             ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(), example={}),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="400"),
+     *                     @OA\Property(property="detail", type="string", example="El campo 'materia_id' es requerido.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error"),
+     *         )
+     *     ),
+     *   @OA\Response(
+     *         response=409,
+     *         description="Error de congruencia",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="code", type="string", example="409"),
+     *                     @OA\Property(property="detail", type="string", example="materia con el mismo grupo ya existe.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error"),
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en la conexión a la base de datos"
+     *     )
+     * )
+     */
+    public function store(Request $request)
     {
-        try {
-            // Crear un nuevo grupo con los datos validados
-            $grupo = new Grupo($request->validated());
-            $grupo->save();
+        $datos = $request->validate([
+            'materia_id' =>'required|exists:materias,id',
+            'nro_grupo' => 'required|integer|min:1',
+        ]);
 
-            // Responder con el grupo creado y código 201 (Creado)
-            return response()->json($grupo, Response::HTTP_CREATED);
-        } catch (QueryException $e) {
-            // Código SQL 23000 se refiere a violaciones de integridad como duplicados
-            if ($e->getCode() === '23000') {
-                return response()->json([
-                    'message' => 'Error: Ya existe un grupo con este número para la materia seleccionada.',
-                ], Response::HTTP_CONFLICT); // Código 409: Conflicto
-            }
+        $existingGrupo = Grupo::where('materia_id', $datos ['materia_id'])
+                          ->where('nro_grupo', $datos ['nro_grupo'])
+                          ->first();
 
-            // Manejo de otros errores generales
-            return response()->json([
-                'message' => 'Error al crear el grupo.',
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+    if ($existingGrupo) {
+        return response()->json([
+            'message' => 'Existe un grupo con la misma materia y numero de grupo.'
+        ], 409);
+    }
+        $grupo = new Grupo($datos);
+        $grupo->save();
+        return response()->json($grupo,201);
     }
 
     /**
