@@ -136,23 +136,8 @@ class CurriculaController extends Controller
      *     )
      * )
      */
-    public function store(Request $request){
-        $rules = [
-            'carrera_id' => 'required|integer|exists:carreras,id',
-            'materia_id' => 'required|integer|exists:materias,id',
-            'nivel' => 'required|integer',
-            'electiva' => 'required|boolean'
-            
-        ];
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'errors' => $validator->errors(),
-                'message' => 'Operacion fallida',
-            ], 422);
-        }
-
+    public function store(CrearCurriculaRequest $request){
+        
         $curricula = new Curricula();
         $curricula->carrera_id = $request->input('carrera_id');
         $curricula->materia_id = $request->input('materia_id');

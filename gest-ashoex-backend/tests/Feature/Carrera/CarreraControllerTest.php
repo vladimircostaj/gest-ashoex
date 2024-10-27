@@ -16,11 +16,10 @@ class CarreraControllerTest extends TestCase
             'nombre' => 'Licenciatura en Ingeniería Eléctrica',
             'nro_semestres' => 11,
         ];
-
         $response = $this->postJson('/api/carreras', $data);
-
+    
         $response->assertStatus(201);
-
+        
         $response->assertJson([
             'success' => true,
             'data' => [

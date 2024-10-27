@@ -124,7 +124,7 @@ class CarreraController extends Controller
     {
         $validated = $request->validated();
         $carrera = Carrera::create(['nombre' => $validated['nombre'], 'nro_semestres' => $validated['nro_semestres']]);
-
+        
         return response()->json([
             'success' => true,
             'data' => [

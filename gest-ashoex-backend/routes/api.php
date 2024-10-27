@@ -15,6 +15,7 @@ Route::get('/health', [HealthController::class, 'check']);
 Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras', 'index');
     Route::get('/carreras/{id}', 'show');
+    Route::post('/carreras', 'store');
     Route::delete('/carreras/{id}','destroy');
 
 
