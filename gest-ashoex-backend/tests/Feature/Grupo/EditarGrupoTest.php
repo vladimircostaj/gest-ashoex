@@ -28,7 +28,7 @@ class EditarGrupoTest extends TestCase
             'nro_grupo' => 1,
         ]);
 
-        $response = $this->putJson('/api/gruposUpdate/' . $grupo->id, [
+        $response = $this->putJson('/api/grupos/' . $grupo->id, [
             'materia_id' => $materia->id,
             'nro_grupo' => 2
         ]);
@@ -66,7 +66,7 @@ class EditarGrupoTest extends TestCase
 
         $grupoId = 99999; //se asigna un id que no este en la BD
 
-        $response = $this->putJson('/api/gruposUpdate/' . $grupoId, [
+        $response = $this->putJson('/api/grupos/' . $grupoId, [
             'materia_id' => $materia->id, 
             'nro_grupo' => 2  
         ]);
@@ -102,7 +102,7 @@ class EditarGrupoTest extends TestCase
         ]);
 
         $grupoId = $grupo2->id;
-        $response = $this->putJson('/api/gruposUpdate/' . $grupoId, [
+        $response = $this->putJson('/api/grupos/' . $grupoId, [
             'materia_id' => $materia->id,
             'nro_grupo' => 1 
         ]);

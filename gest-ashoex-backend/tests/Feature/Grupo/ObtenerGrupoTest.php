@@ -22,15 +22,14 @@ class ObtenerGrupoTest extends TestCase
         'nro_PeriodoAcademico'=>2
      ]);
      $grupo = Grupo::create([
-        'materia_id' => 1,
+        'materia_id' => $materia->id,
         'nro_grupo' => 1
     ]);
 
     // Realiza la solicitud GET
-    $response = $this->get('/api/gruposid/' . $grupo->id);
+    $response = $this->get('/api/grupos/' . $grupo->id);
 
-    // Muestra el contenido de la respuesta para depuración
-    $response->dump(); // o $response->dd();
+    
 
     // Continúa con las aserciones
     $response->assertStatus(200);
@@ -48,7 +47,7 @@ class ObtenerGrupoTest extends TestCase
 public function test_obtener_grupo_error()
 {
     // Realiza una solicitud GET con un ID inexistente
-    $response = $this->get('/api/gruposid/999'); // Un ID que no exista
+    $response = $this->get('/api/grupos/999'); // Un ID que no exista
 
     // Verifica que el código de estado HTTP sea 404
     $response->assertStatus(404);

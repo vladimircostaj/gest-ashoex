@@ -33,15 +33,15 @@ Route::controller(MateriaController::class)->group(function () {
     Route::get('/materias', 'index');
     Route::post('/materias', 'store');
     Route::get('/materias/{id}', 'show');
-    Route::put('/materiasUpdate/{id}', 'update'); // Ruta para actualizar materia 
-    Route::patch('/materiasUpdate/{id}', 'update'); // Ruta para actualización parcial
-    Route::delete('/materiasDestroy/{id}', 'destroy');
+    Route::put('/materias/{id}', 'update'); // Ruta para actualizar materia 
+    Route::patch('/materias/{id}', 'update'); // Ruta para actualización parcial
+    Route::delete('/materias/{id}', 'destroy');
 });
 
 Route::controller(GrupoController::class)->group(function () {
     Route::get('/grupos', 'index');
-    Route::post('/gruposPost', 'store');
-    Route::get('/gruposid/{id}', 'show');
-    Route::put('/gruposUpdate/{id}', 'update');
-    Route::delete('/gruposDelete', 'destroy');
+    Route::post('/grupos', 'store');
+    Route::get('/grupos/{id}', 'show');
+    Route::put('/grupos/{id}', 'update');
+    Route::delete('/grupos/{id}', 'destroy');
 });

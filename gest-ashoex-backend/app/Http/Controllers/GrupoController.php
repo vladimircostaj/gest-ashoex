@@ -7,6 +7,7 @@ use App\Models\Grupo;
 use App\Models\Materia;
 use App\Http\Requests\CrearGrupoRequest;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
 
 class GrupoController extends Controller{
@@ -103,15 +104,16 @@ class GrupoController extends Controller{
      */
     public function store(Request $request)
     {
+        
         $datos = $request->validate([
             'materia_id' =>'required|exists:materias,id',
             'nro_grupo' => 'required|integer|min:1',
         ]);
-
+        
         $existingGrupo = Grupo::where('materia_id', $datos ['materia_id'])
                           ->where('nro_grupo', $datos ['nro_grupo'])
                           ->first();
-
+        
     if ($existingGrupo) {
         return response()->json([
             'message' => 'Existe un grupo con la misma materia y numero de grupo.'

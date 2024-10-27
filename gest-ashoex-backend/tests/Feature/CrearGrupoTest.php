@@ -27,8 +27,8 @@ class CrearGrupoTest extends TestCase
             'nro_grupo' => 2,
         ];
 
-        $response = $this->postJson('/api/gruposPost', $data);
-
+        $response = $this->postJson('/api/grupos', $data);
+        #dd($response);
        
         $response->assertStatus(201);
 
@@ -49,7 +49,7 @@ class CrearGrupoTest extends TestCase
     ];
 
 
-    $response = $this->postJson('/api/gruposPost', $data);
+    $response = $this->postJson('/api/grupos', $data);
 
     $response->assertStatus(422);
 
@@ -63,7 +63,7 @@ public function test_crear_nuevo_grupo_sin_materia()
     ];
 
 
-    $response = $this->postJson('/api/gruposPost', $data);
+    $response = $this->postJson('/api/grupos', $data);
 
     $response->assertStatus(422);
 
@@ -84,7 +84,7 @@ public function test_crear_nuevo_grupo_sin_grupo()
     ];
 
 
-    $response = $this->postJson('/api/gruposPost', $data);
+    $response = $this->postJson('/api/grupos', $data);
 
     $response->assertStatus(422);
 
@@ -100,7 +100,7 @@ public function test_crear_nuevo_grupo_materia_no_existe()
     ];
 
 
-    $response = $this->postJson('/api/gruposPost', $data);
+    $response = $this->postJson('/api/grupos', $data);
 
     $response->assertStatus(422);
 
@@ -132,7 +132,7 @@ public function test_crear_grupo_existente()
 
      Grupo::create($data);
 
-     $response = $this->postJson('/api/gruposPost', $data);
+     $response = $this->postJson('/api/grupos', $data);
 
      $response->assertStatus(409);
 
