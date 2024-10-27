@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\Grupo;
+use App\Models\Materia;
 
 class EliminarGrupoTest extends TestCase
 {
@@ -14,6 +15,7 @@ class EliminarGrupoTest extends TestCase
      */
     public function test_EliminarGrupo(): void
     {
+        
         $grupo = Grupo::create([
             'materia_id' => 1,
             'nro_grupo' => rand(100, 999),
