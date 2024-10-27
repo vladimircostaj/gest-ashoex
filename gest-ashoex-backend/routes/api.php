@@ -15,11 +15,10 @@ Route::get('/health', [HealthController::class, 'check']);
 Route::controller(CarreraController::class)->group(function () {
     Route::get('/carreras', 'index');
     Route::get('/carreras/{id}', 'show');
+
+    Route::delete('/carreras/{id}', 'destroy');
     Route::post('/carreras', 'store');
-    Route::delete('/carreras/{id}','destroy');
-
-
-
+    Route::put('/carreras/{id}', 'update');
 });
 
 Route::controller(CurriculaController::class)->group(function () {
@@ -33,17 +32,16 @@ Route::controller(CurriculaController::class)->group(function () {
 Route::controller(MateriaController::class)->group(function () {
     Route::get('/materias', 'index');
     Route::post('/materias', 'store');
-    Route::get('/materias/{id}','show');
+    Route::get('/materias/{id}', 'show');
     Route::put('/materiasUpdate/{id}', 'update'); // Ruta para actualizar materia 
     Route::patch('/materiasUpdate/{id}', 'update'); // Ruta para actualización parcial
     Route::delete('/materiasDestroy/{id}', 'destroy');
-
 });
 
 Route::controller(GrupoController::class)->group(function () {
-    Route::get('/grupos','index');
-    Route::post('/gruposPost','store');
-    Route::get('/gruposid/{id}','show');
+    Route::get('/grupos', 'index');
+    Route::post('/gruposPost', 'store');
+    Route::get('/gruposid/{id}', 'show');
     Route::put('/gruposUpdate/{id}', 'update');
-    Route::delete('/gruposDelete','destroy');
+    Route::delete('/gruposDelete', 'destroy');
 });
