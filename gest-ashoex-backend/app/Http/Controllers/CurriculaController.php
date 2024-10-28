@@ -61,7 +61,7 @@ class CurriculaController extends Controller
     /**
      * @OA\Post(
      *     path="/api/curriculas",
-     *     tags={"Curricula"},
+     *     tags={"Curriculas"},
      *     summary="Almacena una nueva Curricula en la base de datos",
      *     @OA\RequestBody(
      *         required=true,
