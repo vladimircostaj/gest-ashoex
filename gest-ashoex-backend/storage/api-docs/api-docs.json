@@ -6,6 +6,109 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/aulas/{id}": {
+            "get": {
+                "tags": [
+                    "Aulas"
+                ],
+                "summary": "Obtener información de un aula específica",
+                "description": "Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
+                "operationId": "getAulaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del aula",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Éxito. Datos del aula obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "numero_aula": {
+                                            "type": "string",
+                                            "example": "A101"
+                                        },
+                                        "capacidad": {
+                                            "type": "integer",
+                                            "example": 40
+                                        },
+                                        "habilitada": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "id_ubicacion": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "usos": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Clases"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "facilidades": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Proyector"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado. Aula no existe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Aula no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/health": {
             "get": {
                 "tags": [
@@ -47,6 +150,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Aulas",
+            "description": "Aulas"
+        },
         {
             "name": "Health Check",
             "description": "Health Check"

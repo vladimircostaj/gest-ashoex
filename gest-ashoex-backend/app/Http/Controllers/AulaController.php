@@ -13,11 +13,66 @@ class AulaController extends Controller
         return Aula::with('usos', 'facilidades')->get();
     }
 
-    // Obtener un aula por su ID, incluyendo sus usos y facilidades
+        /**
+     * @OA\Get(
+     *     path="/api/aulas/{id}",
+     *     summary="Obtener información de un aula específica",
+     *     description="Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
+     *     operationId="getAulaById",
+     *     tags={"Aulas"},
+     * 
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del aula",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     * 
+     *     @OA\Response(
+     *         response=200,
+     *         description="Éxito. Datos del aula obtenidos correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="numero_aula", type="string", example="A101"),
+     *             @OA\Property(property="capacidad", type="integer", example=40),
+     *             @OA\Property(property="habilitada", type="boolean", example=true),
+     *             @OA\Property(property="id_ubicacion", type="integer", example=2),
+     *             @OA\Property(
+     *                 property="usos",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="nombre", type="string", example="Clases")
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="facilidades",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="descripcion", type="string", example="Proyector")
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No encontrado. Aula no existe",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Aula no encontrada")
+     *         )
+     *     )
+     * )
+     */
     public function show($id)
     {
         return Aula::with('usos', 'facilidades')->findOrFail($id);
     }
+
 
     // Crear un nuevo aula
     public function store(Request $request)
