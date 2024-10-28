@@ -1,0 +1,62 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "GET Aulas",
+        "description": "Endpoint para recuperar todas las aulas con sus usos y facilidades",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/aulas": {
+            "get": {
+                "tags": [
+                    "Aulas"
+                ],
+                "summary": "Obtiene una lista de todas las aulas registradas",
+                "description": "Devuelve una lista completa de todas las aulas disponibles con sus respectivos usos y facilidades",
+                "operationId": "getAulas",
+                "responses": {
+                    "200": {
+                        "description": "Lista de aulas recuperada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Aula 101"
+                                            },
+                                            "capacidad": {
+                                                "type": "integer",
+                                                "example": 30
+                                            },
+                                            "ubicacion": {
+                                                "type": "string",
+                                                "example": "Edificio A, segundo piso"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron aulas"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Aulas",
+            "description": "Endpoints relacionados con la gestión de aulas"
+        }
+    ]
+}
