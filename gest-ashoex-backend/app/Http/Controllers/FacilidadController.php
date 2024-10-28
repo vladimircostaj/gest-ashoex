@@ -33,20 +33,6 @@ class FacilidadController extends Controller
     }
 
     // Actualizar una facilidad existente
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'nombre_facilidad' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
-        ]);
-
-        $facilidad = Facilidad::findOrFail($id);
-        $facilidad->update($request->all());
-
-        return response()->json($facilidad, 200);
-    }
-
-    // Eliminar una facilidad
     /** 
     * @OA\Put(
     *     path="/api/facilidades/{id}",
@@ -94,6 +80,20 @@ class FacilidadController extends Controller
     *     )
     * )
     */
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nombre_facilidad' => 'required|string|max:100',
+            'id_aula' => 'required|exists:aula,id_aula',
+        ]);
+
+        $facilidad = Facilidad::findOrFail($id);
+        $facilidad->update($request->all());
+
+        return response()->json($facilidad, 200);
+    }
+
+    // Eliminar una facilidad
     public function destroy($id)
     {
         $facilidad = Facilidad::findOrFail($id);
