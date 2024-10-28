@@ -6,6 +6,104 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/aulas/{id}": {
+            "put": {
+                "tags": [
+                    "Aulas"
+                ],
+                "summary": "Actualizar un aula existente",
+                "description": "Actualiza un aula por su ID",
+                "operationId": "bba88e0476861377752079169991bcd7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del aula",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "numero_aula": {
+                                        "type": "string",
+                                        "example": "Aula 101"
+                                    },
+                                    "capacidad": {
+                                        "type": "integer",
+                                        "example": "30"
+                                    },
+                                    "habilitada": {
+                                        "type": "boolean",
+                                        "example": "true"
+                                    },
+                                    "id_ubicacion": {
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Aula actualizada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id_aula": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "numero_aula": {
+                                            "type": "string",
+                                            "example": "Aula 101"
+                                        },
+                                        "capacidad": {
+                                            "type": "integer",
+                                            "example": "30"
+                                        },
+                                        "habilitada": {
+                                            "type": "boolean",
+                                            "example": "true"
+                                        },
+                                        "id_ubicacion": {
+                                            "type": "integer",
+                                            "example": "1"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Aula no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
         "/api/facilidades/{id}": {
             "put": {
                 "tags": [
@@ -99,6 +197,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Aulas",
+            "description": "Aulas"
+        },
         {
             "name": "Facilidades",
             "description": "Facilidades"
