@@ -7,6 +7,107 @@
     },
     "paths": {
         "/api/carreras": {
+            "get": {
+                "tags": [
+                    "Carreras"
+                ],
+                "summary": "Obtener todas las Carreras",
+                "description": "Devuelve una lista de todas las Carreras registradas",
+                "operationId": "24f82a4261c194f035a7ad6c076d6e61",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Ingeniería de Sistemas"
+                                                    },
+                                                    "nro_semestres": {
+                                                        "type": "integer",
+                                                        "example": 8
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-11T10:23:59Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-11T10:23:59Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No se encontraron carreras",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "No se encontraron carreras"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "Carreras"
@@ -269,6 +370,161 @@
                     }
                 }
             },
+            "put": {
+                "tags": [
+                    "Carreras"
+                ],
+                "summary": "Actualiza una carrera existente por su ID",
+                "operationId": "d40721a6b68ff4af3154939207cb3a1a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la carrera a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "nro_semestres"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Licenciatura en Ingeniería Informática"
+                                    },
+                                    "nro_semestres": {
+                                        "type": "number",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Carrera actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Licenciatura en Ingeniería Informática"
+                                                },
+                                                "nro_semestres": {
+                                                    "type": "number",
+                                                    "example": 10
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Carrera no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "La carrera no existe"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "Unprocessable Entity"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Errores de validación"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor"
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "Carreras"
@@ -441,7 +697,7 @@
             },
             "post": {
                 "tags": [
-                    "Curricula"
+                    "Curriculas"
                 ],
                 "summary": "Almacena una nueva Curricula en la base de datos",
                 "operationId": "805f76a007ee525ab3958960be9a7850",
@@ -949,6 +1205,169 @@
                         "description": "Lista de grupos obtenida con éxito"
                     }
                 }
+            },
+            "post": {
+                "tags": [
+                    "Grupos"
+                ],
+                "summary": "Almacena un nuevo grupo en la base de datos",
+                "operationId": "4bf94b7c8c6f18d38cfd3433fc6f8441",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "materia_id",
+                                    "nro_grupo"
+                                ],
+                                "properties": {
+                                    "materia_id": {
+                                        "type": "number",
+                                        "example": 10
+                                    },
+                                    "nro_grupo": {
+                                        "type": "number",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Grupo creado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia_id": {
+                                                        "type": "number",
+                                                        "example": "10"
+                                                    },
+                                                    "nro_grupo": {
+                                                        "type": "number",
+                                                        "example": 10
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "400"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo 'materia_id' es requerido."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Error de congruencia",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "string",
+                                                        "example": "409"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "materia con el mismo grupo ya existe."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la conexión a la base de datos"
+                    }
+                }
             }
         },
         "/api/grupo/{id}": {
@@ -1142,6 +1561,216 @@
                 }
             }
         },
+        "/api/gruposUpdate/{id}": {
+            "put": {
+                "tags": [
+                    "Grupos"
+                ],
+                "summary": "Actualiza los datos de un grupo previamente creado",
+                "operationId": "updateGrupo",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del grupo a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "materia_id": {
+                                        "description": "ID de la materia a la que pertenece el grupo",
+                                        "type": "integer"
+                                    },
+                                    "nro_grupo": {
+                                        "description": "Número del grupo dentro de la materia",
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Grupo actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "materia_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "nro_grupo": {
+                                                        "type": "integer",
+                                                        "example": 3
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Grupo actualizado"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Grupo no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 404
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Grupo no encontrado"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto: Ya existe un grupo con este número en la misma materia",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 409
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Ya existe un grupo con este número en la misma materia"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación fallida"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor al actualizar el grupo",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "code": {
+                                                        "type": "integer",
+                                                        "example": 500
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Error al actualizar el grupo: [mensaje del error]"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/health": {
             "get": {
                 "tags": [
@@ -1182,9 +1811,93 @@
             }
         },
         "/api/materias": {
+            "get": {
+                "tags": [
+                    "Materias"
+                ],
+                "summary": "Obtener todas las Materias",
+                "description": "Devuelve una lista de todas las Materias registradas",
+                "operationId": "918cb2607842cfe87ff9f6796c4cc540",
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "materias": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "codigo": {
+                                                        "type": "integer",
+                                                        "example": 8948440
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Fisica General"
+                                                    },
+                                                    "tipo": {
+                                                        "type": "string",
+                                                        "example": "regular"
+                                                    },
+                                                    "nro_PeriodoAcademico": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-11T10:23:59Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "format": "date-time",
+                                                        "example": "2024-10-11T10:23:59Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No hay materias registradas",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No hay materias registradas"
+                                        },
+                                        "code": {
+                                            "type": "integer",
+                                            "example": 404
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "post": {
                 "tags": [
-                    "Materia"
+                    "Materias"
                 ],
                 "summary": "Crea una nueva materia",
                 "description": "Este endpoint permite crear una nueva materia en el sistema.",
@@ -1331,7 +2044,7 @@
         "/api/materias/{id}": {
             "get": {
                 "tags": [
-                    "Materia"
+                    "Materias"
                 ],
                 "summary": "Obtiene los detalles de una materia por su ID",
                 "operationId": "808b887ba424ec0048dbd9a11aa22ffe",
@@ -1462,6 +2175,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Materias"
+                ],
                 "summary": "Eliminar una materia",
                 "description": "Elimina una materia específica por su ID.",
                 "operationId": "aa3b33b4b37a772aa16e47d56f319567",
@@ -1598,6 +2314,9 @@
         },
         "/api/materiasUpdate/{id}": {
             "put": {
+                "tags": [
+                    "Materias"
+                ],
                 "summary": "Actualizar una materia",
                 "description": "Actualiza los datos de una materia específica.",
                 "operationId": "b7e5d4c02aaf0cf2b5aa0ca66f0cd6d8",
@@ -1762,10 +2481,6 @@
             "description": "Curriculas"
         },
         {
-            "name": "Curricula",
-            "description": "Curricula"
-        },
-        {
             "name": "Grupos",
             "description": "Grupos"
         },
@@ -1774,8 +2489,8 @@
             "description": "Health Check"
         },
         {
-            "name": "Materia",
-            "description": "Materia"
+            "name": "Materias",
+            "description": "Materias"
         }
     ]
 }

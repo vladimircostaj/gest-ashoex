@@ -9,10 +9,45 @@ use App\Http\Requests\CrearMateriaRequest;
 
 class MateriaController extends Controller
 {
-
+/**
+ * @OA\Get(
+ *     path="/api/materias",
+ *     summary="Obtener todas las Materias",
+ *     description="Devuelve una lista de todas las Materias registradas",
+ *     tags={"Materias"},
+ *     @OA\Response(
+ *         response=200,
+ *         description="Operación exitosa",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="materias", type="array",
+ *                 @OA\Items(
+ *                     type="object",
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property(property="codigo", type="integer", example=8948440),
+ *                     @OA\Property(property="nombre", type="string", example="Fisica General"),
+ *                     @OA\Property(property="tipo", type="string", example="regular"),
+ *                     @OA\Property(property="nro_PeriodoAcademico", type="integer", example=2),
+ *                     @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-11T10:23:59Z"),
+ *                     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-11T10:23:59Z")
+ *                 )
+ *             ),
+ *             @OA\Property(property="code", type="integer", example=200)
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="No hay materias registradas",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="message", type="string", example="No hay materias registradas"),
+ *             @OA\Property(property="code", type="integer", example=404)
+ *         )
+ *     )
+ * )
+ */
     public function index()
     {
-        try {
             $materias = Materia::all();
             if ($materias->isEmpty()) {
                 return response()->json([
@@ -28,34 +63,12 @@ class MateriaController extends Controller
                 'error' => [],
                 'message' => 'Operación exitosa'
             ], Response::HTTP_OK);
-        } catch (\Illuminate\Database\QueryException $e) {
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'error' => ['Error en la consulta a la base de datos'],
-                'message' => 'Operación fallida'
-            ], Response::HTTP_BAD_REQUEST);
-        } catch (\Illuminate\Auth\Access\AuthorizationException $e) {
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'error' => ['No tienes permiso para acceder a estas materias'],
-                'message' => 'Operación fallida'
-            ], Response::HTTP_FORBIDDEN);
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'data' => [],
-                'error' => ['Ocurrió un error inesperado'],
-                'message' => 'Operación fallida'
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
     }
 
     /**
      * @OA\Post(
      *     path="/api/materias",
-     *     tags={"Materia"},
+     *     tags={"Materias"},
      *     summary="Crea una nueva materia",
      *     description="Este endpoint permite crear una nueva materia en el sistema.",
      *     @OA\RequestBody(
@@ -127,7 +140,7 @@ class MateriaController extends Controller
     /**
      * @OA\Get(
      *     path="/api/materias/{id}",
-     *     tags={"Materia"},
+     *     tags={"Materias"},
      *     summary="Obtiene los detalles de una materia por su ID",
      *     @OA\Parameter(
      *         name="id",
@@ -202,6 +215,7 @@ class MateriaController extends Controller
     /**
      * @OA\Put(
      *     path="/api/materiasUpdate/{id}",
+     *     tags={"Materias"},
      *     summary="Actualizar una materia",
      *     description="Actualiza los datos de una materia específica.",
      *     @OA\Parameter(
@@ -319,6 +333,7 @@ class MateriaController extends Controller
 /**
  * @OA\Delete(
  *     path="/api/materias/{id}",
+ *     tags={"Materias"},
  *     summary="Eliminar una materia",
  *     description="Elimina una materia específica por su ID.",
  *     @OA\Parameter(
@@ -368,12 +383,6 @@ class MateriaController extends Controller
  */
 public function destroy(string $id)
 {
-    $validatedData = $request->validate([
-        'codigo' => 'integer|nullable',
-        'nombre' => 'string|max:255|nullable',
-        'tipo' => 'string|nullable',
-        'nro_PeriodoAcademico' => 'integer|nullable',
-    ]);
     try {
         // Buscar la materia por su ID
         $materia = Materia::findOrFail($id);

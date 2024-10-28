@@ -22,7 +22,7 @@ class EliminarMateriaTest extends TestCase
         ]);
 
         // Realizar la petición DELETE para eliminar la materia
-        $response = $this->deleteJson("/api/materiasDestroy/{$materia->id}");
+        $response = $this->deleteJson("/api/materias/{$materia->id}");
 
         // Verificar que la respuesta tenga estado 200 (OK)
         $response->assertStatus(Response::HTTP_OK)
@@ -40,7 +40,7 @@ class EliminarMateriaTest extends TestCase
     public function test_destroy_returns_not_found_when_materia_does_not_exist()
     {
         // Realizar la petición DELETE para un ID inexistente
-        $response = $this->deleteJson("/api/materiasDestroy/999");
+        $response = $this->deleteJson("/api/materias/999");
 
         // Verificar que la respuesta tenga estado 404 (No encontrado)
         $response->assertStatus(Response::HTTP_NOT_FOUND)
