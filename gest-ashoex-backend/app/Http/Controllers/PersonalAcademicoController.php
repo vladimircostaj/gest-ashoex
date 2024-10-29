@@ -64,28 +64,41 @@ class PersonalAcademicoController extends Controller
     }
     
 
-    public function darDeBaja(Request $request): JsonResponse
+    public function darDeBaja(int $id): JsonResponse
     {
         try {
-            $personalAcademicoID = $request->id;
+            $personalAcademicoID = $id;
             $personalAcademico = PersonalAcademico::find($personalAcademicoID);
             if (!$personalAcademico) {
-                return response()->json([
-                    'data' => 'El personal academico seleccionado no existe.'
-                ], 404);
+                return parent::response(
+                    false,
+                    [], 
+                    'El personal academico seleccionado no existe.', 
+                    [
+                        'code' => 404,
+                        'message' => 'Personal no encontrado.'
+                    ]
+                );
             }
-            return response()->json([
-                'data' => (
-                    $personalAcademico->darBaja() ?
+            $dadoBaja = $personalAcademico->darBaja();
+            return parent::response(
+                $dadoBaja, 
+                $personalAcademico->toArray(), 
+                (
+                    $dadoBaja? 
                     'Se dio de baja correctamente al personal academico: ' . $personalAcademico->nombre :
                     'El personal academico: ' . $personalAcademico->nombre . ' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
-                )
-            ], 200);
+                ),
+                ($dadoBaja? []: 
+                    ['code' => 400, 'message' => 'Dado de baja 2 veces.'])
+            );
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Server error',
-                'error' => $e->getMessage()
-            ], 500);
+            return parent::response(
+                false, 
+                [],
+                'Ocurrio un error en el servidor.',
+                ['code' => 500, 'message' => $e->getMessage()]
+            );
         }
     }
 
