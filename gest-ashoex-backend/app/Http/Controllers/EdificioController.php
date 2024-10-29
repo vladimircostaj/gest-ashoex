@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Edificio;
 use Illuminate\Http\Request;
 
-class EdificioController extends Controller
+class EdificioController extends Controller     
 {
     // Obtener todos los edificios con sus ubicaciones
     public function index()
@@ -21,6 +21,42 @@ class EdificioController extends Controller
     }
 
     // Crear un nuevo edificio
+        /**
+     * @OA\Post(
+     *     path="/api/edificios",
+     *     summary="Crear un nuevo edificio",
+     *     description="Crea un edificio con el nombre y la geolocalización proporcionados.",
+     *     operationId="createEdificio",
+     *     tags={"Edificios"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre_edificio"},
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Central"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="-19.57347,-65.75537")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Éxito. Edificio creado correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Central"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="-19.57347,-65.75537"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-28T12:34:56Z"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-28T12:34:56Z")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación. Faltan datos o no son válidos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="El nombre del edificio es obligatorio.")
+     *         )
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $request->validate([
