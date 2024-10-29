@@ -12,12 +12,12 @@ use Tests\TestCase;
 
 class AulaControllerTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed();
-    }
+    //use RefreshDatabase, WithFaker;
+    // protected function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->seed();
+    // }
 
     /**
      * Test para registrar un aula exitosamente

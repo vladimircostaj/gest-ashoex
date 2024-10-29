@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Ambiente;
 
-
+use App\Models\Ambientes\Uso;
 use Tests\TestCase;
 
 class UsoControllerTest extends TestCase
@@ -11,7 +11,6 @@ class UsoControllerTest extends TestCase
     {
         $uso = [
             'tipo_uso' => 'Laboratorio',
-            'id_aula' => 1
         ];
 
         $response = $this->postJson('/api/usos', $uso);
@@ -20,9 +19,8 @@ class UsoControllerTest extends TestCase
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'id_uso' => 1,
                     'tipo_uso' => $uso['tipo_uso'],
-                    'id_aula' => $uso['id_aula']
+
                 ],
                 'error' => null,
                 'message' => 'Uso registrado exitosamente',
@@ -54,21 +52,21 @@ class UsoControllerTest extends TestCase
 
     public function testActualizarUsoDeAmbiente(): void
     {
-        $id_uso = 1;
-        $uso = [
-            'tipo_uso' => 'Aula Comun',
-            'id_aula' => 1
+
+        $uso = Uso::factory()->create();
+        $data = [
+            'tipo_uso' => "Auditorio",
+
         ];
 
-        $response = $this->putJson("/api/usos/{$id_uso}", $uso);
+        $response = $this->putJson("/api/usos/{$uso -> id_uso}",$data);
 
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
                 'data' => [
-                    'id_uso' => 1,
-                    'tipo_uso' => $uso['tipo_uso'],
-                    'id_aula' => $uso['id_aula']
+                    'id_uso' => $uso -> id_uso,
+                    'tipo_uso' => $data['tipo_uso'],
                 ],
                 'error' => null,
                 'message' => 'Uso actualizado exitosamente',
@@ -77,25 +75,18 @@ class UsoControllerTest extends TestCase
 
     public function testActualizarUsoAmbienteConIdInvalido(): void
     {
-        $id_uso = 999;
-        $uso = [
-            'tipo_uso' => '',
-            'id_aula' => 1
+        $data = [
+            'tipo_uso' => 'Sala de Conferencias',
         ];
-
-        $response = $this->putJson("/api/usos/{$id_uso}", $uso);
-
+    
+        $response = $this->putJson('/api/usos/-1', $data); // ID que no existe
+    
         $response->assertStatus(404)
             ->assertJson([
                 'success' => false,
                 'data' => [],
-                'error' => [
-                    [
-                        'status' => 404,
-                        'detail' => "No existe un Uso de ambiente con el ID: {$id_uso}"
-                    ]
-                ],
-                'message' => 'Error',
+                'error' => ['Uso de ambiente no encontrado'],
+                'message' => ''
             ]);
     }
 }

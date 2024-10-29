@@ -25,4 +25,10 @@ class StoreUsoRequest extends FormRequest
             'tipo_uso' => 'required|string|max:100',
         ];
     }
+    public function messages()
+    {
+        return [
+            'tipo_uso.required' => 'Debe ingresar un tipo de uso valido.',
+        ];
+    }
 }

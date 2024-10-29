@@ -11,6 +11,7 @@ class Facilidad extends Model
     protected $table = 'facilidad';
     protected $primaryKey = 'id_facilidad';
     protected $fillable = ['nombre_facilidad'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function aulas()
     {

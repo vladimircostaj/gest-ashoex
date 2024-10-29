@@ -11,6 +11,7 @@ class Uso extends Model
     protected $table = 'uso';
     protected $primaryKey = 'id_uso';
     protected $fillable = ['tipo_uso'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function aulas()
     {

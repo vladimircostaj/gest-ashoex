@@ -59,9 +59,21 @@ class UsoController extends Controller
     // Actualizar un uso existente
     public function update(UpdateUsoRequest $request, $id)
     {
-        $uso = Uso::findOrFail($id);
-        $uso->update($request->validated());
+        $uso = Uso::find($id);
 
+        // Si no se encuentra, devolver un error 404
+        if (!$uso) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => ['Uso de ambiente no encontrado'],
+                'message' => ''
+            ], 404);
+        }
+    
+        // Actualiza el uso si se encuentra
+        $uso->update($request->validated());
+    
         return response()->json([
             'success' => true,
             'data' => $uso,
