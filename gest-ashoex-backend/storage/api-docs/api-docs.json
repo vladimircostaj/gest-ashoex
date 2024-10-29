@@ -44,12 +44,68 @@
                     }
                 }
             }
+        },
+        "/api/usos": {
+            "get": {
+                "tags": [
+                    "Uso"
+                ],
+                "summary": "Obtener todos los usos",
+                "description": "Retorna una lista de todos los usos registrados en el sistema",
+                "operationId": "9d43538b22fabe850cf8fbef19177ccf",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usos obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "tipo_uso": {
+                                                "type": "string",
+                                                "example": "Clase"
+                                            },
+                                            "id_aula": {
+                                                "type": "integer",
+                                                "example": 101
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-10-20T14:48:00Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2023-10-20T14:48:00Z"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en el servidor al obtener los usos"
+                    }
+                }
+            }
         }
     },
     "tags": [
         {
             "name": "Health Check",
             "description": "Health Check"
+        },
+        {
+            "name": "Uso",
+            "description": "Uso"
         }
     ]
 }

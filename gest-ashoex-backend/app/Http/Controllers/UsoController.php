@@ -7,7 +7,33 @@ use Illuminate\Http\Request;
 
 class UsoController extends Controller
 {
-    // Obtener todos los usos
+    /**
+     * @OA\Get(
+     *     path="/api/usos",
+     *     tags={"Uso"},
+     *     summary="Obtener todos los usos",
+     *     description="Retorna una lista de todos los usos registrados en el sistema",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de usos obtenida correctamente",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="tipo_uso", type="string", example="Clase"),
+     *                 @OA\Property(property="id_aula", type="integer", example=101),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2023-10-20T14:48:00Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2023-10-20T14:48:00Z")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en el servidor al obtener los usos"
+     *     )
+     * )
+    */
     public function index()
     {
         return Uso::all();
