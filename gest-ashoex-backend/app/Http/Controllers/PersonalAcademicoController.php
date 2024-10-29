@@ -11,21 +11,11 @@ use Exception;
 
 class PersonalAcademicoController extends Controller
 {
-    public function ListaPersonalAcademico(){
+    public function ListaPersonalAcademico() {
         try {
-            $personalAcademicos = DB::table('personal_academicos')
-                ->join('tipo_personals', 'personal_academicos.tipo_personal_id', '=', 'tipo_personals.id')
-                ->select(
-                    'tipo_personals.nombre as Tipo_personal',
-                    'personal_academicos.telefono',
-                    'personal_academicos.id as personal_academico_id',
-                    'tipo_personals.id as tipo_personal_id',
-                    'personal_academicos.nombre',
-                    'personal_academicos.email',
-                    'personal_academicos.estado'
-                )
-                ->get();
-
+           
+            $personalAcademicos = PersonalAcademico::with('tipoPersonal')->get();
+    
             if ($personalAcademicos->isEmpty()) {
                 return response()->json([
                     'success' => false,
@@ -37,10 +27,26 @@ class PersonalAcademicoController extends Controller
                     'message' => 'Lista vacía'
                 ], 204);
             }
+    
+            
+            $result = [];
+            
 
+            foreach ($personalAcademicos as $personal) {
+                $result[] = [
+                    'Tipo_personal' => $personal->tipoPersonal->nombre,
+                    'telefono' => $personal->telefono,
+                    'personal_academico_id' => $personal->id,
+                    'tipo_personal_id' => $personal->tipo_personal_id,
+                    'nombre' => $personal->nombre,
+                    'email' => $personal->email,
+                    'estado' => $personal->estado,
+                ];
+            }
+    
             return response()->json([
                 'success' => true,
-                'data' => $personalAcademicos,
+                'data' => $result,
                 'error' => null,
                 'message' => 'Operación exitosa'
             ]);
@@ -50,12 +56,13 @@ class PersonalAcademicoController extends Controller
                 'data' => null,
                 'error' => [
                     'code' => 404,
-                    'message' => 'Datos de entrada inválidos: ' . $e->getMessage()
+                    'message' => 'Error: ' . $e->getMessage()
                 ],
                 'message' => 'Error en la solicitud'
             ], 404);
         }
     }
+    
 
     public function darDeBaja(Request $request): JsonResponse
     {
@@ -188,5 +195,43 @@ class PersonalAcademicoController extends Controller
             'personal_academico' => $personalAcademico
         ], 200);
     }
+    public function test_obtener_lista_de_personal_academico_exitosamente()
+    {
+        // Se inserta datos en la tabla
+        DB::table('tipo_personals')->insert([
+            ['id' => 1, 'nombre' => 'Auxiliar'],
+            ['id' => 2, 'nombre' => 'Titular']
+        ]);
 
+        DB::table('personal_academicos')->insert([
+            [
+                'id' => 1,
+                'name' => 'Patrick Almanza',
+                'email' => 'patralm@gmail.com',
+                'telefono' => '69756409',
+                'estado' => 'Activo',
+                'tipo_personal_id' => 1
+            ]
+        ]);
+
+        $response = $this->get('/personal-academicos');
+
+        // Verificar que la respuesta sea correcta 
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'message' => 'Operación exitosa',
+            'data' => [
+                [
+                    'Tipo_personal' => 'Auxiliar',
+                    'telefono' => '69756409',
+                    'personal_academico_id' => 1,
+                    'tipo_personal_id' => 1,
+                    'name' => 'Patrick Almanza',
+                    'email' => 'patralm@gmail.com',
+                    'estado' => 'Activo'
+                ]
+            ]
+        ]);
+    }
 }
