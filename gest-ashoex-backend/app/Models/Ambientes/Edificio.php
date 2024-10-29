@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Ambientes;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +11,8 @@ class Edificio extends Model
     protected $table = 'edificio';
     protected $primaryKey = 'id_edificio';
     protected $fillable = ['nombre_edificio', 'geolocalizacion'];
+    protected $hidden = ['created_at', 'updated_at'];
+    
 
     public function ubicaciones()
     {

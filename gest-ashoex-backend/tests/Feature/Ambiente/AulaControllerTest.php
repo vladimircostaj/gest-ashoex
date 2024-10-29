@@ -1,10 +1,11 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Ambiente;
 
-use App\Models\Aula;
-use App\Models\Ubicacion;
-use App\Models\Uso;
+use App\Models\Ambientes\Ubicacion;
+use App\Models\Ambientes\Aula;
+use App\Models\Ambientes\Uso;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ambientes;
 
-use App\Models\Aula;
-use App\Models\Ubicacion;
-use App\Models\Uso;
+use App\Models\Ambientes\Aula;
+use App\Models\Ambientes\Ubicacion;
+use App\Models\Ambientes\Uso;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AulaFactory extends Factory

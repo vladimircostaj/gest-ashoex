@@ -2,7 +2,7 @@
 
 namespace Tests\Feature\Ambiente;
 
-use App\Models\Uso;
+
 use Tests\TestCase;
 
 class UsoControllerTest extends TestCase
@@ -25,7 +25,7 @@ class UsoControllerTest extends TestCase
                     'id_aula' => $uso['id_aula']
                 ],
                 'error' => null,
-                'message' => 'Tipo de uso registrado exitosamente',
+                'message' => 'Uso registrado exitosamente',
             ]);
     }
 
@@ -71,7 +71,7 @@ class UsoControllerTest extends TestCase
                     'id_aula' => $uso['id_aula']
                 ],
                 'error' => null,
-                'message' => 'Tipo de uso actualizado exitosamente',
+                'message' => 'Uso actualizado exitosamente',
             ]);
     }
 
