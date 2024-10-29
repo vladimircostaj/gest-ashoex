@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "GET Aulas",
-        "description": "Endpoint para recuperar todas las aulas con sus usos y facilidades",
+        "title": "API de Aulas",
+        "description": "API para Obtener y consultar la información de las aulas",
         "version": "1.0.0"
     },
     "paths": {
@@ -11,8 +11,8 @@
                 "tags": [
                     "Aulas"
                 ],
-                "summary": "Obtiene una lista de todas las aulas registradas",
-                "description": "Devuelve una lista completa de todas las aulas disponibles con sus respectivos usos y facilidades",
+                "summary": "Obtiene una lista de aulas con sus usos y facilidades",
+                "description": "Devuelve una lista completa de todas las aulas incluyendo sus usos y facilidades",
                 "operationId": "getAulas",
                 "responses": {
                     "200": {
@@ -24,21 +24,65 @@
                                     "items": {
                                         "type": "object",
                                         "properties": {
-                                            "id": {
+                                            "id_aula": {
                                                 "type": "integer",
                                                 "example": 1
                                             },
-                                            "nombre": {
+                                            "numero_aula": {
                                                 "type": "string",
-                                                "example": "Aula 101"
+                                                "example": "106"
                                             },
                                             "capacidad": {
                                                 "type": "integer",
-                                                "example": 30
+                                                "example": 100
                                             },
-                                            "ubicacion": {
-                                                "type": "string",
-                                                "example": "Edificio A, segundo piso"
+                                            "habilitada": {
+                                                "type": "boolean",
+                                                "example": true
+                                            },
+                                            "id_ubicacion": {
+                                                "type": "integer",
+                                                "example": 2                                            },
+                                            "usos": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id_uso": {
+                                                            "type": "integer",
+                                                            "example": 101
+                                                        },
+                                                        "descripcion": {
+                                                            "type": "string",
+                                                            "example": "Aula para pasar clases"
+                                                        },
+                                                        "fecha": {
+                                                            "type": "string",
+                                                            "format": "date",
+                                                            "example": "2024-11-20"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "facilidades": {
+                                                "type": "array",
+                                                "items": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "id_facilidad": {
+                                                            "type": "integer",
+                                                            "example": 3
+                                                        },
+                                                        "nombre": {
+                                                            "type": "string",
+                                                            "example": "Data"
+                                                        },
+                                                        "descripcion": {
+                                                            "type": "string",
+                                                            "example": "Proyector 4K instalado en la parta superior del aula"
+                                                        }
+                                                    }
+                                                }
                                             }
                                         }
                                     }
