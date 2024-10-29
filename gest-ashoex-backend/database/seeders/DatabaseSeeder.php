@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\Ambientes\AulaFacilidadTableSeeder;
 use Database\Seeders\Ambientes\AulaTableSeeder;
 use Database\Seeders\Ambientes\EdificioTableSeeder;
 use Database\Seeders\Ambientes\FacilidadTableSeeder;
@@ -20,8 +21,9 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersTableSeeder::class);
         $this->call(EdificioTableSeeder::class);
         $this->call(UbicacionTableSeeder::class);
-        $this->call(AulaTableSeeder::class);
         $this->call(UsoTableSeeder::class);
+        $this->call(AulaTableSeeder::class);
         $this->call(FacilidadTableSeeder::class);
+        $this->call(AulaFacilidadTableSeeder::class);
     }
 }

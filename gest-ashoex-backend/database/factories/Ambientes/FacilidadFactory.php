@@ -1,9 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ambientes;
 
-use App\Models\Facilidad;
-use App\Models\Aula;
+use App\Models\Ambientes\Facilidad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FacilidadFactory extends Factory
@@ -14,7 +13,6 @@ class FacilidadFactory extends Factory
     {
         return [
             'nombre_facilidad' => $this->faker->word(),
-            'id_aula' => Aula::factory(),
         ];
     }
 }

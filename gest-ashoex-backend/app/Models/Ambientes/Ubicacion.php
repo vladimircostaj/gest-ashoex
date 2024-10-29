@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Ambientes;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +11,7 @@ class Ubicacion extends Model
     protected $table = 'ubicacion';
     protected $primaryKey = 'id_ubicacion';
     protected $fillable = ['piso', 'id_edificio'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function edificio()
     {

@@ -1,21 +1,23 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Ambiente;
 
-use App\Models\Aula;
-use App\Models\Ubicacion;
+use App\Models\Ambientes\Ubicacion;
+use App\Models\Ambientes\Aula;
+use App\Models\Ambientes\Uso;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class AulaControllerTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed();
-    }
+    //use RefreshDatabase, WithFaker;
+    // protected function setUp(): void
+    // {
+    //     parent::setUp();
+    //     $this->seed();
+    // }
 
     /**
      * Test para registrar un aula exitosamente
@@ -23,12 +25,15 @@ class AulaControllerTest extends TestCase
     public function testRegistrarAulaExitosamente(): void
     {
         $ubicacion = Ubicacion::factory()->create();
+        $uso = Uso::factory()->create();
 
         $data = [
             'numero_aula' => 'A101',
             'capacidad' => 50,
             'habilitada' => true,
             'id_ubicacion' => $ubicacion->id_ubicacion,
+            'id_uso' => $uso->id_uso,
+            'facilidades' => [1, 2],
         ];
 
         $response = $this->postJson('/api/aulas', $data);
@@ -41,6 +46,7 @@ class AulaControllerTest extends TestCase
                     'capacidad' => 50,
                     'habilitada' => true,
                     'id_ubicacion' => $ubicacion->id_ubicacion,
+                    'id_uso' => $uso->id_uso,
                 ],
                 'error' => null,
                 'message' => 'Aula registrada exitosamente',
@@ -56,13 +62,16 @@ class AulaControllerTest extends TestCase
      */
     public function testRegistrarAulaConNumeroYaEnUso(): void
     {
-        $aula = Aula::factory()->create(['numero_aula' => 'A101']);
+        // $aula = Aula::factory()->create(['numero_aula' => 'A101']);
+        $aula = Aula::with('numero_aula', 'A101');
 
         $data = [
             'numero_aula' => 'A101',  // El mismo número de aula
             'capacidad' => 60,
             'habilitada' => true,
             'id_ubicacion' => $aula->id_ubicacion,
+            'id_uso' => $aula->id_uso,
+            'facilidades' => $aula->facilidades,
         ];
 
         $response = $this->postJson('/api/aulas', $data);
@@ -91,6 +100,8 @@ class AulaControllerTest extends TestCase
             'capacidad' => 70,
             'habilitada' => false,
             'id_ubicacion' => $aula->id_ubicacion,
+            'id_uso' => $aula->id_uso,
+            'facilidades' => $aula->facilidades,
         ];
 
         $response = $this->putJson("/api/aulas/{$aula->id_aula}", $data);

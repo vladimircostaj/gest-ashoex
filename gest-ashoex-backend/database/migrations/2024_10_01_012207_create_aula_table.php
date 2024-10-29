@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('aula', function (Blueprint $table) {
             $table->id('id_aula');
-            $table->string('numero_aula', 10);
+            $table->string('numero_aula', 30);
             $table->integer('capacidad')->nullable();
             $table->boolean('habilitada')->default(true);
             $table->foreignId('id_ubicacion')->constrained('ubicacion', 'id_ubicacion')->onDelete('cascade');
+            $table->foreignId('id_uso')->constrained('uso', 'id_uso')->onDelete('cascade');
             $table->timestamps();
         });
     }

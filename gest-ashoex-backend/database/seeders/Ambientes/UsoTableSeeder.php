@@ -10,14 +10,16 @@ class UsoTableSeeder extends Seeder
     public function run()
     {
         DB::table('uso')->insert([
-            ['tipo_uso' => 'Clases', 'id_aula' => 1, 'created_at' => now(), 'updated_at' => now()],
-            ['tipo_uso' => 'Conferencia', 'id_aula' => 2, 'created_at' => now(), 'updated_at' => now()],
-            ['tipo_uso' => 'Seminarios', 'id_aula' => 3, 'created_at' => now(), 'updated_at' => now()],
-            ['tipo_uso' => 'Reuniones', 'id_aula' => 4, 'created_at' => now(), 'updated_at' => now()],
-            ['tipo_uso' => 'LAboratorio de computacion', 'id_aula' => 5, 'created_at' => now(), 'updated_at' => now()],
-            ['tipo_uso' => 'Defensa de Tesis', 'id_aula' => 6, 'created_at' => now(), 'updated_at' => now()],
-            ['tipo_uso' => 'Talleres', 'id_aula' => 7, 'created_at' => now(), 'updated_at' => now()],
-
+            ['tipo_uso' => 'Clases', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Conferencia', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Seminarios', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Reuniones', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Laboratorio de computacion', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Defensa de Tesis', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Talleres', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Laboratorio de mecanica', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Laboratorio de matematica', 'created_at' => now(), 'updated_at' => now()],
+            ['tipo_uso' => 'Laboratorio de fisica', 'created_at' => now(), 'updated_at' => now()],
         ]);
     }
 }
