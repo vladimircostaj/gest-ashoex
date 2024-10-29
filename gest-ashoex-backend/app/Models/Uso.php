@@ -10,10 +10,10 @@ class Uso extends Model
     use HasFactory;
     protected $table = 'uso';
     protected $primaryKey = 'id_uso';
-    protected $fillable = ['tipo_uso', 'id_aula'];
+    protected $fillable = ['tipo_uso'];
 
-    public function aula()
+    public function aulas()
     {
-        return $this->belongsTo(Aula::class, 'id_aula');
+        return $this->hasMany(Aula::class, 'id_uso');
     }
 }

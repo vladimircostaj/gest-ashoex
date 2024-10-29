@@ -24,7 +24,6 @@ class UsoController extends Controller
     {
         $request->validate([
             'tipo_uso' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
         ]);
 
         $uso = Uso::create($request->all());
@@ -37,7 +36,6 @@ class UsoController extends Controller
     {
         $request->validate([
             'tipo_uso' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
         ]);
 
         $uso = Uso::findOrFail($id);

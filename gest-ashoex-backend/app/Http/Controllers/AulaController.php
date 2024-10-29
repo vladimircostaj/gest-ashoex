@@ -27,9 +27,14 @@ class AulaController extends Controller
             'capacidad' => 'nullable|integer',
             'habilitada' => 'boolean',
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+            'id_uso' => 'required|exists:uso,id_uso',
+            'facilidades' => 'required|array',
+            'facilidades.*' => 'exists:facilidad,id_facilidad',
         ]);
 
-        $aula = Aula::create($request->all());
+        $aula = Aula::create($request->only(['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion', 'id_uso']));
+
+        $aula->facilidades()->attach($request->facilidades);
 
         return response()->json($aula, 201);
     }
@@ -42,10 +47,17 @@ class AulaController extends Controller
             'capacidad' => 'nullable|integer',
             'habilitada' => 'boolean',
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+            'id_uso' => 'required|exists:uso,id_uso',
+            'facilidades' => 'sometimes|required|array',
+            'facilidades.*' => 'exists:facilidad,id_facilidad',
         ]);
 
         $aula = Aula::findOrFail($id);
-        $aula->update($request->all());
+        $aula = Aula::create($request->only(['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion', 'id_uso']));
+
+        if ($request->has('facilidades')) {
+            $aula->facilidades()->sync($request->facilidades);
+        }
 
         return response()->json($aula, 200);
     }

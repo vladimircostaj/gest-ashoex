@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Uso;
-use App\Models\Aula;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UsoFactory extends Factory
@@ -14,7 +13,6 @@ class UsoFactory extends Factory
     {
         return [
             'tipo_uso' => $this->faker->word(),
-            'id_aula' => Aula::factory(),
         ];
     }
 }

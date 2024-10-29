@@ -10,10 +10,10 @@ class Facilidad extends Model
     use HasFactory;
     protected $table = 'facilidad';
     protected $primaryKey = 'id_facilidad';
-    protected $fillable = ['nombre_facilidad', 'id_aula'];
+    protected $fillable = ['nombre_facilidad'];
 
-    public function aula()
+    public function aulas()
     {
-        return $this->belongsTo(Aula::class, 'id_aula');
+        return $this->belongsToMany(Aula::class, 'aula_facilidad', 'id_facilidad', 'id_aula');
     }
 }

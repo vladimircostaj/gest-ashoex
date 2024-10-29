@@ -24,10 +24,15 @@ class FacilidadController extends Controller
     {
         $request->validate([
             'nombre_facilidad' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
+            'aulas' => 'sometimes|required|array',
+            'aulas.*' => 'exists:aula,id_aula',
         ]);
 
-        $facilidad = Facilidad::create($request->all());
+        $facilidad = Facilidad::create($request->only(['nombre_facilidad']));
+
+        if ($request->has('aulas')) {
+            $facilidad->aulas()->attach($request->aulas);
+        }
 
         return response()->json($facilidad, 201);
     }
@@ -37,11 +42,16 @@ class FacilidadController extends Controller
     {
         $request->validate([
             'nombre_facilidad' => 'required|string|max:100',
-            'id_aula' => 'required|exists:aula,id_aula',
+            'aulas' => 'sometimes|required|array',
+            'aulas.*' => 'exists:aula,id_aula',
         ]);
 
         $facilidad = Facilidad::findOrFail($id);
-        $facilidad->update($request->all());
+        $facilidad->update($request->only(['nombre_facilidad']));
+
+        if ($request->has('aulas')) {
+            $facilidad->aulas()->sync($request->aulas);
+        }
 
         return response()->json($facilidad, 200);
     }
