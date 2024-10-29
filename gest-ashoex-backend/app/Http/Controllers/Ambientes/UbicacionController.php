@@ -24,7 +24,7 @@ class UbicacionController extends Controller
     // Obtener una ubicación por su ID, incluyendo las aulas, usos y facilidades
     public function show($id)
     {
-        $ubicacion = Ubicacion::with('aulas.usos', 'aulas.facilidades')->findOrFail($id);
+        $ubicacion = Ubicacion::with('aulas.uso', 'aulas.facilidades')->findOrFail($id);
 
         if (!$ubicacion) {
             return response()->json([

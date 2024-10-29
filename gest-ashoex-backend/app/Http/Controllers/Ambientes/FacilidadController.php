@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Ambientes;
 
 use App\Models\Ambientes\Facilidad;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Ambientes\StoreFacilidadRequest;
 use App\Http\Requests\Ambientes\UpdateFacilidadRequest;
@@ -47,7 +46,7 @@ class FacilidadController extends Controller
     // Crear una nueva facilidad
     public function store(StoreFacilidadRequest $request)
     {
-        $facilidad = Facilidad::create($request->only(['nombre_facilidad']));
+        $facilidad = Facilidad::create($request->validated());
 
         if ($request->has('aulas')) {
             $facilidad->aulas()->sync($request->aulas);
@@ -65,7 +64,7 @@ class FacilidadController extends Controller
     public function update(UpdateFacilidadRequest $request, $id)
     {
         $facilidad = Facilidad::findOrFail($id);
-        $facilidad->update($request->only(['nombre_facilidad']));
+        $facilidad->update($request->validated());
 
         if ($request->has('aulas')) {
             $facilidad->aulas()->sync($request->aulas);

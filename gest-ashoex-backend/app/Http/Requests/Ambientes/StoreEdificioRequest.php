@@ -19,11 +19,11 @@ class StoreEdificioRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    
+
     public function rules(): array
     {
         return [
-            'nombre_edificio' => 'required|string|max:100|unique:edificios,nombre_edificio',
+            'nombre_edificio' => 'required|string|max:100|unique:edificio,nombre_edificio',
             'geolocalizacion' => 'nullable|string|max:255',
         ];
     }

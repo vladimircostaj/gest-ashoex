@@ -25,7 +25,7 @@ class EdificioController extends Controller
     // Obtener un edificio por su ID, incluyendo las ubicaciones, aulas, usos y facilidades
     public function show($id)
     {
-        $edificio= Edificio::with('ubicaciones.aulas.usos', 'ubicaciones.aulas.facilidades')->findOrFail($id);
+        $edificio= Edificio::with('ubicaciones.aulas.uso', 'ubicaciones.aulas.facilidades')->findOrFail($id);
         if (!$edificio) {
             return response()->json([
                 'success' => false,

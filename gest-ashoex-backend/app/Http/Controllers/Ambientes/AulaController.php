@@ -12,7 +12,7 @@ class AulaController extends Controller
     // Obtener todas las aulas con sus usos y facilidades
     public function index()
     {
-        $aulas = Aula::with('usos', 'facilidades')->get();
+        $aulas = Aula::with('uso', 'facilidades')->get();
         return response()->json([
             'success' => true,
             'data' => $aulas,
@@ -24,7 +24,7 @@ class AulaController extends Controller
     // Obtener un aula por su ID, incluyendo sus usos y facilidades
     public function show($id)
     {
-        $aula = Aula::with('usos', 'facilidades')->findOrFail($id);
+        $aula = Aula::with('uso', 'facilidades')->findOrFail($id);
 
         if (!$aula) {
             return response()->json([
@@ -46,7 +46,7 @@ class AulaController extends Controller
     // Crear un nuevo aula
     public function store(StoreAulaRequest $request)
     {
-        $aula = Aula::create($request->validated()->only(['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion', 'id_uso']));
+        $aula = Aula::create($request->validated());
 
         $aula->facilidades()->attach($request->facilidades);
 
@@ -62,7 +62,7 @@ class AulaController extends Controller
     public function update(UpdateAulaRequest $request, $id)
     {
         $aula = Aula::findOrFail($id);
-        $aula->update($request->validated()->only(['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion', 'id_uso']));
+        $aula = Aula::create($request->validated());
 
         if ($request->has('facilidades')) {
             $aula->facilidades()->sync($request->facilidades);

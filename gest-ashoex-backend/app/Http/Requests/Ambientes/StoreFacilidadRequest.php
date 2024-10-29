@@ -22,7 +22,7 @@ class StoreFacilidadRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre_facilidad' => 'required|string|max:100|unique:facilidades,nombre_facilidad',
+            'nombre_facilidad' => 'required|string|max:100|unique:facilidad,nombre_facilidad',
             'aulas' => 'sometimes|required|array',
             'aulas.*' => 'exists:aula,id_aula',
         ];

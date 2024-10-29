@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Ambientes\StoreUsoRequest;
 use App\Http\Requests\Ambientes\UpdateUsoRequest;
 use App\Models\Ambientes\Uso;
-use Illuminate\Http\Request;
 
 class UsoController extends Controller
 {
@@ -93,6 +92,6 @@ class UsoController extends Controller
             'error' => null,
             'message' => 'Uso eliminado exitosamente'
         ]);
-    
+
     }
 }
