@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Uso;
-use App\Models\Aula;
+use App\Models\Ambientes\Uso;
+use App\Models\Ambientes\Aula;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UsoFactory extends Factory

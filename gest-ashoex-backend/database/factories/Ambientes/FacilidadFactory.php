@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Facilidad;
-use App\Models\Aula;
+use App\Models\Ambientes\Facilidad;
+use App\Models\Ambientes\Aula;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class FacilidadFactory extends Factory

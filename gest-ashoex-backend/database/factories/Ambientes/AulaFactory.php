@@ -1,8 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ambientes;
 
-use App\Models\Aula;
+use App\Models\Ambientes\Aula;
+use App\Models\Ambientes\Ubicacion;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AulaFactory extends Factory
@@ -15,7 +16,7 @@ class AulaFactory extends Factory
             'numero_aula' => $this->faker->unique()->numberBetween(1, 500),
             'capacidad' => $this->faker->numberBetween(20, 100),
             'habilitada' => $this->faker->boolean(),
-            'id_ubicacion' => \App\Models\Ubicacion::factory(),
+            'id_ubicacion' => Ubicacion::factory(),
         ];
     }
 }
