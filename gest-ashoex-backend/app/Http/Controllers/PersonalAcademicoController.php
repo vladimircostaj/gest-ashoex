@@ -137,10 +137,8 @@ class PersonalAcademicoController extends Controller
                 'success' => false,
                 'data' => null,
                 'error' => [
-                    [
-                        'code' => 404,
-                        'message' => 'Personal académico no encontrado.'
-                    ]
+                    'code' => 404,
+                    'message' => 'Personal académico no encontrado.'
                 ],
                 'message' => 'Error en la solicitud.'
             ], 404);
@@ -153,10 +151,8 @@ class PersonalAcademicoController extends Controller
                 'success' => false,
                 'data' => null,
                 'error' => [
-                    [
-                        'code' => 409,
-                        'message' => 'El correo electrónico ya está registrado.'
-                    ]
+                    'code' => 409,
+                    'message' => 'El correo electrónico ya está registrado.'
                 ],
                 'message' => 'Error en la solicitud.'
             ], 409);
@@ -192,10 +188,8 @@ class PersonalAcademicoController extends Controller
                 'success' => false,
                 'data' => null,
                 'error' => [
-                    [
-                        'code' => 400,
-                        'message' => 'Datos de entrada inválidos.'
-                    ]
+                    'code' => 400,
+                    'message' => 'Datos de entrada inválidos.'
                 ],
                 'message' => 'Error en la solicitud.'
             ], 400);
