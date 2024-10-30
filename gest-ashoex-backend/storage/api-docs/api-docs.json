@@ -6,6 +6,445 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/usos": {
+            "get": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Obtener lista de usos",
+                "operationId": "ec564765309f605a557276f870e93257",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usos recuperada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_uso": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tipo_uso": {
+                                                        "type": "string",
+                                                        "example": "Uso de Aula"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de usos recuperada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error del servidor"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hubo un error en el servidor"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Crear un nuevo uso",
+                "operationId": "3bc21717511505af421b348ac988220f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tipo_uso": {
+                                        "type": "string",
+                                        "example": "Uso de Aula"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Uso registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "tipo_uso": {
+                                                    "type": "string",
+                                                    "example": "Uso de Aula"
+                                                },
+                                                "id_uso": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uso registrado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error en la validación"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hubo un error en la validación"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/usos/{id}": {
+            "get": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Obtener un uso por ID",
+                "operationId": "0aacebf97e21f625aa4f4eb09dbd489c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del uso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uso recuperado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_uso": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tipo_uso": {
+                                                    "type": "string",
+                                                    "example": "Uso de Aula"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uso recuperado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Uso no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Uso no encontrado"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Actualizar un uso existente",
+                "operationId": "34db7c3f0e4699538981f2e825550a50",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del uso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "tipo_uso": {
+                                        "type": "string",
+                                        "example": "Uso de Aula Actualizado"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Uso actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_uso": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "tipo_uso": {
+                                                    "type": "string",
+                                                    "example": "Uso de Aula Actualizado"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uso actualizado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Uso no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Uso de ambiente no encontrado"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Eliminar un uso",
+                "operationId": "e92c0f60d13568b87891539441465c0a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del uso",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uso eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uso eliminado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Uso no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Uso no encontrado"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/health": {
             "get": {
                 "tags": [
@@ -44,68 +483,16 @@
                     }
                 }
             }
-        },
-        "/api/usos": {
-            "get": {
-                "tags": [
-                    "Uso"
-                ],
-                "summary": "Obtener todos los usos",
-                "description": "Retorna una lista de todos los usos registrados en el sistema",
-                "operationId": "9d43538b22fabe850cf8fbef19177ccf",
-                "responses": {
-                    "200": {
-                        "description": "Lista de usos obtenida correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "tipo_uso": {
-                                                "type": "string",
-                                                "example": "Clase"
-                                            },
-                                            "id_aula": {
-                                                "type": "integer",
-                                                "example": 101
-                                            },
-                                            "created_at": {
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2023-10-20T14:48:00Z"
-                                            },
-                                            "updated_at": {
-                                                "type": "string",
-                                                "format": "date-time",
-                                                "example": "2023-10-20T14:48:00Z"
-                                            }
-                                        },
-                                        "type": "object"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Error en el servidor al obtener los usos"
-                    }
-                }
-            }
         }
     },
     "tags": [
         {
-            "name": "Health Check",
-            "description": "Health Check"
+            "name": "Usos",
+            "description": "Usos"
         },
         {
-            "name": "Uso",
-            "description": "Uso"
+            "name": "Health Check",
+            "description": "Health Check"
         }
     ]
 }
