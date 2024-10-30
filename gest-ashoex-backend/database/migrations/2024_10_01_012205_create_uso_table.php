@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('uso', function (Blueprint $table) {
             $table->id('id_uso');
             $table->string('tipo_uso', 100);
-            $table->foreignId('id_aula')->constrained('aula', 'id_aula')->onDelete('cascade');
             $table->timestamps();
         });
     }

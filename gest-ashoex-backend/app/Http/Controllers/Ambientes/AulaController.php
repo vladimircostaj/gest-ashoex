@@ -1,19 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Ambientes;
 
-use App\Models\Aula;
-use Illuminate\Http\Request;
+use App\Models\Ambientes\Aula;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Ambientes\StoreAulaRequest;
+use App\Http\Requests\Ambientes\UpdateAulaRequest;
 
 class AulaController extends Controller
 {
     // Obtener todas las aulas con sus usos y facilidades
     public function index()
     {
-        return Aula::with('usos', 'facilidades')->get();
+        $aulas = Aula::with('uso', 'facilidades')->get();
+        return response()->json([
+            'success' => true,
+            'data' => $aulas,
+            'error' => null,
+            'message' => 'Lista de aulas recuperada exitosamente'
+        ]);
     }
 
-        /**
+    /**
      * @OA\Get(
      *     path="/api/aulas/{id}",
      *     summary="Obtener información de un aula específica",
@@ -70,47 +78,81 @@ class AulaController extends Controller
      */
     public function show($id)
     {
-        return Aula::with('usos', 'facilidades')->findOrFail($id);
+        $aula = Aula::with('uso', 'facilidades')->find($id);
+
+        if (!$aula) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => null,
+                'message' => 'Aula no encontrada'
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $aula,
+            'error' => null,
+            'message' => 'Aula recuperada exitosamente'
+        ]);
     }
 
-
     // Crear un nuevo aula
-    public function store(Request $request)
+    public function store(StoreAulaRequest $request)
     {
-        $request->validate([
-            'numero_aula' => 'required|string|max:10',
-            'capacidad' => 'nullable|integer',
-            'habilitada' => 'boolean',
-            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
-        ]);
+        $aula = Aula::create($request->validated());
 
-        $aula = Aula::create($request->all());
+        $aula->facilidades()->attach($request->facilidades);
 
-        return response()->json($aula, 201);
+        return response()->json([
+            'success' => true,
+            'data' => $aula,
+            'error' => null,
+            'message' => 'Aula registrada exitosamente'
+        ], 201);
     }
 
     // Actualizar un aula existente
-    public function update(Request $request, $id)
+    public function update(UpdateAulaRequest $request, $id)
     {
-        $request->validate([
-            'numero_aula' => 'required|string|max:10',
-            'capacidad' => 'nullable|integer',
-            'habilitada' => 'boolean',
-            'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
+        $aula = Aula::findOrFail($id);
+        $aula = Aula::create($request->validated());
+
+        if ($request->has('facilidades')) {
+            $aula->facilidades()->sync($request->facilidades);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $aula,
+            'error' => null,
+            'message' => 'Aula actualizada exitosamente'
         ]);
 
-        $aula = Aula::findOrFail($id);
-        $aula->update($request->all());
-
-        return response()->json($aula, 200);
     }
 
     // Eliminar un aula
     public function destroy($id)
     {
-        $aula = Aula::findOrFail($id);
+        $aula = Aula::find($id);
+
+        if (!$aula) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Aula no encontrada',
+                'message' => ''
+            ], 404);
+        }
+
         $aula->delete();
 
-        return response()->json(null, 204);
+        return response()->json([
+            'success' => true,
+            'data' => null,
+            'error' => null,
+            'message' => 'Aula eliminada exitosamente'
+        ], 204);
+
     }
 }

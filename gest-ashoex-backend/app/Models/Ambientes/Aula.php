@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Ambientes;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,20 +10,21 @@ class Aula extends Model
     use HasFactory;
     protected $table = 'aula';
     protected $primaryKey = 'id_aula';
-    protected $fillable = ['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion'];
+    protected $fillable = ['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion', 'id_uso'];
+    protected $hidden = ['created_at', 'updated_at'];
 
     public function ubicacion()
     {
         return $this->belongsTo(Ubicacion::class, 'id_ubicacion');
     }
 
-    public function usos()
+    public function uso()
     {
-        return $this->hasMany(Uso::class, 'id_aula');
+        return $this->belongsTo(Uso::class, 'id_uso');
     }
 
     public function facilidades()
     {
-        return $this->hasMany(Facilidad::class, 'id_aula');
+        return $this->belongsToMany(Facilidad::class, 'aula_facilidad', 'id_aula', 'id_facilidad');
     }
 }

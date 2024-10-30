@@ -1,18 +1,19 @@
 <?php
 
-use App\Http\Controllers\AulaController;
+
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HealthController;
-use App\Http\Controllers\EdificioController;
-use App\Http\Controllers\FacilidadController;
-use App\Http\Controllers\UbicacionController;
-use App\Http\Controllers\UsoController;
+use App\Http\Controllers\Ambientes\EdificioController;
+use App\Http\Controllers\Ambientes\FacilidadController;
+use App\Http\Controllers\Ambientes\UbicacionController;
+use App\Http\Controllers\Ambientes\UsoController;
+use App\Http\Controllers\Ambientes\AulaController;
 
 Route::get('/health', [HealthController::class, 'check']);
 
 
-
+//Ambientes
 Route::get('/edificios', [EdificioController::class, 'index']);
 Route::get('/edificios/{id}', [EdificioController::class, 'show']);
 Route::post('/edificios', [EdificioController::class, 'store']);

@@ -1,9 +1,9 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Ambientes;
 
-use App\Models\Ubicacion;
-use App\Models\Edificio;
+use App\Models\Ambientes\Ubicacion;
+use App\Models\Ambientes\Edificio;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class UbicacionFactory extends Factory
