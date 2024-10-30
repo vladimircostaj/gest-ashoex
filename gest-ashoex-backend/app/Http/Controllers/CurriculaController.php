@@ -46,17 +46,27 @@ class CurriculaController extends Controller
  *     )
  * )
  */
-    public function index()
-    {
-        $curriculas = Curricula::all();
-        $data = [];
-        if($curriculas->isEmpty()){
-            $data = ['message'=>'No hay curriculas registradas', 'code'=>404];
-            return response()->json($data,404);
-        }
-        $data = ['curriculas'=>$curriculas, 'code'=>200];
-        return response()->json($data,200);
-        }
+public function index()
+{
+    $curriculas = Curricula::all();
+    
+    if ($curriculas->isEmpty()) {
+        return response()->json([
+            'success' => false,
+            'data' => [],
+            'error' => ['message' => 'No hay curriculas registradas'],
+            'message' => 'Operación fallida'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $curriculas,
+        'error' => [],
+        'message' => 'Operación exitosa'
+    ], 200);
+}
+
 
     /**
      * @OA\Post(
