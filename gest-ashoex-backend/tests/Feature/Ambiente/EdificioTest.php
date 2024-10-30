@@ -1,9 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Ambiente;
 
-use App\Models\Edificio;
-use App\Models\Ubicacion;
+use App\Models\Ambientes\Edificio;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -21,14 +20,27 @@ class EdificioTest extends TestCase
     {
         Edificio::factory()->create();
         $response = $this->get('/api/edificios');
-        $response->assertJsonStructure([['id_edificio', 'nombre_edificio', 'geolocalizacion', 'created_at', 'updated_at', 'ubicaciones']]);
+        $response->assertJsonStructure([
+            'success', 'data', 'error', 'message'
+        ]);
     }
 
     public function test_get_edificio_individual_devuelve_el_recurso_correcto(): void
     {
         $edificio = Edificio::factory()->create();
         $response = $this->get("/api/edificios/{$edificio->id_edificio}");
-        $response->assertStatus(200)->assertJson(['id_edificio' => $edificio->id_edificio]);
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'data' => [
+                    'id_edificio' => $edificio->id_edificio,
+                    'nombre_edificio' => $edificio->nombre_edificio,
+                    'geolocalizacion' => $edificio->geolocalizacion,
+                    'ubicaciones' => []
+                ],
+                'error' => null,
+                'message' => 'Edificio recuperado exitosamente',
+            ]);
     }
 
     public function test_post_edificio_crea_nuevo_recurso(): void

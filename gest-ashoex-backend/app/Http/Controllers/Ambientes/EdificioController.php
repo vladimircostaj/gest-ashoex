@@ -86,6 +86,6 @@ class EdificioController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Edificio eliminado exitosamente'
-        ]);
+        ], 204);
     }
 }

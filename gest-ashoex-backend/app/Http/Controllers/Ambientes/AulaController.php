@@ -24,14 +24,14 @@ class AulaController extends Controller
     // Obtener un aula por su ID, incluyendo sus usos y facilidades
     public function show($id)
     {
-        $aula = Aula::with('uso', 'facilidades')->findOrFail($id);
+        $aula = Aula::with('uso', 'facilidades')->find($id);
 
         if (!$aula) {
             return response()->json([
                 'success' => false,
                 'data' => null,
-                'error' => 'Aula no encontrada',
-                'message' => ''
+                'error' => null,
+                'message' => 'Aula no encontrada'
             ], 404);
         }
 
@@ -98,7 +98,7 @@ class AulaController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Aula eliminada exitosamente'
-        ]);
+        ], 204);
 
     }
 }
