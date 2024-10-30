@@ -203,6 +203,92 @@ class PersonalAcademicoTest extends TestCase
         ]);
 
     }
+
+    
+    use RefreshDatabase;
+
+    public function testModificarPersonalAcademicoExitosamente()
+    {
+        $tipoPersonal = TipoPersonal::create(['nombre' => 'docente']);
+
+        $personal = PersonalAcademico::create([
+            'nombre' => 'asdfghjkl',
+            'email' => 'asdfghjkl@example.com',
+            'telefono' => '+59112345678',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => $tipoPersonal->id,
+        ]);
+
+        $data = [
+            'nombre' => 'qwertyuiop',
+            'email' => 'qwertyuiop@example.com',
+            'telefono' => '+59187654321',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => $tipoPersonal->id,
+        ];
+
+        $response = $this->putJson("/api/personal-academico/{$personal->id}", $data);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Personal académico actualizado exitosamente.',
+                'personal_academico' => [
+                    'nombre' => 'qwertyuiop',
+                    'email' => 'qwertyuiop@example.com',
+                    'telefono' => '+59187654321',
+                ],
+            ]);
+
+        $this->assertDatabaseHas('personal_academicos', [
+            'id' => $personal->id,
+            'nombre' => 'qwertyuiop',
+        ]);
+    }
+    public function testModificarPersonalAcademicoNoExistente()
+    {
+        $data = [
+            'name' => 'asfd asdf',
+            'email' => 'asfd.asfd@example.com',
+            'telefono' => '+59171234568',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => 1,
+        ];
+
+        $response = $this->putJson('/api/personal-academico/-1', $data);
+
+        $response->assertStatus(404)
+            ->assertJson([
+                'message' => 'Personal académico no encontrado.',
+            ]);
+    }
+
+    public function testModificarPersonalAcademicoConDatosInvalidos()
+    {
+        PersonalAcademico::factory()->create(['id' => 1]);
+    
+        $data = [
+            'nombre' => 'a',
+            'email' => 'elnosepuntocom',
+            'telefono' => '1298254',
+            'estado' => 'ACTIVO',
+            'tipo_personal_id' => 1,
+        ];
+    
+        $response = $this->putJson("/api/personal-academico/1", $data);
+    
+        $response->assertStatus(500)
+            ->assertJson([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 422,
+                    'message' => 'Datos de entrada inválidos',
+                ],
+                'message' => 'Validación fallida.',
+            ]);
+
+        
+    }
         /**
      * Test para verificar que se obtenga la lista completa de personal académico.
      *
