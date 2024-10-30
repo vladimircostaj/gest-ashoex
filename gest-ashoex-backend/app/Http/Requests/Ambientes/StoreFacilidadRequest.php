@@ -27,4 +27,5 @@ class StoreFacilidadRequest extends FormRequest
             'aulas.*' => 'exists:aula,id_aula',
         ];
     }
+
 }

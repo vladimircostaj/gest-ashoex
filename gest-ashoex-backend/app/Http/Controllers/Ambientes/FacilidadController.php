@@ -62,21 +62,34 @@ class FacilidadController extends Controller
 
     // Actualizar una facilidad existente
     public function update(UpdateFacilidadRequest $request, $id)
-    {
-        $facilidad = Facilidad::findOrFail($id);
-        $facilidad->update($request->validated());
+{
+    $facilidad = Facilidad::find($id);
 
-        if ($request->has('aulas')) {
-            $facilidad->aulas()->sync($request->aulas);
-        }
-
+    // Si no se encuentra, devolver un error 404
+    if (!$facilidad) {
         return response()->json([
-            'success' => true,
-            'data' => $facilidad,
-            'error' => null,
-            'message' => 'Facilidad actualizada exitosamente'
-        ]);
+            'success' => false,
+            'data' => null,
+            'error' => ['Facilidad no encontrada'],
+            'message' => 'No se pudo actualizar la facilidad'
+        ], 404);
     }
+
+    // Actualiza la facilidad si se encuentra
+    $facilidad->update($request->validated());
+
+    if ($request->has('aulas')) {
+        $facilidad->aulas()->sync($request->aulas);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $facilidad,
+        'error' => null,
+        'message' => 'Facilidad actualizada exitosamente'
+    ]);
+}
+
 
     // Eliminar una facilidad
     public function destroy($id)

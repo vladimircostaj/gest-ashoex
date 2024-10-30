@@ -77,6 +77,7 @@ class UsoControllerTest extends TestCase
     {
         $data = [
             'tipo_uso' => 'Sala de Conferencias',
+            
         ];
     
         $response = $this->putJson('/api/usos/-1', $data); // ID que no existe
