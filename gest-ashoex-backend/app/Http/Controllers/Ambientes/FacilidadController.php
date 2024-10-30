@@ -22,6 +22,53 @@ class FacilidadController extends Controller
     }
 
     // Obtener una facilidad por su ID
+    /**
+ * @OA\Get(
+ *     path="/api/facilidades/{id}",
+ *     summary="Obtiene una facilidad específica",
+ *     description="Retorna los detalles de una facilidad dado su ID",
+ *     tags={"Facilidades"},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         description="ID de la facilidad",
+ *         required=true,
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Detalles de la facilidad",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=true),
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="object",
+ *                 @OA\Property(property="id", type="integer", example=1),
+ *                 @OA\Property(property="nombre_facilidad", type="string", example="Pizarra Inteligente"),
+ *                 @OA\Property(property="descripcion", type="string", example="Pizarra interactiva para presentaciones")
+ *             ),
+ *             @OA\Property(property="error", type="null"),
+ *             @OA\Property(property="message", type="string", example="Facilidad obtenida exitosamente")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=404,
+ *         description="Facilidad no encontrada",
+ *         @OA\JsonContent(
+ *             type="object",
+ *             @OA\Property(property="success", type="boolean", example=false),
+ *             @OA\Property(property="data", type="null"),
+ *             @OA\Property(property="error", type="string", example="Facilidad no encontrada"),
+ *             @OA\Property(property="message", type="string", example="")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=400,
+ *         description="Error en la solicitud"
+ *     )
+ * )
+ */
     public function show($id)
     {
         $facilidad = Facilidad::find($id);

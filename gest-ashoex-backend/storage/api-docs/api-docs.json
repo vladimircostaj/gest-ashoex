@@ -6,6 +6,99 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/facilidades/{id}": {
+            "get": {
+                "tags": [
+                    "Facilidades"
+                ],
+                "summary": "Obtiene una facilidad específica",
+                "description": "Retorna los detalles de una facilidad dado su ID",
+                "operationId": "1a68143bd04d402d2212937bf1473dbb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la facilidad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la facilidad",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre_facilidad": {
+                                                    "type": "string",
+                                                    "example": "Pizarra Inteligente"
+                                                },
+                                                "descripcion": {
+                                                    "type": "string",
+                                                    "example": "Pizarra interactiva para presentaciones"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Facilidad obtenida exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Facilidad no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Facilidad no encontrada"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Error en la solicitud"
+                    }
+                }
+            }
+        },
         "/api/usos": {
             "get": {
                 "tags": [
@@ -486,6 +579,10 @@
         }
     },
     "tags": [
+        {
+            "name": "Facilidades",
+            "description": "Facilidades"
+        },
         {
             "name": "Usos",
             "description": "Usos"
