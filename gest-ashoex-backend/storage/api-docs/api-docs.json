@@ -1192,14 +1192,14 @@
                 }
             }
         },
-        "/api/grupo": {
+        "/api/grupos": {
             "get": {
                 "tags": [
                     "Grupos"
                 ],
                 "summary": "Obtener lista de grupos",
                 "description": "Este endpoint retorna una lista de grupos.",
-                "operationId": "470f68cef0c2e0c921e746cc90766f82",
+                "operationId": "7b65c2e6720d4eda91069ceb044e72b0",
                 "responses": {
                     "200": {
                         "description": "Lista de grupos obtenida con éxito"
@@ -1211,7 +1211,7 @@
                     "Grupos"
                 ],
                 "summary": "Almacena un nuevo grupo en la base de datos",
-                "operationId": "4bf94b7c8c6f18d38cfd3433fc6f8441",
+                "operationId": "215d981a23824fe4e58db8854591f8c7",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -1370,13 +1370,13 @@
                 }
             }
         },
-        "/api/grupo/{id}": {
+        "/api/grupos/{id}": {
             "get": {
                 "tags": [
                     "Grupos"
                 ],
                 "summary": "Obtiene los detalles de una grupo por su ID",
-                "operationId": "71ecd5bbf3a284f66ce9def4a875954c",
+                "operationId": "bff1f346fdbdb5055f7c9e0e73cde52c",
                 "parameters": [
                     {
                         "name": "id",
@@ -1505,7 +1505,7 @@
                 ],
                 "summary": "Eliminar un grupo",
                 "description": "Elimina un grupo especificado por su ID",
-                "operationId": "8b2d2a7a78ab1d6c0550875061e20e23",
+                "operationId": "1886b797a4029bc9a8e75c9ead9ede7e",
                 "parameters": [
                     {
                         "name": "id",

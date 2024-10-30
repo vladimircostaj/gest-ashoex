@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class GrupoController extends Controller{
     /**
      * @OA\Get(
-     *     path="/api/grupo",
+     *     path="/api/grupos",
      *     tags={"Grupos"},
      *     summary="Obtener lista de grupos",
      *     description="Este endpoint retorna una lista de grupos.",
@@ -31,7 +31,7 @@ class GrupoController extends Controller{
     }
 /**
      * @OA\Post(
-     *     path="/api/grupo",
+     *     path="/api/grupos",
      *     tags={"Grupos"},
      *     summary="Almacena un nuevo grupo en la base de datos",
      *     @OA\RequestBody(
@@ -126,7 +126,7 @@ class GrupoController extends Controller{
 
     /**
      * @OA\Get(
-     *     path="/api/grupo/{id}",
+     *     path="/api/grupos/{id}",
      *     tags={"Grupos"},
      *     summary="Obtiene los detalles de una grupo por su ID",
      *     @OA\Parameter(
@@ -457,7 +457,7 @@ class GrupoController extends Controller{
 
     /**
  * @OA\Delete(
- *     path="/api/grupo/{id}",
+ *     path="/api/grupos/{id}",
  *     summary="Eliminar un grupo",
  *     description="Elimina un grupo especificado por su ID",
  *     tags={"Grupos"},
