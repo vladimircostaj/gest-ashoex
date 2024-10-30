@@ -6,6 +6,306 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/aulas/{id}": {
+            "get": {
+                "tags": [
+                    "Aulas"
+                ],
+                "summary": "Obtener información de un aula específica",
+                "description": "Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
+                "operationId": "getAulaById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del aula",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Éxito. Datos del aula obtenidos correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "numero_aula": {
+                                            "type": "string",
+                                            "example": "A101"
+                                        },
+                                        "capacidad": {
+                                            "type": "integer",
+                                            "example": 40
+                                        },
+                                        "habilitada": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "id_ubicacion": {
+                                            "type": "integer",
+                                            "example": 2
+                                        },
+                                        "usos": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Clases"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "facilidades": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "descripcion": {
+                                                        "type": "string",
+                                                        "example": "Proyector"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado. Aula no existe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Aula no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/edificios": {
+            "post": {
+                "tags": [
+                    "Edificios"
+                ],
+                "summary": "Crear un nuevo edificio",
+                "description": "Crea un edificio con el nombre y la geolocalización proporcionados.",
+                "operationId": "createEdificio",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_edificio"
+                                ],
+                                "properties": {
+                                    "nombre_edificio": {
+                                        "type": "string",
+                                        "example": "Edificio Central"
+                                    },
+                                    "geolocalizacion": {
+                                        "type": "string",
+                                        "example": "-19.57347,-65.75537"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Éxito. Edificio creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre_edificio": {
+                                            "type": "string",
+                                            "example": "Edificio Central"
+                                        },
+                                        "geolocalizacion": {
+                                            "type": "string",
+                                            "example": "-19.57347,-65.75537"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-28T12:34:56Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-28T12:34:56Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación. Faltan datos o no son válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "El nombre del edificio es obligatorio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/edificios/{id}": {
+            "put": {
+                "tags": [
+                    "Edificios"
+                ],
+                "summary": "Actualizar un edificio existente",
+                "description": "Actualiza los datos de un edificio existente, incluyendo nombre y geolocalización.",
+                "operationId": "updateEdificio",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del edificio a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_edificio"
+                                ],
+                                "properties": {
+                                    "nombre_edificio": {
+                                        "type": "string",
+                                        "example": "Edificio Renovado"
+                                    },
+                                    "geolocalizacion": {
+                                        "type": "string",
+                                        "example": "-19.57400,-65.75400"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Éxito. Edificio actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre_edificio": {
+                                            "type": "string",
+                                            "example": "Edificio Renovado"
+                                        },
+                                        "geolocalizacion": {
+                                            "type": "string",
+                                            "example": "-19.57400,-65.75400"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-28T12:34:56Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-28T13:40:10Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "No encontrado. Edificio no existe",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Edificio no encontrado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación. Faltan datos o no son válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "El nombre del edificio es obligatorio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/health": {
             "get": {
                 "tags": [
@@ -47,6 +347,14 @@
         }
     },
     "tags": [
+        {
+            "name": "Aulas",
+            "description": "Aulas"
+        },
+        {
+            "name": "Edificios",
+            "description": "Edificios"
+        },
         {
             "name": "Health Check",
             "description": "Health Check"
