@@ -123,13 +123,19 @@ class PersonalAcademicoTest extends TestCase
     public function testDarDeBajaPersonalExistente()
     {
         $personalAcademico = PersonalAcademico::factory()->create();
-        $data = [
-            'id' => $personalAcademico->id
-        ];
-        $response = $this->patchJson('/api/personal-academicos/dar-baja', $data); 
+        // pasa cualquier cosa en la url 
+        $response = $this->patchJson('/api/personal-academicos/0.2/dar-baja');
+        $response->assertStatus(404);
+
+        $response = $this->patchJson('/api/personal-academicos/a/dar-baja');
+        $response->assertStatus(500);
+
+        // dar de baja a personal activo
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        dd($response->json());
         $response->assertOk()
             ->assertJson([
-                'data' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
+                'message' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
             ]);
         $this->assertDatabaseHas(
             'personal_academicos', 
@@ -140,10 +146,11 @@ class PersonalAcademicoTest extends TestCase
                 'estado' => config('constants.PERSONAL_ACADEMICO_ESTADOS')[1]
             ]
         );
-        $response = $this->patchJson('/api/personal-academicos/dar-baja', $data); 
-        $response->assertOk()
+        // dar de baja a personal dado de baja anteriormente
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        $response->assertStatus(400)
             ->assertJson([
-                'data' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
+                'message' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
             ]);
     }
 
@@ -281,5 +288,95 @@ class PersonalAcademicoTest extends TestCase
             ]);
 
         
+    }
+        /**
+     * Test para verificar que se obtenga la lista completa de personal académico.
+     *
+     * @return void
+     */
+    public function test_obtener_lista_de_personal_academico_exitosamente()
+    {
+        // Se inserta datos en la tabla
+        DB::table('tipo_personals')->insert([
+            ['id' => 1, 'nombre' => 'Auxiliar'],
+            ['id' => 2, 'nombre' => 'Titular']
+        ]);
+
+        DB::table('personal_academicos')->insert([
+            [
+                'id' => 1,
+                'name' => 'Patrick Almanza',
+                'email' => 'patralm@gmail.com',
+                'telefono' => '69756409',
+                'estado' => 'Activo',
+                'tipo_personal_id' => 1
+            ]
+        ]);
+
+        $response = $this->get('/personal-academicos');
+
+        // Verificar que la respuesta sea correcta 
+        $response->assertStatus(200);
+        $response->assertJson([
+            'success' => true,
+            'message' => 'Operación exitosa',
+            'data' => [
+                [
+                    'Tipo_personal' => 'Auxiliar',
+                    'telefono' => '69756409',
+                    'personal_academico_id' => 1,
+                    'tipo_personal_id' => 1,
+                    'name' => 'Patrick Almanza',
+                    'email' => 'patralm@gmail.com',
+                    'estado' => 'Activo'
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Test: Verificar cuando no se encuentra personal académico.
+     *
+     * @return void
+     */
+    public function test_no_se_encuentra_personal_academico()
+    {
+        // Asegurarse de que no haya datos en la tabla
+        DB::table('personal_academicos')->truncate();
+
+        $response = $this->get('/personal-academicos');
+
+        // Verificar que la respuesta sea 204 (sin contenido)
+        $response->assertStatus(204);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Lista vacía',
+            'data' => []
+        ]);
+    }
+
+    /**
+     * Test: Verificar que maneja correctamente errores del servidor.
+     *
+     * @return void
+     */
+    public function test_error_en_la_solicitud()
+    {
+        // Simular un error en la base de datos (por ejemplo, desconexión)
+        DB::shouldReceive('table')->andThrow(new \Exception('Error de conexión'));
+        
+        $response = $this->get('/personal-academicos');
+
+        // Verificar que la respuesta sea 404 con el mensaje de error
+        $response->assertStatus(404);
+        $response->assertJson([
+            'success' => false,
+            'message' => 'Error en la solicitud',
+            'data' => null,
+            'error' => [
+                'code' => 404,
+                'message' => 'Datos de entrada inválidos: Error de conexión'
+            ]
+        ]);
     }
 }
