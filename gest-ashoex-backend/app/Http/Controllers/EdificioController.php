@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Edificio;
 use Illuminate\Http\Request;
 
-class EdificioController extends Controller
+class EdificioController extends Controller     
 {
     // Obtener todos los edificios con sus ubicaciones
     public function index()
@@ -21,6 +21,42 @@ class EdificioController extends Controller
     }
 
     // Crear un nuevo edificio
+        /**
+     * @OA\Post(
+     *     path="/api/edificios",
+     *     summary="Crear un nuevo edificio",
+     *     description="Crea un edificio con el nombre y la geolocalización proporcionados.",
+     *     operationId="createEdificio",
+     *     tags={"Edificios"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre_edificio"},
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Central"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="-19.57347,-65.75537")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Éxito. Edificio creado correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Central"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="-19.57347,-65.75537"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-28T12:34:56Z"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-28T12:34:56Z")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación. Faltan datos o no son válidos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="El nombre del edificio es obligatorio.")
+     *         )
+     *     )
+     * )
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -34,6 +70,57 @@ class EdificioController extends Controller
     }
 
     // Actualizar un edificio existente
+        /**
+     * @OA\Put(
+     *     path="/api/edificios/{id}",
+     *     summary="Actualizar un edificio existente",
+     *     description="Actualiza los datos de un edificio existente, incluyendo nombre y geolocalización.",
+     *     operationId="updateEdificio",
+     *     tags={"Edificios"},
+     * 
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del edificio a actualizar",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"nombre_edificio"},
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Renovado"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="-19.57400,-65.75400")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Éxito. Edificio actualizado correctamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="id", type="integer", example=1),
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Renovado"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="-19.57400,-65.75400"),
+     *             @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-28T12:34:56Z"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-28T13:40:10Z")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="No encontrado. Edificio no existe",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Edificio no encontrado")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación. Faltan datos o no son válidos",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="El nombre del edificio es obligatorio.")
+     *         )
+     *     )
+     * )
+     */
     public function update(Request $request, $id)
     {
         $request->validate([
