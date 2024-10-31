@@ -289,31 +289,31 @@ class PersonalAcademicoTest extends TestCase
 
         
     }
-        /**
+               /**
      * Test para verificar que se obtenga la lista completa de personal académico.
      *
      * @return void
      */
     public function test_obtener_lista_de_personal_academico_exitosamente()
-    {
-        // Se inserta datos en la tabla
+    {   
+        DB::table('personal_academicos')->truncate();
         DB::table('tipo_personals')->insert([
-            ['id' => 1, 'nombre' => 'Auxiliar'],
-            ['id' => 2, 'nombre' => 'Titular']
+            ['id' => 5, 'nombre' => 'Auxiliar'],
+            ['id' => 7, 'nombre' => 'Titular']
         ]);
 
         DB::table('personal_academicos')->insert([
             [
                 'id' => 1,
-                'name' => 'Patrick Almanza',
+                'nombre' => 'Patrick Almanza',
                 'email' => 'patralm@gmail.com',
-                'telefono' => '69756409',
-                'estado' => 'Activo',
-                'tipo_personal_id' => 1
+                'telefono' => '+59169756409',
+                'estado' => 'ACTIVO',
+                'tipo_personal_id' => 5
             ]
         ]);
 
-        $response = $this->get('/personal-academicos');
+        $response = $this->get('api/personal-academicos');
 
         // Verificar que la respuesta sea correcta 
         $response->assertStatus(200);
@@ -323,17 +323,18 @@ class PersonalAcademicoTest extends TestCase
             'data' => [
                 [
                     'Tipo_personal' => 'Auxiliar',
-                    'telefono' => '69756409',
+                    'telefono' => '+59169756409',
                     'personal_academico_id' => 1,
-                    'tipo_personal_id' => 1,
-                    'name' => 'Patrick Almanza',
+                    'tipo_personal_id' => 5,
+                    'nombre' => 'Patrick Almanza',
                     'email' => 'patralm@gmail.com',
-                    'estado' => 'Activo'
+                    'estado' => 'ACTIVO'
                 ]
-            ]
+            ],
+            'error' => null
         ]);
     }
-
+    
     /**
      * Test: Verificar cuando no se encuentra personal académico.
      *
