@@ -334,7 +334,7 @@ class PersonalAcademicoTest extends TestCase
             'error' => null
         ]);
     }
-    
+
     /**
      * Test: Verificar cuando no se encuentra personal académico.
      *
@@ -345,7 +345,7 @@ class PersonalAcademicoTest extends TestCase
         // Asegurarse de que no haya datos en la tabla
         DB::table('personal_academicos')->truncate();
 
-        $response = $this->get('/personal-academicos');
+        $response = $this->get('api/personal-academicos');
 
         // Verificar que la respuesta sea 204 (sin contenido)
         $response->assertStatus(204);
@@ -356,6 +356,7 @@ class PersonalAcademicoTest extends TestCase
         ]);
     }
 
+    
     /**
      * Test: Verificar que maneja correctamente errores del servidor.
      *
@@ -366,7 +367,7 @@ class PersonalAcademicoTest extends TestCase
         // Simular un error en la base de datos (por ejemplo, desconexión)
         DB::shouldReceive('table')->andThrow(new \Exception('Error de conexión'));
         
-        $response = $this->get('/personal-academicos');
+        $response = $this->get('api/personal-academicos');
 
         // Verificar que la respuesta sea 404 con el mensaje de error
         $response->assertStatus(404);
