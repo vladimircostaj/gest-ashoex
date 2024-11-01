@@ -19,7 +19,7 @@ class CrearCarreraRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nombre' => ['required', 'max:40'],
+            'nombre' => ['required', 'string', 'max:40', 'unique:carreras,nombre'],
             'nro_semestres' => ['required', 'numeric', 'min:1', 'max:12']
         ];
     }
