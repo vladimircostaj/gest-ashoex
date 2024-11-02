@@ -1192,20 +1192,22 @@
                 }
             }
         },
-        "/api/grupo": {
+        "/api/grupos": {
             "get": {
                 "tags": [
                     "Grupos"
                 ],
                 "summary": "Obtener lista de grupos",
                 "description": "Este endpoint retorna una lista de grupos.",
-                "operationId": "470f68cef0c2e0c921e746cc90766f82",
+                "operationId": "7b65c2e6720d4eda91069ceb044e72b0",
                 "responses": {
                     "200": {
                         "description": "Lista de grupos obtenida con éxito"
                     }
                 }
-            },
+            }
+        },
+        "/api/grupo": {
             "post": {
                 "tags": [
                     "Grupos"

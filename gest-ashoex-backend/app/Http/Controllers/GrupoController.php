@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class GrupoController extends Controller{
     /**
      * @OA\Get(
-     *     path="/api/grupo",
+     *     path="/api/grupos",
      *     tags={"Grupos"},
      *     summary="Obtener lista de grupos",
      *     description="Este endpoint retorna una lista de grupos.",
