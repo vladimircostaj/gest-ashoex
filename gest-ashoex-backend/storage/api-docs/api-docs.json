@@ -1205,7 +1205,9 @@
                         "description": "Lista de grupos obtenida con éxito"
                     }
                 }
-            },
+            }
+        },
+        "/api/grupo": {
             "post": {
                 "tags": [
                     "Grupos"
