@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\CrearCurriculaRequest;
 use App\Http\Requests\ActualizarCurriculaRequest;
+use Illuminate\Http\Response;
 
 use App\Models\Curricula;
 use App\Models\Materia;
@@ -147,18 +148,20 @@ public function index()
      * )
      */
     public function store(CrearCurriculaRequest $request){
-        
-        $curricula = new Curricula();
-        $curricula->carrera_id = $request->input('carrera_id');
-        $curricula->materia_id = $request->input('materia_id');
-        $curricula->nivel =      $request->input('nivel');
-        $curricula->electiva =   $request->input('electiva');
-    return response()->json([
-            'success' => true,
-            'data' => $curricula, 
-            'error' => [],
-            'message' => 'Operacion exitosa',
-        ], 201);
+       
+        $validatedData = $request->validated();
+        $curricula = Curricula::create([
+            'carrera_id' => $validatedData['carrera_id'],
+            'materia_id' => $validatedData['materia_id'],
+            'nivel' => $validatedData['nivel'],
+            'electiva' => $validatedData['electiva'],
+        ]);
+        return response()->json([
+            "success" => true,
+            "data" => $curricula,
+            "error" => [],
+            "message" => "Operación exitosa"
+        ], Response::HTTP_CREATED);
     }
 
 
