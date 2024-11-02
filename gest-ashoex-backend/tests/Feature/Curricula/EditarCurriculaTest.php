@@ -7,59 +7,89 @@ use App\Models\Curricula;
 use App\Models\Materia;
 use App\Models\Carrera;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use PHPUnit\Framework\Attributes\Test;
+
 
 class EditarCurriculaTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
-    public function test_editar_curricula()
+    public function test_update_curricula_successfully()
     {
-        // Crear Carrera
-        $carrera = Carrera::create([
-            'nombre' => 'Ingeniería en Electromecánica',
-            'nro_semestres' => 8,
-        ]);
-
-        // Crear Materia
+        // Crear una carrera y materia para el test
+        $carrera = Carrera::create(['nombre' => 'Ingeniería de Sistemas','nro_semestres' => 8]);
         $materia = Materia::create([
-            'codigo' => 1000003,
-            'nombre' => 'Física III',
+            'codigo' => 1000001,
+            'nombre' => 'Física',
             'tipo' => 'regular',
             'nro_PeriodoAcademico' => 1,
         ]);
 
-        // Crear Curricula
+        // Crear un registro de curricula
         $curricula = Curricula::create([
             'carrera_id' => $carrera->id,
             'materia_id' => $materia->id,
             'nivel' => 1,
+            'electiva' => false,
         ]);
 
-        // Preparar datos actualizados
-        $updatedData = [
+        // Datos para actualizar
+        $newData = [
             'carrera_id' => $carrera->id,
             'materia_id' => $materia->id,
             'nivel' => 2,
+            'electiva' => true,
         ];
 
-        // Verificar que la Curricula existe en la base de datos
-        $this->assertDatabaseHas('curriculas', ['id' => $curricula->id]);
+        // Realizar la solicitud PUT
+        $response = $this->putJson("/api/curriculas/{$curricula->id}", $newData);
 
-        // Enviar la solicitud PUT para actualizar
-        $response = $this->putJson("/api/curriculas/{$curricula->id}", $updatedData);
+        // Verificar respuesta y base de datos
+        $response->assertStatus(Response::HTTP_OK)
+                 ->assertJson([
+                     "success" => true,
+                     "data" => [
+                         "id" => $curricula->id,
+                         "carrera_id" => $carrera->id,
+                         "materia_id" => $materia->id,
+                         "nivel" => 2,
+                         "electiva" => true,
+                     ],
+                     "error" => [],
+                     "message" => "Operación exitosa"
+                 ]);
 
-        // Verificar que la respuesta es exitosa
-        $response->assertStatus(200);
-
-        // Verificar que los datos se han actualizado correctamente en la base de datos
+        // Confirmar que los datos se han actualizado en la base de datos
         $this->assertDatabaseHas('curriculas', [
             'id' => $curricula->id,
-            'nivel' => 2, // El nivel debe haber cambiado a 2
+            'nivel' => 2,
+            'electiva' => true,
         ]);
+    }
 
-        // Verificar que la respuesta contiene los datos actualizados
-        $response->assertJsonFragment($updatedData);
+    public function test_validacion_falla_con_campos_vacios()
+    {
+        $data = [
+            'carrera_id' => ' ',
+            'materia_id' => ' ',
+            'nivel' => ' ',
+            'electiva' => ' '
+        ];
+
+        $response = $this->postJson('/api/curriculas', $data);
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     "success" => false,
+                     "data" => [],
+                     "message" => "Error",
+                     "error" => [
+                         ["status" => 422, "detail" => "El campo carrera id es obligatorio."],
+                         ["status" => 422, "detail" => "El campo materia id es obligatorio."],
+                         ["status" => 422, "detail" => "El campo nivel es obligatorio."],
+                         ["status" => 422, "detail" => "El campo electiva es obligatorio."]
+                     ]
+                 ]);
     }
 }

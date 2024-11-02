@@ -18,12 +18,11 @@ return new class extends Migration
             $table->unsignedBigInteger('materia_id');
             $table->unsignedBigInteger('nivel');
             $table->boolean('electiva')->default(false);
-            
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-
             $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
             $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
+            $table->unique(['carrera_id', 'materia_id']);
         });
     }
 

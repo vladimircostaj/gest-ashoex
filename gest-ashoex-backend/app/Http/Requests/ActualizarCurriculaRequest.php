@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class ActualizarCurriculaRequest extends FormRequest
 {
@@ -22,8 +23,14 @@ class ActualizarCurriculaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'carrera_id' => 'nullable|integer|exists:carreras,id',
-            'materia_id' => 'nullable|integer|exists:materias,id',
+            'carrera_id' => 'required|integer|exists:carreras,id',
+            'materia_id' => [
+                'required',
+                'integer',
+                'exists:materias,id'
+            ],
+            'nivel' => 'required|integer|min:1',
+            'electiva' => 'required|boolean',
         ];
     }
 }
