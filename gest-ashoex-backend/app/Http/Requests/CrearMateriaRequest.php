@@ -23,9 +23,12 @@ class CrearMateriaRequest extends FormRequest
     {
         return [
             'codigo' => ['required','integer', 'unique:materias,codigo'],
-            'nombre' => ['required', 'string', 'max:80'],
-            'tipo' => ['required', 'string'],
+            'nombre' => ['required', 'string', 'max:80','alpha'],
+            'tipo' => ['required', 'string','max:20','alpha'],
             'nro_PeriodoAcademico' => ['required', 'integer'],
         ];
     }
+
+
+    
 }

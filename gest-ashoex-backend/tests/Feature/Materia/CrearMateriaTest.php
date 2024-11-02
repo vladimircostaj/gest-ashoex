@@ -154,12 +154,12 @@ class CrearMateriaTest extends TestCase
                     ]
                 ]);
     }
-    public function test_store_validation_fails_when_nombre_and_tipo_are_not_strings()
+    public function test_store_validation_fails_when_nombre_is_not_string()
     {
         $data = [
             'codigo' => 1000006,
             'nombre' => 12345, 
-            'tipo' => 67890, 
+            'tipo' => 'nombre', 
             'nro_PeriodoAcademico' => 1,
         ];
 
@@ -174,7 +174,29 @@ class CrearMateriaTest extends TestCase
                         [
                             "status" => 422,
                             "detail" => "El campo nombre debe ser una cadena de caracteres."
-                        ],
+                        ]
+                    ]
+                ]);
+    }
+
+
+    public function test_store_validation_fails_when_tipo_is_not_string()
+    {
+        $data = [
+            'codigo' => 1000006,
+            'nombre' => "materia", 
+            'tipo' => 1234567, 
+            'nro_PeriodoAcademico' => 1,
+        ];
+
+        $response = $this->postJson('/api/materias', $data);
+
+        $response->assertStatus(422)
+                ->assertJson([
+                    "success" => false,
+                    "data" => [],
+                    "message" => "Error",
+                    "error" => [
                         [
                             "status" => 422,
                             "detail" => "El campo tipo debe ser una cadena de caracteres."
@@ -182,4 +204,32 @@ class CrearMateriaTest extends TestCase
                     ]
                 ]);
     }
+
+    public function test_store_validation_fails_when_tipo_is_too_long()
+    {
+        $data = [
+            'codigo' => 1000007,
+            'nombre' => 'Matemáticas',
+            'tipo' => str_repeat('a', 21), 
+            'nro_PeriodoAcademico' => 1,
+        ];
+    
+        $response = $this->postJson('/api/materias', $data);
+    
+        $response->assertStatus(422)
+                ->assertJson([
+                    "success" => false,
+                    "data" => [],
+                    "message" => "Error",
+                    "error" => [
+                        [
+                            "status" => 422,
+                            "detail" => "El campo tipo no debe contener más de 20 caracteres."
+                        ]
+                    ]
+                ]);
+    }
+    
+
+   
 }
