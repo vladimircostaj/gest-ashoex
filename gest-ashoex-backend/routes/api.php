@@ -33,7 +33,7 @@ Route::controller(MateriaController::class)->group(function () {
     Route::get('/materias', 'index');
     Route::post('/materias', 'store');
     Route::get('/materias/{id}', 'show');
-    Route::put('/materias/{id}', 'update'); // Ruta para actualizar materia 
+    Route::put('/materias/{id}', 'update'); // Ruta para actualizar materia
     Route::patch('/materias/{id}', 'update'); // Ruta para actualización parcial
     Route::delete('/materias/{id}', 'destroy');
 });
