@@ -9,7 +9,7 @@ use App\Http\Requests\ActualizarCurriculaRequest;
 use Illuminate\Http\Response;
 
 use App\Models\Curricula;
-use App\Models\Materia;
+use App\Models\Carrera;
 
 class CurriculaController extends Controller
 {
@@ -148,8 +148,38 @@ public function index()
      * )
      */
     public function store(CrearCurriculaRequest $request){
-       
+
         $validatedData = $request->validated();
+
+        $existingCurricula = Curricula::where('carrera_id', $validatedData['carrera_id'])
+            ->where('materia_id', $validatedData['materia_id'])
+            ->first();
+
+        if ($existingCurricula) {
+            return response()->json([
+                "success" => false,
+                "data" => [],
+                "error" => [
+                    "code" => Response::HTTP_CONFLICT,
+                    "message" => "Ya existe una Curricula con los mismos carrera_id y materia_id"
+                ],
+                "message" => "Error en la solicitud"
+            ], Response::HTTP_CONFLICT);
+        }
+
+        $carrera = Carrera::find($validatedData['carrera_id']);
+        if ($validatedData['nivel'] > $carrera->nro_semestres) {
+            return response()->json([
+                "success" => false,
+                "data" => null,
+                "error" => [
+                    "code" => Response::HTTP_BAD_REQUEST,
+                    "message" => "El nivel no puede ser mayor que el número de semestres de la carrera"
+                ],
+                "message" => "Error en la solicitud"
+            ], Response::HTTP_BAD_REQUEST);
+        }
+        
         $curricula = Curricula::create([
             'carrera_id' => $validatedData['carrera_id'],
             'materia_id' => $validatedData['materia_id'],
