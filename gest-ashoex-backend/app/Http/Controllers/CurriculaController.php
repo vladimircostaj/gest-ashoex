@@ -171,7 +171,7 @@ public function index()
         if ($validatedData['nivel'] > $carrera->nro_semestres) {
             return response()->json([
                 "success" => false,
-                "data" => null,
+                "data" => [],
                 "error" => [
                     "code" => Response::HTTP_BAD_REQUEST,
                     "message" => "El nivel no puede ser mayor que el número de semestres de la carrera"
