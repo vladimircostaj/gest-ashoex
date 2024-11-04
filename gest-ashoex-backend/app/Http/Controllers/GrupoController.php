@@ -57,7 +57,7 @@ class GrupoController extends Controller{
      *                     @OA\Property(property="nro_grupo", type="number", example=10)
      *                 )
      *             ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(), example={}),
      *             @OA\Property(property="message", type="string", example="Operación exitosa")
      *         )
@@ -104,16 +104,16 @@ class GrupoController extends Controller{
      */
     public function store(Request $request)
     {
-        
+
         $datos = $request->validate([
             'materia_id' =>'required|exists:materias,id',
             'nro_grupo' => 'required|integer|min:1',
         ]);
-        
+
         $existingGrupo = Grupo::where('materia_id', $datos ['materia_id'])
                           ->where('nro_grupo', $datos ['nro_grupo'])
                           ->first();
-        
+
     if ($existingGrupo) {
         return response()->json([
             'message' => 'Existe un grupo con la misma materia y numero de grupo.'
@@ -158,7 +158,7 @@ class GrupoController extends Controller{
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                 @OA\Items(type="string", example="Grupo no encontrado")),
      *             @OA\Property(property="message", type="string", example="Operación fallida")
      *         )
@@ -170,7 +170,7 @@ class GrupoController extends Controller{
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                 @OA\Items(type="string", example="Ocurrió un error inesperado")),
      *             @OA\Property(property="message", type="string", example="Operación fallida")
      *         )
@@ -392,12 +392,12 @@ class GrupoController extends Controller{
     {
         try {
             $grupo = Grupo::findOrFail($id);
- 
+
             $grupoExistente = Grupo::where('materia_id', $request->materia_id)
                                 ->where('nro_grupo', $request->nro_grupo)
-                                ->where('id', '!=', $grupo->id) 
+                                ->where('id', '!=', $grupo->id)
                                 ->first();
- 
+
             if ($grupoExistente) {
                 return response()->json([
                     'success' => false,
@@ -409,10 +409,10 @@ class GrupoController extends Controller{
                     'message' => 'Operación fallida'
                 ], Response::HTTP_CONFLICT);
             }
- 
+
             $validatedData = $request->validated();
             $grupo->update(array_filter($validatedData));
- 
+
             return response()->json([
                 'success' => true,
                 'data' => [
@@ -426,7 +426,7 @@ class GrupoController extends Controller{
                 'error' => [],
                 'message' => 'Operación exitosa'
             ], Response::HTTP_OK);
- 
+
         }catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
@@ -501,9 +501,26 @@ class GrupoController extends Controller{
  *                 example="Grupo no encontrado"
  *             )
  *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Error interno del servidor",
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="success",
+ *                 type="boolean",
+ *                 example=false
+ *             ),
+ *             @OA\Property(
+ *                 property="message",
+ *                 type="string",
+ *                 example="Error interno del servidor"
+ *             )
+ *         )
  *     )
  * )
  */
+
 public function destroy(string $id)
 {
     $grupo = Grupo::find($id);
