@@ -7,23 +7,11 @@
     },
     "paths": {
         "/api/aulas/{id}": {
-<<<<<<< HEAD
             "get": {
-                "tags": [
-                    "Aulas"
-                ],
+                "tags": ["Aulas"],
                 "summary": "Obtener información de un aula específica",
                 "description": "Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
                 "operationId": "getAulaById",
-=======
-            "put": {
-                "tags": [
-                    "Aulas"
-                ],
-                "summary": "Actualizar un aula existente",
-                "description": "Actualiza un aula por su ID",
-                "operationId": "bba88e0476861377752079169991bcd7",
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                 "parameters": [
                     {
                         "name": "id",
@@ -31,125 +19,17 @@
                         "description": "ID del aula",
                         "required": true,
                         "schema": {
-<<<<<<< HEAD
                             "type": "integer"
-=======
-                            "type": "integer",
-                            "format": "int64"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "numero_aula": {
-                                        "type": "string",
-                                        "example": "Aula 101"
-                                    },
-                                    "capacidad": {
-                                        "type": "integer",
-                                        "example": "30"
-                                    },
-                                    "habilitada": {
-                                        "type": "boolean",
-                                        "example": "true"
-                                    },
-                                    "id_ubicacion": {
-                                        "type": "integer",
-                                        "example": "1"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Aula actualizada",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id_aula": {
-                                            "type": "integer",
-                                            "example": "1"
-                                        },
-                                        "numero_aula": {
-                                            "type": "string",
-                                            "example": "Aula 101"
-                                        },
-                                        "capacidad": {
-                                            "type": "integer",
-                                            "example": "30"
-                                        },
-                                        "habilitada": {
-                                            "type": "boolean",
-                                            "example": "true"
-                                        },
-                                        "id_ubicacion": {
-                                            "type": "integer",
-                                            "example": "1"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Aula no encontrada"
-                    },
-                    "422": {
-                        "description": "Error de validación"
-                    }
-                }
-            }
-        },
-        "/api/edificios/{id}": {
-            "get": {
-                "tags": [
-                    "Edificios"
-                ],
-                "summary": "Obtener un edificio por su ID",
-                "description": "Devuelve un edificio con sus ubicaciones, aulas, usos y facilidades",
-                "operationId": "4f41d7ab49f66749ffdad402d562e884",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID del edificio",
-                        "required": true,
-                        "schema": {
-                            "type": "integer",
-                            "format": "int64"
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-<<<<<<< HEAD
                         "description": "Éxito. Datos del aula obtenidos correctamente",
-=======
-                        "description": "Edificio encontrado",
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-<<<<<<< HEAD
                                         "id": {
                                             "type": "integer",
                                             "example": 1
@@ -197,139 +77,6 @@
                                                     "descripcion": {
                                                         "type": "string",
                                                         "example": "Proyector"
-=======
-                                        "id_edificio": {
-                                            "type": "integer",
-                                            "example": "1"
-                                        },
-                                        "nombre_edificio": {
-                                            "type": "string",
-                                            "example": "Edificio A"
-                                        },
-                                        "geolocalizacion": {
-                                            "type": "string",
-                                            "example": "Latitud: 19.4326, Longitud: -99.1332"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time"
-                                        },
-                                        "ubicaciones": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id_ubicacion": {
-                                                        "type": "integer",
-                                                        "example": "1"
-                                                    },
-                                                    "piso": {
-                                                        "type": "integer",
-                                                        "example": "1"
-                                                    },
-                                                    "id_edificio": {
-                                                        "type": "integer",
-                                                        "example": "1"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date-time"
-                                                    },
-                                                    "aulas": {
-                                                        "type": "array",
-                                                        "items": {
-                                                            "properties": {
-                                                                "id_aula": {
-                                                                    "type": "integer",
-                                                                    "example": "1"
-                                                                },
-                                                                "nombre_aula": {
-                                                                    "type": "string",
-                                                                    "example": "Aula 101"
-                                                                },
-                                                                "capacidad": {
-                                                                    "type": "integer",
-                                                                    "example": "30"
-                                                                },
-                                                                "id_ubicacion": {
-                                                                    "type": "integer",
-                                                                    "example": "1"
-                                                                },
-                                                                "created_at": {
-                                                                    "type": "string",
-                                                                    "format": "date-time"
-                                                                },
-                                                                "updated_at": {
-                                                                    "type": "string",
-                                                                    "format": "date-time"
-                                                                },
-                                                                "usos": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "properties": {
-                                                                            "id_uso": {
-                                                                                "type": "integer",
-                                                                                "example": "1"
-                                                                            },
-                                                                            "nombre_uso": {
-                                                                                "type": "string",
-                                                                                "example": "Clase"
-                                                                            },
-                                                                            "id_aula": {
-                                                                                "type": "integer",
-                                                                                "example": "1"
-                                                                            },
-                                                                            "created_at": {
-                                                                                "type": "string",
-                                                                                "format": "date-time"
-                                                                            },
-                                                                            "updated_at": {
-                                                                                "type": "string",
-                                                                                "format": "date-time"
-                                                                            }
-                                                                        },
-                                                                        "type": "object"
-                                                                    }
-                                                                },
-                                                                "facilidades": {
-                                                                    "type": "array",
-                                                                    "items": {
-                                                                        "properties": {
-                                                                            "id_facilidad": {
-                                                                                "type": "integer",
-                                                                                "example": "1"
-                                                                            },
-                                                                            "nombre_facilidad": {
-                                                                                "type": "string",
-                                                                                "example": "Proyector"
-                                                                            },
-                                                                            "id_aula": {
-                                                                                "type": "integer",
-                                                                                "example": "1"
-                                                                            },
-                                                                            "created_at": {
-                                                                                "type": "string",
-                                                                                "format": "date-time"
-                                                                            },
-                                                                            "updated_at": {
-                                                                                "type": "string",
-                                                                                "format": "date-time"
-                                                                            }
-                                                                        },
-                                                                        "type": "object"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "type": "object"
-                                                        }
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                                                     }
                                                 },
                                                 "type": "object"
@@ -342,7 +89,6 @@
                         }
                     },
                     "404": {
-<<<<<<< HEAD
                         "description": "No encontrado. Aula no existe",
                         "content": {
                             "application/json": {
@@ -357,19 +103,13 @@
                                 }
                             }
                         }
-=======
-                        "description": "Edificio no encontrado"
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                     }
                 }
             }
         },
-<<<<<<< HEAD
         "/api/edificios": {
             "post": {
-                "tags": [
-                    "Edificios"
-                ],
+                "tags": ["Edificios"],
                 "summary": "Crear un nuevo edificio",
                 "description": "Crea un edificio con el nombre y la geolocalización proporcionados.",
                 "operationId": "createEdificio",
@@ -378,9 +118,7 @@
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "nombre_edificio"
-                                ],
+                                "required": ["nombre_edificio"],
                                 "properties": {
                                     "nombre_edificio": {
                                         "type": "string",
@@ -452,30 +190,15 @@
         },
         "/api/edificios/{id}": {
             "put": {
-                "tags": [
-                    "Edificios"
-                ],
+                "tags": ["Edificios"],
                 "summary": "Actualizar un edificio existente",
                 "description": "Actualiza los datos de un edificio existente, incluyendo nombre y geolocalización.",
                 "operationId": "updateEdificio",
-=======
-        "/api/facilidades/{id}": {
-            "put": {
-                "tags": [
-                    "Facilidades"
-                ],
-                "summary": "Actualizar facilidad",
-                "operationId": "3b20ea60160385e48dd8abb0c691c433",
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-<<<<<<< HEAD
                         "description": "ID del edificio a actualizar",
-=======
-                        "description": "ID de la facilidad",
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                         "required": true,
                         "schema": {
                             "type": "integer"
@@ -483,14 +206,11 @@
                     }
                 ],
                 "requestBody": {
-<<<<<<< HEAD
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "required": [
-                                    "nombre_edificio"
-                                ],
+                                "required": ["nombre_edificio"],
                                 "properties": {
                                     "nombre_edificio": {
                                         "type": "string",
@@ -499,21 +219,6 @@
                                     "geolocalizacion": {
                                         "type": "string",
                                         "example": "-19.57400,-65.75400"
-=======
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "nombre_facilidad": {
-                                        "description": "Nombre de la facilidad",
-                                        "type": "string",
-                                        "example": "Proyector"
-                                    },
-                                    "id_aula": {
-                                        "description": "ID del aula",
-                                        "type": "integer",
-                                        "example": "1"
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                                     }
                                 },
                                 "type": "object"
@@ -523,7 +228,6 @@
                 },
                 "responses": {
                     "200": {
-<<<<<<< HEAD
                         "description": "Éxito. Edificio actualizado correctamente",
                         "content": {
                             "application/json": {
@@ -588,24 +292,13 @@
                                 }
                             }
                         }
-=======
-                        "description": "Facilidad actualizada correctamente"
-                    },
-                    "404": {
-                        "description": "Facilidad no encontrada"
-                    },
-                    "422": {
-                        "description": "Error de validación"
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
                     }
                 }
             }
         },
         "/api/health": {
             "get": {
-                "tags": [
-                    "Health Check"
-                ],
+                "tags": ["Health Check"],
                 "summary": "Verifica el estado de la API y la conexión a la base de datos",
                 "description": "Devuelve el estado de salud del sistema",
                 "operationId": "7134f626524ee8957bd6315b959ed4e1",
@@ -651,13 +344,6 @@
             "description": "Edificios"
         },
         {
-<<<<<<< HEAD
-=======
-            "name": "Facilidades",
-            "description": "Facilidades"
-        },
-        {
->>>>>>> 091f484d9ed534281e2bab605cddd878eb74d17b
             "name": "Health Check",
             "description": "Health Check"
         }
