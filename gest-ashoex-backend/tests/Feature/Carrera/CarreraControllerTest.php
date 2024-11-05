@@ -167,4 +167,50 @@ class CarreraControllerTest extends TestCase
             'message' => 'Error',
         ]);
     }
+
+/** @test */
+public function erroresValidacionNombreLongitudExcesiva()
+{
+    $data = [
+        'nombre' => str_repeat('A', 41), // Supone que el límite es de 40 caracteres
+        'nro_semestres' => 10,
+    ];
+
+    $response = $this->postJson('/api/carreras', $data);
+
+    $response->assertStatus(422);
+
+    $response->assertJson([
+        'success' => false,
+        'error' => [
+            [
+                'status' => 422,
+                'detail' => 'El campo nombre no debe contener más de 40 caracteres.',
+            ]
+        ],
+        'message' => 'Error',
+    ]);
+}
+/** @test */
+public function erroresValidacionFormatoNroSemestres()
+{
+    $data = [
+        'nombre' => 'Ingeniería Civil',
+        'nro_semestres' => 'diez', // Formato incorrecto
+    ];
+
+    $response = $this->postJson('/api/carreras', $data);
+
+    $response->assertStatus(422);
+    $response->assertJson([
+        'success' => false,
+        'error' => [
+            [
+                'status' => 422,
+                'detail' => 'El campo nro semestres debe ser un número.',
+            ]
+        ],
+    ]);
+}
+
 }
