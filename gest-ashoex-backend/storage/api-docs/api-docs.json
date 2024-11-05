@@ -1586,7 +1586,7 @@
                 "tags": [
                     "Grupos"
                 ],
-                "summary": "Actualiza los datos de un grupo previamente creado",
+                "summary": "Actualiza un grupo",
                 "operationId": "updateGrupo",
                 "parameters": [
                     {
@@ -1661,6 +1661,46 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Campos requeridos nulos o vacíos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {}
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 422
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo nro_grupo es obligatorio"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
                                         }
                                     },
                                     "type": "object"

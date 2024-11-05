@@ -200,7 +200,7 @@ class GrupoController extends Controller{
     /**
      * @OA\Put(
      *     path="/api/gruposUpdate/{id}",
-     *     summary="Actualiza los datos de un grupo previamente creado",
+     *     summary="Actualiza un grupo",
      *     operationId="updateGrupo",
      *     tags={"Grupos"},
      *     @OA\Parameter(
@@ -271,6 +271,43 @@ class GrupoController extends Controller{
      *                 property="message",
      *                 type="string",
      *                 example="Operación exitosa"
+     *             )
+     *         )
+     *     ),
+     * @OA\Response(
+     *         response=422,
+     *         description="Campos obligatorios nulos o vacíos",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="success",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items()
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="status",
+     *                         type="integer",
+     *                         example=422
+     *                     ),
+     *                     @OA\Property(
+     *                         property="detail",
+     *                         type="string",
+     *                         example="El campo nro_grupo es obligatorio"
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(
+     *                 property="message",
+     *                 type="string",
+     *                 example="Error"
      *             )
      *         )
      *     ),
@@ -426,8 +463,19 @@ class GrupoController extends Controller{
                 'error' => [],
                 'message' => 'Operación exitosa'
             ], Response::HTTP_OK);
-
-        }catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'data' => [],
+                'error' => [
+                    [
+                        'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                        'detail' => 'El campo nro_grupo es obligatorio.'
+                    ]
+                ],
+                'message' => 'Error'
+            ], Response::HTTP_UNPROCESSABLE_ENTITY);
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return response()->json([
                 'success' => false,
                 'data' => [],

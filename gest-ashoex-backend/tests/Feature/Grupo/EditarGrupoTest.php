@@ -116,4 +116,57 @@ class EditarGrupoTest extends TestCase
                        ]
         ]);
     }
+
+    public function test_campos_nulos()
+    {
+        $materia = Materia::create([
+            'codigo' => 1100001,
+            'nombre' => 'Ingles II',
+            'tipo' => 'regular',
+            'nro_PeriodoAcademico' => 1,
+        ]);
+    
+        $grupo = Grupo::create([
+            'materia_id' => $materia->id,
+            'nro_grupo' => 1,
+        ]);
+    
+        $grupoId = $grupo->id;
+    
+        $responseNull = $this->putJson('/api/grupos/' . $grupoId, [
+            'materia_id' => $materia->id,
+            'nro_grupo' => null // Caso 1: valor null
+        ]);
+    
+        $responseNull->assertStatus(422);
+        $responseNull->assertJson([
+            'success' => false,
+            'data' => [],
+            'error' => [
+                [
+                    'status' => 422,
+                    'detail' => 'El campo nro grupo es obligatorio.'
+                ]
+            ],
+            'message' => 'Error'
+        ]);
+    
+        $responseEmpty = $this->putJson('/api/grupos/' . $grupoId, [
+            'materia_id' => $materia->id,
+            'nro_grupo' => '' // Caso 2: vacío
+        ]);
+    
+        $responseEmpty->assertStatus(422);
+        $responseEmpty->assertJson([
+            'success' => false,
+            'data' => [],
+            'error' => [
+                [
+                    'status' => 422,
+                    'detail' => 'El campo nro grupo es obligatorio.'
+                ]
+            ],
+            'message' => 'Error'
+        ]);
+    }
 }
