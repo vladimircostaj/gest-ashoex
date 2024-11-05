@@ -32,9 +32,8 @@ Route::controller(CurriculaController::class)->group(function () {
 Route::controller(MateriaController::class)->group(function () {
     Route::get('/materias', 'index');
     Route::post('/materias', 'store');
-    Route::put('/materiasUpdate/{id}', 'update'); // Ruta para actualizar materia 
-    Route::patch('/materiasUpdate/{id}', 'update'); // Ruta para actualización parcial
-    
+    Route::put('/materiasUpdate/{id}', 'update')->name('materiasUpdate.update'); // Ruta para actualizar materia
+    Route::patch('/materiasUpdate/{id}', 'update')->name('materiasUpdate.patch'); // Ruta para actualización parcial
 
 });
 
