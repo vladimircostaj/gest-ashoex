@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\Curricula;
 use App\Models\Materia;
 use App\Models\Carrera;
+use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 
@@ -68,6 +69,36 @@ class EliminarCurriculaTest extends TestCase
         $response = $this->delete("/api/curriculas/999");
         $response->assertStatus(404);
        // $this->assertDatabaseMissing('curriculas', ['id' => $curricula->id]);
+    }
+
+    public function test_duplicados_y_eliminacion_multiple()
+    {
+        $this->expectException(QueryException::class);
+
+        $carrera = Carrera::create([
+            'nombre' => 'Ingeniería en Electromecánica',
+            'nro_semestres' => 8,
+        ]);
+
+        $materia = Materia::create([
+            'codigo' => 1000003,
+            'nombre' => 'Física III',
+            'tipo' => 'regular',
+            'nro_PeriodoAcademico' => 1,
+        ]);
+
+        $curricula1 = Curricula::create([
+            'carrera_id' => $carrera->id,
+            'materia_id' => $materia->id,
+            'nivel' => 1,
+        ]);
+
+        // Intento de duplicado, que debería lanzar QueryException
+        Curricula::create([
+            'carrera_id' => $carrera->id,
+            'materia_id' => $materia->id,
+            'nivel' => 1,
+        ]);
     }
 }
 

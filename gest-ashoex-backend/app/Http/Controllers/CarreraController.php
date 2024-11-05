@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Carrera;
+use App\Models\Curricula;
 use App\OpenApi\Schemas\CarreraSchema;
 
 use App\Http\Requests\CrearCarreraRequest;
@@ -386,6 +387,15 @@ class CarreraController extends Controller
         
         if ($carrera) {
             $validated = $request->validated();
+            $nuevoNroSemestres = $validated['nro_semestres'];
+            
+            // Verifica si el número de semestres ha disminuido
+            if ($nuevoNroSemestres < $carrera->nro_semestres) {
+                Curricula::where('carrera_id', $carrera->id)
+                        ->where('nivel', '>', $nuevoNroSemestres)
+                        ->delete();
+            }
+
             $carrera->update($validated);
 
             return response()->json([
