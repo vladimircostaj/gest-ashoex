@@ -335,7 +335,7 @@ class EditarCurriculaTest extends TestCase
                      "error" => [
                          [
                              "status" => 422,
-                             "detail" => "La combinación de carrera y materia ya existe en la base de datos."
+                             "detail" => "Ya existe una Curricula con los mismos carrera_id y materia_id"
                          ]
                      ]
                  ]);
@@ -367,7 +367,32 @@ class EditarCurriculaTest extends TestCase
                      "error" => [
                          [
                              "status" => 422,
-                             "detail" => "La combinación de carrera y materia ya existe en la base de datos."
+                             "detail" => "Ya existe una Curricula con los mismos carrera_id y materia_id"
+                         ]
+                     ]
+                 ]);
+    }
+
+    public function test_falla_cuando_nivel_es_mayor_al_numero_de_semestres()
+    {   
+        $data = [
+            'carrera_id' => $this->carrera->id,
+            'materia_id' => $this->materia->id,
+            'nivel' => 15,
+            'electiva' => true,
+        ];
+
+        $response = $this->putJson("/api/curriculas/{$this->curricula->id}", $data);
+
+        $response->assertStatus(422)
+                 ->assertJson([
+                     "success" => false,
+                     "data" => [],
+                     "message" => "Error",
+                     "error" => [
+                         [
+                             "status" => 422,
+                             "detail" => "El nivel no puede ser mayor que el número de semestres de la carrera"
                          ]
                      ]
                  ]);
