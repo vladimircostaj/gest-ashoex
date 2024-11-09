@@ -184,6 +184,37 @@ class CrearCurriculaTest extends TestCase
                ]);
   }
 
+  /** @test */
+  public function error_curricula_nivel_menor_uno()
+  {
+        // Crear datos de prueba para carrera y materia
+        $carrera = Carrera::factory()->create();
+        $materia = Materia::factory()->create();
+    
+        // Datos de entrada
+        $data = [
+            'carrera_id' => $carrera->id,
+            'materia_id' => $materia->id,
+            'nivel' => 0,
+            'electiva' => false,
+        ];
+    
+        // Hacer la solicitud POST
+        $response = $this->postJson('/api/curriculas', $data);
+    
+        // Verificar que la respuesta tenga errores de validación
+        $response->assertStatus(400)
+                 ->assertJson([
+                     'success' => false,
+                        'data' => [],
+                        'message' => 'Error en la solicitud',
+                        'error' => [
+                            'code' => 400,
+                            'message' => 'El nivel no puede ser menor que 1'
+                        ]
+                 ]);
+  }
+
 
 
    

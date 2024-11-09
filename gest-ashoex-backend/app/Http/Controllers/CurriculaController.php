@@ -179,6 +179,18 @@ public function index()
                 "message" => "Error en la solicitud"
             ], Response::HTTP_BAD_REQUEST);
         }
+
+        if($validatedData['nivel'] < 1){
+            return response()->json([
+                "success" => false,
+                "data" => [],
+                "error" => [
+                    "code" => Response::HTTP_BAD_REQUEST,
+                    "message" => "El nivel no puede ser menor que 1"
+                ],
+                "message" => "Error en la solicitud"
+            ], Response::HTTP_BAD_REQUEST);
+        }
         
         $curricula = Curricula::create([
             'carrera_id' => $validatedData['carrera_id'],
