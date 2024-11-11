@@ -632,6 +632,208 @@
                         "description": "Edificio no encontrado"
                     }
                 }
+            },
+            "put": {
+                "tags": [
+                    "Edificios"
+                ],
+                "summary": "Actualiza un edificio existente por su ID",
+                "description": "Permite actualizar los detalles de un edificio específico mediante su ID.",
+                "operationId": "aec952a5c7e92dadbe42cc002ab941b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del edificio a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_edificio"
+                                ],
+                                "properties": {
+                                    "nombre_edificio": {
+                                        "type": "string",
+                                        "maxLength": 100,
+                                        "example": "Edificio Central"
+                                    },
+                                    "geolocalizacion": {
+                                        "type": "string",
+                                        "maxLength": 255,
+                                        "example": "40.712776, -74.005974",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Edificio actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre_edificio": {
+                                                    "type": "string",
+                                                    "example": "Edificio Central"
+                                                },
+                                                "geolocalizacion": {
+                                                    "type": "string",
+                                                    "example": "40.712776, -74.005974"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Edificio actualizado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 422
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo nombre_edificio es obligatorio."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Edificios"
+                ],
+                "summary": "Elimina un edificio por el id proporcionado",
+                "description": "Elimina el edificio especificado por su ID.",
+                "operationId": "b008b5a893fe1f68dff79fa29961c699",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del edificio a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Edificio eliminado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Edificio eliminado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Edificio no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Edificio no encontrado"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/edificios": {

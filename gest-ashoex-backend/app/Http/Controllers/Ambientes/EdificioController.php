@@ -152,7 +152,63 @@ class EdificioController extends Controller
         ], 201);
     }
 
-    // Actualizar un edificio existente
+        /**
+     * @OA\Put(
+     *     path="/api/edificios/{id}",
+     *     tags={"Edificios"},
+     *     summary="Actualiza un edificio existente por su ID",
+     *     description="Permite actualizar los detalles de un edificio específico mediante su ID.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID del edificio a actualizar"
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"nombre_edificio"},
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio Central", maxLength=100),
+     *             @OA\Property(property="geolocalizacion", type="string", example="40.712776, -74.005974", maxLength=255, nullable=true)
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Edificio actualizado exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="nombre_edificio", type="string", example="Edificio Central"),
+     *                 @OA\Property(property="geolocalizacion", type="string", example="40.712776, -74.005974")
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Edificio actualizado exitosamente")
+     *         )
+     *     ),
+     *    
+     *     @OA\Response(
+     *         response=422,
+     *         description="Datos de entrada inválidos",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
+     *             @OA\Property(property="error", type="array", 
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="status", type="integer", example=422),
+     *                     @OA\Property(property="detail", type="string", example="El campo nombre_edificio es obligatorio.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     ),
+     *    
+     * )
+     */
     public function update(UpdateEdificioRequest $request, $id)
     {
         $edificio = Edificio::findOrFail($id);
@@ -164,7 +220,43 @@ class EdificioController extends Controller
         ]);
     }
 
-    // Eliminar un edificio
+        /**
+     * @OA\Delete(
+     *     path="/api/edificios/{id}",
+     *     tags={"Edificios"},
+     *     summary="Elimina un edificio por el id proporcionado",
+     *     description="Elimina el edificio especificado por su ID.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer"),
+     *         description="ID del edificio a eliminar"
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Edificio eliminado exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="null",example="null"),
+     *             @OA\Property(property="error", type="null",example="null"),
+     *             @OA\Property(property="message", type="string", example="Edificio eliminado exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Edificio no encontrado",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="null",example="null"),
+     *             @OA\Property(property="error", type="string", example="Edificio no encontrado"),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $edificio = Edificio::find($id);
@@ -184,6 +276,6 @@ class EdificioController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Edificio eliminado exitosamente'
-        ], 204);
+        ], 200);
     }
 }
