@@ -28,7 +28,7 @@ class AulaController extends Controller
      *     description="Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
      *     operationId="getAulaById",
      *     tags={"Aulas"},
-     * 
+     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -36,7 +36,7 @@ class AulaController extends Controller
      *         required=true,
      *         @OA\Schema(type="integer")
      *     ),
-     * 
+     *
      *     @OA\Response(
      *         response=200,
      *         description="Éxito. Datos del aula obtenidos correctamente",
@@ -169,7 +169,6 @@ class AulaController extends Controller
      *     )
      * )
      */
-
     public function store(StoreAulaRequest $request)
     {
         $aula = Aula::create($request->validated());
@@ -185,6 +184,54 @@ class AulaController extends Controller
     }
 
     // Actualizar un aula existente
+    /**
+    * @OA\Put(
+    *     path="/api/aulas/{id}",
+    *     tags={"Aulas"},
+    *     summary="Actualizar un aula existente",
+    *     description="Actualiza un aula por su ID",
+    *     @OA\Parameter(
+    *         name="id",
+    *         in="path",
+    *         description="ID del aula",
+    *         required=true,
+    *         @OA\Schema(
+    *             type="integer",
+    *             format="int64"
+    *         )
+    *     ),
+    *     @OA\RequestBody(
+    *         required=true,
+    *         @OA\JsonContent(
+    *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
+    *             @OA\Property(property="capacidad", type="integer", example="30"),
+    *             @OA\Property(property="habilitada", type="boolean", example="true"),
+    *             @OA\Property(property="id_ubicacion", type="integer", example="1")
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=200,
+    *         description="Aula actualizada",
+    *         @OA\JsonContent(
+    *             @OA\Property(property="id_aula", type="integer", example="1"),
+    *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
+    *             @OA\Property(property="capacidad", type="integer", example="30"),
+    *             @OA\Property(property="habilitada", type="boolean", example="true"),
+    *             @OA\Property(property="id_ubicacion", type="integer", example="1"),
+    *             @OA\Property(property="created_at", type="string", format="date-time"),
+    *             @OA\Property(property="updated_at", type="string", format="date-time")
+    *         )
+    *     ),
+    *     @OA\Response(
+    *         response=404,
+    *         description="Aula no encontrada"
+    *     ),
+    *     @OA\Response(
+    *         response=422,
+    *         description="Error de validación"
+    *     )
+    * )
+     */
     public function update(UpdateAulaRequest $request, $id)
     {
         $aula = Aula::findOrFail($id);

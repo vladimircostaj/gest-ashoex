@@ -22,7 +22,69 @@ class EdificioController extends Controller
         ]);
     }
 
-    // Obtener un edificio por su ID, incluyendo las ubicaciones, aulas, usos y facilidades
+        // Obtener un edificio por su ID, incluyendo las ubicaciones, aulas, usos y facilidades
+    /**
+     * @OA\Get(
+     *     path="/api/edificios/{id}",
+     *     tags={"Edificios"},
+     *     summary="Obtener un edificio por su ID",
+     *     description="Devuelve un edificio con sus ubicaciones, aulas, usos y facilidades",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del edificio",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Edificio encontrado",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id_edificio", type="integer", example="1"),
+     *             @OA\Property(property="nombre_edificio", type="string", example="Edificio A"),
+     *             @OA\Property(property="geolocalizacion", type="string", example="Latitud: 19.4326, Longitud: -99.1332"),
+     *             @OA\Property(property="created_at", type="string", format="date-time"),
+     *             @OA\Property(property="updated_at", type="string", format="date-time"),
+     *             @OA\Property(property="ubicaciones", type="array", @OA\Items(
+     *                @OA\Property(property="id_ubicacion", type="integer", example="1"),
+     *                @OA\Property(property="piso", type="integer", example="1"),
+     *                @OA\Property(property="id_edificio", type="integer", example="1"),
+     *                @OA\Property(property="created_at", type="string", format="date-time"),
+     *                @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                @OA\Property(property="aulas", type="array", @OA\Items(
+     *                  @OA\Property(property="id_aula", type="integer", example="1"),
+     *                  @OA\Property(property="nombre_aula", type="string", example="Aula 101"),
+     *                  @OA\Property(property="capacidad", type="integer", example="30"),
+     *                  @OA\Property(property="id_ubicacion", type="integer", example="1"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time"),
+     *                  @OA\Property(property="usos", type="array", @OA\Items(
+     *                      @OA\Property(property="id_uso", type="integer", example="1"),
+     *                      @OA\Property(property="nombre_uso", type="string", example="Clase"),
+     *                      @OA\Property(property="id_aula", type="integer", example="1"),
+     *                      @OA\Property(property="created_at", type="string", format="date-time"),
+     *                      @OA\Property(property="updated_at", type="string", format="date-time")
+     *                  )),
+     *                  @OA\Property(property="facilidades", type="array", @OA\Items(
+     *                  @OA\Property(property="id_facilidad", type="integer", example="1"),
+     *                  @OA\Property(property="nombre_facilidad", type="string", example="Proyector"),
+     *                  @OA\Property(property="id_aula", type="integer", example="1"),
+     *                  @OA\Property(property="created_at", type="string", format="date-time"),
+     *                  @OA\Property(property="updated_at", type="string", format="date-time")
+     *                  ))
+     *                ))
+     *             ))
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Edificio no encontrado"
+     *     )
+     * )
+     */
     public function show($id)
     {
         $edificio= Edificio::with('ubicaciones.aulas.uso', 'ubicaciones.aulas.facilidades')->findOrFail($id);
