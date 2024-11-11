@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Models\PersonalAcademico;
+use App\Http\Requests\{
+    ActualizarPersonalRequest,
+    DarBajaPersonalRequest
+};
 use Exception;
 
 class PersonalAcademicoController extends Controller
@@ -64,22 +68,12 @@ class PersonalAcademicoController extends Controller
     }
     
 
-    public function darDeBaja(int $id): JsonResponse
+    public function darDeBaja(DarBajaPersonalRequest $request, int $id): JsonResponse
     {
         try {
+            $request = $request->validated();
             $personalAcademicoID = $id;
             $personalAcademico = PersonalAcademico::find($personalAcademicoID);
-            if (!$personalAcademico) {
-                return parent::response(
-                    false,
-                    [], 
-                    'El personal academico seleccionado no existe.', 
-                    [
-                        'code' => 404,
-                        'message' => 'Personal no encontrado.'
-                    ]
-                );
-            }
             $dadoBaja = $personalAcademico->darBaja();
             return parent::response(
                 $dadoBaja, 
@@ -184,75 +178,24 @@ class PersonalAcademicoController extends Controller
         }
     }
 
-    public function update(Request $request, $id)
+    public function update(ActualizarPersonalRequest $request, $id)
     {
 
-        $personalAcademico = PersonalAcademico::find($id);
+        $personalAcademico = PersonalAcademico::with('tipoPersonal')->findOrFail($id);
 
-        if (!$personalAcademico) {
-            return response()->json([
-                'success' => false,
-                'data' => null,
-                'error' => [
-                    'code' => 404,
-                    'message' => 'Personal académico no encontrado.'
-                ],
-                'message' => 'Error en la solicitud.'
-            ], 404);
-        }
+        $personalAcademico->update($request->validated());
 
-        $emailExistente = PersonalAcademico::where('email', $request->input('email'))->where('id', '!=', $id)->exists();
+        $personalAcademico->load('tipoPersonal');
 
-        if ($emailExistente) {
-            return response()->json([
-                'success' => false,
-                'data' => null,
-                'error' => [
-                    'code' => 409,
-                    'message' => 'El correo electrónico ya está registrado.'
-                ],
-                'message' => 'Error en la solicitud.'
-            ], 409);
-        }
-
-        try {
-
-            $request->validate([
-                'nombre' => 'required|string',
-                'email' => 'required|email',
-                'telefono' => 'required|string',
-                'estado' => 'required|string',
-                'tipo_personal_id' => 'required|integer|exists:tipo_personals,id'
-            ]);
-
-            $personalAcademico->nombre = $request->input('nombre');
-            $personalAcademico->email = $request->input('email');
-            $personalAcademico->telefono = $request->input('telefono');
-            $personalAcademico->estado = $request->input('estado');
-            $personalAcademico->tipo_personal_id = $request->input('tipo_personal_id');
-
-            $personalAcademico->save();
-
-            return response()->json([
-                'success' => true,
-                'data' => $personalAcademico,
-                'error' => null,
-                'message' => 'Operación exitosa.'
-            ], 200);
-
-        } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'data' => null,
-                'error' => [
-                    'code' => 400,
-                    'message' => 'Datos de entrada inválidos.'
-                ],
-                'message' => 'Error en la solicitud.'
-            ], 400);
-        }
+        return response()->json([
+            'success' => true,
+            'data' => $personalAcademico,
+            'error' => null,
+            'message' => 'Operación exitosa.'
+        ], 200);
 
     }
+
     public function test_obtener_lista_de_personal_academico_exitosamente()
     {
         // Se inserta datos en la tabla

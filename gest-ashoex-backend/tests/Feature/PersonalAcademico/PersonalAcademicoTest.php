@@ -124,15 +124,14 @@ class PersonalAcademicoTest extends TestCase
     {
         $personalAcademico = PersonalAcademico::factory()->create();
         // pasa cualquier cosa en la url 
-        $response = $this->patchJson('/api/personal-academicos/0.2/dar-baja');
-        $response->assertStatus(404);
+        $response = $this->patchJson('/api/personal-academicos/0.2');
+        $response->assertStatus(422);
 
-        $response = $this->patchJson('/api/personal-academicos/a/dar-baja');
-        $response->assertStatus(500);
+        $response = $this->patchJson('/api/personal-academicos/a');
+        $response->assertStatus(422);
 
         // dar de baja a personal activo
-        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
-        dd($response->json());
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id); 
         $response->assertOk()
             ->assertJson([
                 'message' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
@@ -147,7 +146,7 @@ class PersonalAcademicoTest extends TestCase
             ]
         );
         // dar de baja a personal dado de baja anteriormente
-        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id); 
         $response->assertStatus(400)
             ->assertJson([
                 'message' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
