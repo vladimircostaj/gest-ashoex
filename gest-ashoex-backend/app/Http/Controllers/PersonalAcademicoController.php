@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Models\PersonalAcademico;
-use App\Http\Requests\ActualizarPersonalRequest;
+use App\Http\Requests\{
+    ActualizarPersonalRequest,
+    DarBajaPersonalRequest
+};
 use Exception;
 
 class PersonalAcademicoController extends Controller
@@ -65,22 +68,12 @@ class PersonalAcademicoController extends Controller
     }
     
 
-    public function darDeBaja(int $id): JsonResponse
+    public function darDeBaja(DarBajaPersonalRequest $request, int $id): JsonResponse
     {
         try {
+            $request = $request->validated();
             $personalAcademicoID = $id;
             $personalAcademico = PersonalAcademico::find($personalAcademicoID);
-            if (!$personalAcademico) {
-                return parent::response(
-                    false,
-                    [], 
-                    'El personal academico seleccionado no existe.', 
-                    [
-                        'code' => 404,
-                        'message' => 'Personal no encontrado.'
-                    ]
-                );
-            }
             $dadoBaja = $personalAcademico->darBaja();
             return parent::response(
                 $dadoBaja, 
