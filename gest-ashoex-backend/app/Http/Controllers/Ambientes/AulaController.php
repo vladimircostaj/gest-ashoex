@@ -250,7 +250,43 @@ class AulaController extends Controller
 
     }
 
-    // Eliminar un aula
+        /**
+     * @OA\Delete(
+     *     path="/api/aulas/{id}",
+     *     tags={"Aulas"},
+     *     summary="Elimina un aula por el ID proporcionado",
+     *     description="Elimina el aula especificada por su ID.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID del aula a eliminar",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Aula eliminada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="null", example="null"),
+     *             @OA\Property(property="error", type="null", example="null"),
+     *             @OA\Property(property="message", type="string", example="Aula eliminada exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Aula no encontrada",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="null", example="null"),
+     *             @OA\Property(property="error", type="string", example="Aula no encontrada"),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     )
+     * )
+     */
     public function destroy($id)
     {
         $aula = Aula::find($id);
@@ -271,7 +307,7 @@ class AulaController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Aula eliminada exitosamente'
-        ], 204);
+        ], 200);
 
     }
 }
