@@ -109,6 +109,183 @@
                 }
             }
         },
+        "/api/aulas": {
+            "post": {
+                "tags": [
+                    "Aulas"
+                ],
+                "summary": "Almacena una nueva aula en la base de datos",
+                "operationId": "4ed9f79dd5cd9461861129d4b77d29db",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "numero_aula",
+                                    "id_ubicacion",
+                                    "id_uso",
+                                    "facilidades"
+                                ],
+                                "properties": {
+                                    "numero_aula": {
+                                        "type": "string",
+                                        "maxLength": 30,
+                                        "example": "Aula 101"
+                                    },
+                                    "capacidad": {
+                                        "type": "integer",
+                                        "example": 30,
+                                        "nullable": true
+                                    },
+                                    "habilitada": {
+                                        "type": "boolean",
+                                        "example": true
+                                    },
+                                    "id_ubicacion": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "id_uso": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "facilidades": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Aula registrada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "numero_aula": {
+                                                    "type": "string",
+                                                    "example": "Aula 101"
+                                                },
+                                                "capacidad": {
+                                                    "type": "integer",
+                                                    "example": 30
+                                                },
+                                                "habilitada": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "id_ubicacion": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_uso": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "facilidades": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aula registrada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "422"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo numero aula es obligatorio."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": "422",
+                                                    "detail": "El campo numero aula es obligatorio."
+                                                },
+                                                {
+                                                    "status": "422",
+                                                    "detail": "El campo id ubicacion seleccionado no existe."
+                                                },
+                                                {
+                                                    "status": "422",
+                                                    "detail": "El campo facilidades seleccionado no existe."
+                                                }
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la conexión a la base de datos"
+                    }
+                }
+            }
+        },
         "/api/edificios": {
             "post": {
                 "tags": [
@@ -168,118 +345,6 @@
                                             "type": "string",
                                             "format": "date-time",
                                             "example": "2024-10-28T12:34:56Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Error de validación. Faltan datos o no son válidos",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "El nombre del edificio es obligatorio."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/edificios/{id}": {
-            "put": {
-                "tags": [
-                    "Edificios"
-                ],
-                "summary": "Actualizar un edificio existente",
-                "description": "Actualiza los datos de un edificio existente, incluyendo nombre y geolocalización.",
-                "operationId": "updateEdificio",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID del edificio a actualizar",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "nombre_edificio"
-                                ],
-                                "properties": {
-                                    "nombre_edificio": {
-                                        "type": "string",
-                                        "example": "Edificio Renovado"
-                                    },
-                                    "geolocalizacion": {
-                                        "type": "string",
-                                        "example": "-19.57400,-65.75400"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Éxito. Edificio actualizado correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "nombre_edificio": {
-                                            "type": "string",
-                                            "example": "Edificio Renovado"
-                                        },
-                                        "geolocalizacion": {
-                                            "type": "string",
-                                            "example": "-19.57400,-65.75400"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2024-10-28T12:34:56Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2024-10-28T13:40:10Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "No encontrado. Edificio no existe",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Edificio no encontrado"
                                         }
                                     },
                                     "type": "object"

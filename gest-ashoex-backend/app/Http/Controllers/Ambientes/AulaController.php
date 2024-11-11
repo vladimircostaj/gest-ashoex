@@ -97,7 +97,79 @@ class AulaController extends Controller
         ]);
     }
 
-    // Crear un nuevo aula
+        /**
+     * @OA\Post(
+     *     path="/api/aulas",
+     *     tags={"Aulas"},
+     *     summary="Almacena una nueva aula en la base de datos",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             type="object",
+     *             required={"numero_aula", "id_ubicacion", "id_uso", "facilidades"},
+     *             @OA\Property(property="numero_aula", type="string", maxLength=30, example="Aula 101"),
+     *             @OA\Property(property="capacidad", type="integer", nullable=true, example=30),
+     *             @OA\Property(property="habilitada", type="boolean", example=true),
+     *             @OA\Property(property="id_ubicacion", type="integer", example=1),
+     *             @OA\Property(property="id_uso", type="integer", example=2),
+     *             @OA\Property(
+     *                 property="facilidades",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Aula registrada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="numero_aula", type="string", example="Aula 101"),
+     *                 @OA\Property(property="capacidad", type="integer", example=30),
+     *                 @OA\Property(property="habilitada", type="boolean", example=true),
+     *                 @OA\Property(property="id_ubicacion", type="integer", example=1),
+     *                 @OA\Property(property="id_uso", type="integer", example=2),
+     *                 @OA\Property(property="facilidades", type="array", @OA\Items(type="integer", example=1))
+     *             ),
+     *             @OA\Property(property="error", type="array", 
+     *                  @OA\Items(), example={}),
+     *             @OA\Property(property="message", type="string", example="Aula registrada exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Error de validación",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data",  type="array",@OA\Items(), example={}),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="status", type="string", example="422"),
+     *                     @OA\Property(property="detail", type="string", example="El campo numero aula es obligatorio.")
+     *                 ),
+     *                 example={
+     *                     {"status": "422", "detail": "El campo numero aula es obligatorio."},
+     *                     {"status": "422", "detail": "El campo id ubicacion seleccionado no existe."},
+     *                     {"status": "422", "detail": "El campo facilidades seleccionado no existe."}
+     *                 }
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error en la conexión a la base de datos"
+     *     )
+     * )
+     */
+
     public function store(StoreAulaRequest $request)
     {
         $aula = Aula::create($request->validated());
