@@ -224,7 +224,7 @@ class EdificioController extends Controller
      * @OA\Delete(
      *     path="/api/edificios/{id}",
      *     tags={"Edificios"},
-     *     summary="Elimina un edificio por el id proporcionado",
+     *     summary="Elimina un edificio por el ID proporcionado",
      *     description="Elimina el edificio especificado por su ID.",
      *     @OA\Parameter(
      *         name="id",
