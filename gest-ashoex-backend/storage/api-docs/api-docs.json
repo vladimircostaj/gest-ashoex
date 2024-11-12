@@ -1268,6 +1268,519 @@
                 }
             }
         },
+        "/api/ubicaciones/{id}": {
+            "get": {
+                "tags": [
+                    "Ubicaciones"
+                ],
+                "summary": "Obtiene los detalles de una ubicación por su ID, incluyendo aulas, usos y facilidades",
+                "operationId": "19914bdec3f33325da64feb3c93957f5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ubicación",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Operación exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_ubicacion": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "piso": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "id_edificio": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "aulas": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id_aula": {
+                                                                "type": "integer",
+                                                                "example": 11
+                                                            },
+                                                            "numero_aula": {
+                                                                "type": "string",
+                                                                "example": "INF123"
+                                                            },
+                                                            "capacidad": {
+                                                                "type": "integer",
+                                                                "example": 10
+                                                            },
+                                                            "habilitada": {
+                                                                "type": "boolean",
+                                                                "example": true
+                                                            },
+                                                            "id_ubicacion": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "id_uso": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "uso": {
+                                                                "properties": {
+                                                                    "id_uso": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "tipo_uso": {
+                                                                        "type": "string",
+                                                                        "example": "Clases"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            },
+                                                            "facilidades": {
+                                                                "type": "array",
+                                                                "items": {
+                                                                    "properties": {
+                                                                        "id_facilidad": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "nombre_facilidad": {
+                                                                            "type": "string",
+                                                                            "example": "Pizarra"
+                                                                        },
+                                                                        "pivot": {
+                                                                            "properties": {
+                                                                                "id_aula": {
+                                                                                    "type": "integer",
+                                                                                    "example": 11
+                                                                                },
+                                                                                "id_facilidad": {
+                                                                                    "type": "integer",
+                                                                                    "example": 1
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ubicación recuperada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ubicación no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ubicación no encontrada"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Ubicaciones"
+                ],
+                "summary": "Actualiza una ubicación existente por su ID",
+                "operationId": "fbbf5a066bca2c9a0585268c1ee32fdb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ubicación a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "piso",
+                                    "id_edificio"
+                                ],
+                                "properties": {
+                                    "piso": {
+                                        "description": "Número de piso de la ubicación",
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "id_edificio": {
+                                        "description": "ID del edificio donde se encuentra la ubicación",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Ubicación actualizada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_ubicacion": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "piso": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "id_edificio": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ubicación actualizada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Datos de entrada inválidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "422"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo id_ubicacion es obligatorio."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo piso es obligatorio."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo id edificio es obligatorio"
+                                                }
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Ubicaciones"
+                ],
+                "summary": "Elimina una ubicación por el ID proporcionado",
+                "description": "Elimina la ubicación de la base de datos según el ID dado",
+                "operationId": "f8cf2a969f50acbb2856976b236ee0f3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la ubicación a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ubicación eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "example": "null"
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "example": "null"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ubicación eliminada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Ubicación no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Ubicación no encontrada"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/ubicaciones": {
+            "post": {
+                "tags": [
+                    "Ubicaciones"
+                ],
+                "summary": "Almacena una nueva ubicación en la base de datos",
+                "operationId": "95941fd74578a777e4b31c4bc0e4cc26",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "piso",
+                                    "id_edificio"
+                                ],
+                                "properties": {
+                                    "piso": {
+                                        "description": "Número de piso de la ubicación",
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "id_edificio": {
+                                        "description": "ID del edificio donde se encuentra la ubicación",
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ubicación creada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "piso": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                },
+                                                "id_edificio": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "id_ubicacion": {
+                                                    "type": "integer",
+                                                    "example": 9
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ubicación registrada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "422"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo piso es obligatorio."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo piso es obligatorio."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo id edificio es obligatorio."
+                                                }
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/health": {
             "get": {
                 "tags": [
@@ -1320,6 +1833,10 @@
         {
             "name": "Facilidades",
             "description": "Facilidades"
+        },
+        {
+            "name": "Ubicaciones",
+            "description": "Ubicaciones"
         },
         {
             "name": "Health Check",
