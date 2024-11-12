@@ -762,7 +762,7 @@
                 "tags": [
                     "Edificios"
                 ],
-                "summary": "Elimina un edificio por el id proporcionado",
+                "summary": "Elimina un edificio por el ID proporcionado",
                 "description": "Elimina el edificio especificado por su ID.",
                 "operationId": "b008b5a893fe1f68dff79fa29961c699",
                 "parameters": [
@@ -922,6 +922,91 @@
             }
         },
         "/api/facilidades/{id}": {
+            "get": {
+                "tags": [
+                    "Facilidades"
+                ],
+                "summary": "Obtiene los detalles de una facilidad por su ID",
+                "operationId": "1a68143bd04d402d2212937bf1473dbb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la facilidad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Facilidad recuperada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id_facilidad": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre_facilidad": {
+                                                    "type": "string",
+                                                    "example": "Pizarra"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Facilidad recuperada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Facilidad no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Facilidad no encontrada"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Facilidades"
@@ -969,6 +1054,216 @@
                     },
                     "422": {
                         "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Facilidades"
+                ],
+                "summary": "Elimina una facilidad por su ID",
+                "description": "Elimina una facilidad existente y devuelve el resultado de la operación",
+                "operationId": "035186a5e362c44b0663efa26b4ecef7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la facilidad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Facilidad eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Facilidad eliminada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Facilidad no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Facilidad no encontrada"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/facilidades": {
+            "post": {
+                "tags": [
+                    "Facilidades"
+                ],
+                "summary": "Almacena una nueva facilidad en la base de datos",
+                "operationId": "3c1b8167301ba7d0015e86507aad758e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_facilidad"
+                                ],
+                                "properties": {
+                                    "nombre_facilidad": {
+                                        "type": "string",
+                                        "example": "Televisor"
+                                    },
+                                    "aulas": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Facilidad registrada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "nombre_facilidad": {
+                                                    "type": "string",
+                                                    "example": "Televisor"
+                                                },
+                                                "id_facilidad": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Facilidad registrada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "422"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El campo nombre_facilidad es obligatorio."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo nombre facilidad es obligatorio."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo aula seleccionada no existe."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El campo aula es obligatorio."
+                                                },
+                                                {
+                                                    "status": 422,
+                                                    "detail": "El valor del campo nombre facilidad ya está en uso."
+                                                }
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
