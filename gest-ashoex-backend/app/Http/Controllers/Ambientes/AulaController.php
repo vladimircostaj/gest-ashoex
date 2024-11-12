@@ -162,10 +162,6 @@ class AulaController extends Controller
      *             ),
      *             @OA\Property(property="message", type="string", example="Error")
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="Error en la conexión a la base de datos"
      *     )
      * )
      */

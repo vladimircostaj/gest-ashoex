@@ -452,9 +452,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "Error en la conexión a la base de datos"
                     }
                 }
             }
