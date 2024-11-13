@@ -26,4 +26,14 @@ class UpdateUbicacionRequest extends FormRequest
             'id_edificio' => 'required|exists:edificio,id_edificio',
         ];
     }
+
+    public function messages(): array{
+        return [
+            'piso.required' => 'El piso es obligatorio.',
+            'piso.integer' => 'El piso debe ser un número entero.',
+            
+            'id_edificio.required' => 'El edificio es obligatorio.',
+            'id_edificio.exists' => 'El edificio seleccionado no es válido.',
+        ];
+    }
 }

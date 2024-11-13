@@ -28,7 +28,9 @@ class StoreUsoRequest extends FormRequest
     public function messages()
     {
         return [
-            'tipo_uso.required' => 'Debe ingresar un tipo de uso valido.',
+            'tipo_uso.required' => 'Debe ingresar un tipo de uso válido.',
+            'tipo_uso.string' => 'El tipo de uso debe ser una cadena de texto.',
+            'tipo_uso.max' => 'El tipo de uso no puede tener más de 100 caracteres.',
         ];
     }
 }

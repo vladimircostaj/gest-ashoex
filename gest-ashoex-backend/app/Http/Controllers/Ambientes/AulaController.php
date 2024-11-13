@@ -116,7 +116,7 @@ class AulaController extends Controller
     public function update(UpdateAulaRequest $request, $id)
     {
         $aula = Aula::findOrFail($id);
-        $aula = Aula::create($request->validated());
+        $aula -> update($request->validated());
 
         if ($request->has('facilidades')) {
             $aula->facilidades()->sync($request->facilidades);
