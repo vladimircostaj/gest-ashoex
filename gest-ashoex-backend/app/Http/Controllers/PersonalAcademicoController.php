@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Validator;
 
 use App\Models\PersonalAcademico;
 use Exception;
@@ -102,8 +103,39 @@ class PersonalAcademicoController extends Controller
         }
     }
 
-    public function registrar(Request $request): JsonResponse
-    {   
+    public function registrar(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'telefono' => 'required|regex:/^\+?\d{7,15}$/',
+            'tipo_personal_id' => 'required|integer|exists:tipo_personals,id',
+            'estado' => 'required|string|in:ACTIVO,DESPEDIDO,INACTIVO',
+        ], [
+            'nombre.required' => 'El campo nombre es obligatorio.',
+            'email.required' => 'El campo email es obligatorio.',
+            'email.email' => 'El campo email debe ser una dirección de correo válida.',
+            'telefono.required' => 'El campo teléfono es obligatorio.',
+            'telefono.regex' => 'El campo teléfono debe contener solo números y puede incluir el prefijo +.',
+            'tipo_personal_id.required' => 'El campo tipo_personal_id es obligatorio.',
+            'tipo_personal_id.integer' => 'El campo tipo_personal_id debe ser un número.',
+            'tipo_personal_id.exists' => 'El tipo de personal especificado no es válido.',
+            'estado.required' => 'El campo estado es obligatorio.',
+            'estado.in' => 'El estado debe ser uno de los siguientes: ACTIVO, DESPEDIDO, INACTIVO.',
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 400,
+                    'message' => 'Datos de entrada inválidos',
+                    'details' => $validator->errors()
+                ],
+                'message' => 'Error de validación en los datos de entrada'
+            ], 400);
+        }
         $existingUser = PersonalAcademico::where('email', $request->email)->first();
         
         if ($existingUser) {
