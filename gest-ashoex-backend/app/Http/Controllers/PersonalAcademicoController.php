@@ -21,11 +21,11 @@ class PersonalAcademicoController extends Controller
                     'success' => false,
                     'data' => [],
                     'error' => [
-                        'code' => 204,
+                        'code' => 204, 
                         'message' => 'No se encontró datos'
                     ],
                     'message' => 'Lista vacía'
-                ], 204);
+                ], 200); 
             }
     
             
