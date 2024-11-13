@@ -22,7 +22,7 @@ class EdificioController extends Controller
         ]);
     }
 
-        // Obtener un edificio por su ID, incluyendo las ubicaciones, aulas, usos y facilidades
+    // Obtener un edificio por su ID, incluyendo las ubicaciones, aulas, usos y facilidades
     /**
      * @OA\Get(
      *     path="/api/edificios/{id}",
@@ -87,7 +87,7 @@ class EdificioController extends Controller
      */
     public function show($id)
     {
-        $edificio= Edificio::with('ubicaciones.aulas.uso', 'ubicaciones.aulas.facilidades')->findOrFail($id);
+        $edificio = Edificio::with('ubicaciones.aulas.uso', 'ubicaciones.aulas.facilidades')->findOrFail($id);
         if (!$edificio) {
             return response()->json([
                 'success' => false,
@@ -106,7 +106,7 @@ class EdificioController extends Controller
     }
 
     // Crear un nuevo edificio
-        /**
+    /**
      * @OA\Post(
      *     path="/api/edificios",
      *     summary="Crear un nuevo edificio",
@@ -152,7 +152,7 @@ class EdificioController extends Controller
         ], 201);
     }
 
-        /**
+    /**
      * @OA\Put(
      *     path="/api/edificios/{id}",
      *     tags={"Edificios"},
@@ -220,7 +220,7 @@ class EdificioController extends Controller
         ]);
     }
 
-        /**
+    /**
      * @OA\Delete(
      *     path="/api/edificios/{id}",
      *     tags={"Edificios"},
