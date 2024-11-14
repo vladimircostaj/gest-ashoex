@@ -29,7 +29,7 @@ class FacilidadControllerTest extends TestCase
                 'success' => true,
                 'data' => [
                     'nombre_facilidad' => 'Proyector',
-                    'id_facilidad' => 1, 
+                    'id_facilidad' => $aula->id_facilidad, 
                 ],
                 'error' => null,
                 'message' => 'Facilidad registrada exitosamente',
