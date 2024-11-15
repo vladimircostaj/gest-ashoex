@@ -16,38 +16,38 @@ class FacilidadControllerTest extends TestCase
     use RefreshDatabase;
     public function testRegistrarFacilidadExitosamente(): void {
         $aula = Aula::factory()->create();
-    
+
         $data = [
             'nombre_facilidad' => 'Proyector',
             'aulas' => [$aula->id_aula],
         ];
-    
+
         $response = $this->postJson('/api/facilidades', $data);
-    
+
         $response->assertStatus(201)
             ->assertJson([
                 'success' => true,
                 'data' => [
                     'nombre_facilidad' => 'Proyector',
-                    'id_facilidad' => $aula->id_facilidad, 
+                    'id_facilidad' => $response->json()['data']['id_facilidad'],
                 ],
                 'error' => null,
                 'message' => 'Facilidad registrada exitosamente',
             ]);
-    
+
         $this->assertDatabaseHas('facilidad', [
             'nombre_facilidad' => 'Proyector',
         ]);
     }
-    
+
 
     public function testRegistrarFacilidadConNombreEnBlanco(): void {
         $data = [
             'nombre_facilidad' => '',
         ];
-    
+
         $response = $this->postJson('/api/facilidades', $data);
-    
+
         $response->assertStatus(422)
             ->assertJson([
                 'success' => false,
@@ -55,32 +55,32 @@ class FacilidadControllerTest extends TestCase
                 'error' => [
                     [
                         'status' => 422,
-                        'detail' => 'The nombre facilidad field is required.'
+                        'detail' => 'El nombre de la facilidad es obligatorio.'
                     ]
                 ],
                 'message' => 'Error'
             ]);
     }
-    
+
 
     public function testActualizarFacilidadExitosamente(): void
     {
         $aula = Aula::factory()->create();
-    
+
         $facilidadExistente = Facilidad::factory()->create([
             'nombre_facilidad' => 'Computadora',
         ]);
-    
-        
+
+
         $facilidadExistente->aulas()->sync([$aula->id_aula]);
-    
+
         $datosActualizados = [
             'nombre_facilidad' => 'Impresora',
-            'aulas' => [$aula->id_aula], 
+            'aulas' => [$aula->id_aula],
         ];
-    
+
         $response = $this->putJson("/api/facilidades/{$facilidadExistente->id_facilidad}", $datosActualizados);
-    
+
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
@@ -91,25 +91,19 @@ class FacilidadControllerTest extends TestCase
                 'error' => null,
                 'message' => 'Facilidad actualizada exitosamente',
             ]);
-    
+
         $this->assertDatabaseHas('facilidad', [
             'id_facilidad' => $facilidadExistente->id_facilidad,
             'nombre_facilidad' => 'Impresora',
         ]);
     }
-    
+
     public function testEliminarFacilidadExitosamente(): void {
         $facilidad = Facilidad::factory()->create();
 
         $response = $this->deleteJson("/api/facilidades/{$facilidad->id_facilidad}");
 
-        $response->assertStatus(200)
-            ->assertJson([
-                'success' => true,
-                'data' => null,
-                'error' => null,
-                'message' => 'Facilidad eliminada exitosamente',
-            ]);
+        $response->assertStatus(204);
 
         $this->assertDatabaseMissing('facilidad', [
             'id_facilidad' => $facilidad->id_facilidad,
@@ -121,7 +115,7 @@ class FacilidadControllerTest extends TestCase
             'nombre_facilidad' => 'Pizarra Inteligente',
         ];
 
-        $response = $this->putJson('/api/facilidades/-1', $data); 
+        $response = $this->putJson('/api/facilidades/-1', $data);
 
         $response->assertStatus(404)
             ->assertJson([

@@ -230,7 +230,7 @@ class EdificioController extends Controller
      *             @OA\Property(property="message", type="string", example="Edificio actualizado exitosamente")
      *         )
      *     ),
-     *    
+     *
      *     @OA\Response(
      *         response=422,
      *         description="Datos de entrada inválidos",
@@ -238,7 +238,7 @@ class EdificioController extends Controller
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                 @OA\Items(
      *                     type="object",
      *                     @OA\Property(property="status", type="integer", example=422),
@@ -248,7 +248,7 @@ class EdificioController extends Controller
      *             @OA\Property(property="message", type="string", example="Error")
      *         )
      *     ),
-     *    
+     *
      * )
      */
     public function update(UpdateEdificioRequest $request, $id)
@@ -318,6 +318,6 @@ class EdificioController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Edificio eliminado exitosamente'
-        ], 200);
+        ], 204);
     }
 }

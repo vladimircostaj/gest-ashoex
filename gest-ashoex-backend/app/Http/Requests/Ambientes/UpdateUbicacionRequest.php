@@ -22,7 +22,7 @@ class UpdateUbicacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'piso' => 'required|integer',
+            'piso' => 'required|integer|min:0|max:5|unique:ubicacion,piso',
             'id_edificio' => 'required|exists:edificio,id_edificio',
         ];
     }
@@ -31,7 +31,7 @@ class UpdateUbicacionRequest extends FormRequest
         return [
             'piso.required' => 'El piso es obligatorio.',
             'piso.integer' => 'El piso debe ser un número entero.',
-            
+
             'id_edificio.required' => 'El edificio es obligatorio.',
             'id_edificio.exists' => 'El edificio seleccionado no es válido.',
         ];

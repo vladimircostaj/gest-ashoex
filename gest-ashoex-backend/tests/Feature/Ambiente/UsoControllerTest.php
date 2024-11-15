@@ -43,7 +43,7 @@ class UsoControllerTest extends TestCase
                 'error' => [
                     [
                         'status' => 422,
-                        'detail' => 'Debe ingresar un tipo de uso valido.'
+                        'detail' => 'Debe ingresar un tipo de uso válido.'
                     ]
                 ],
                 'message' => 'Error',
@@ -77,16 +77,16 @@ class UsoControllerTest extends TestCase
     {
         $data = [
             'tipo_uso' => 'Sala de Conferencias',
-            
+
         ];
-    
+
         $response = $this->putJson('/api/usos/-1', $data); // ID que no existe
-    
+
         $response->assertStatus(404)
             ->assertJson([
                 'success' => false,
                 'data' => [],
-                'error' => ['Uso de ambiente no encontrado'],
+                'error' => 'Uso de ambiente no encontrado',
                 'message' => ''
             ]);
     }

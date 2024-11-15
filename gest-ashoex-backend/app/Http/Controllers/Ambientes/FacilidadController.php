@@ -54,7 +54,7 @@ class FacilidadController extends Controller
      *             type="object",
      *             required={"nombre_facilidad"},
      *             @OA\Property(property="nombre_facilidad", type="string", example="Televisor"),
-     *             @OA\Property(property="aulas", type="array", 
+     *             @OA\Property(property="aulas", type="array",
      *                 @OA\Items(type="integer", example=1)
      *             )
      *         )
@@ -263,6 +263,6 @@ class FacilidadController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Facilidad eliminada exitosamente'
-        ]);
+        ], 204);
     }
 }

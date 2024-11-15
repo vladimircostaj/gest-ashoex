@@ -19,7 +19,7 @@ class UsoController extends Controller{
      *         description="Lista de usos recuperada exitosamente",
      *         @OA\JsonContent(
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="data", type="array", 
+     *             @OA\Property(property="data", type="array",
      *                 @OA\Items(
      *                     @OA\Property(property="id_uso", type="integer", example=1),
      *                     @OA\Property(property="tipo_uso", type="string", example="Uso de Aula")
@@ -136,7 +136,7 @@ class UsoController extends Controller{
      *                 @OA\Property(property="tipo_uso", type="string", example="Laboratorio de Quimica"),
      *                 @OA\Property(property="id_uso", type="integer", example=11)
      *             ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(), example=null),
      *             @OA\Property(property="message", type="string", example="Uso registrado exitosamente")
      *         )
@@ -219,7 +219,7 @@ class UsoController extends Controller{
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                 @OA\Items(type="string", example="Uso de ambiente no encontrado")),
      *             @OA\Property(property="message", type="string", example="")
      *         )
@@ -261,7 +261,7 @@ class UsoController extends Controller{
                 'message' => ''
             ], 404);
         }
-    
+
         $uso->update($request->validated());
 
         return response()->json([
@@ -298,7 +298,7 @@ class UsoController extends Controller{
      *                  @OA\Items(type="object"),
      *                  example=null
      *             ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(type="object"),
      *                  example=null
      *             ),
@@ -341,6 +341,6 @@ class UsoController extends Controller{
             'data' => null,
             'error' => null,
             'message' => 'Uso eliminado exitosamente'
-        ]);
+        ], 204);
     }
 }

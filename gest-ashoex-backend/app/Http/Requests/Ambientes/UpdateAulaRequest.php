@@ -22,7 +22,7 @@ class UpdateAulaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numero_aula' => 'required|string|max:10',
+            'numero_aula' => 'required|string|max:30|unique:aula,numero_aula',
             'capacidad' => 'nullable|integer',
             'habilitada' => 'boolean',
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
@@ -38,17 +38,17 @@ class UpdateAulaRequest extends FormRequest
             'numero_aula.string' => 'El número del aula debe ser una cadena de texto.',
             'numero_aula.max' => 'El número del aula no puede tener más de 30 caracteres.',
             'numero_aula.unique' => 'Este número de aula ya está registrado.',
-            
+
             'capacidad.integer' => 'La capacidad debe ser un número entero.',
-            
+
             'habilitada.boolean' => 'El campo habilitada debe ser verdadero o falso.',
-            
+
             'id_ubicacion.required' => 'La ubicación es obligatoria.',
             'id_ubicacion.exists' => 'La ubicación seleccionada no es válida.',
-            
+
             'id_uso.required' => 'El uso es obligatorio.',
             'id_uso.exists' => 'El uso seleccionado no es válido.',
-            
+
             'facilidades.required' => 'Debe seleccionar al menos una facilidad.',
             'facilidades.array' => 'El campo facilidades debe ser un arreglo.',
             'facilidades.*.exists' => 'Alguna de las facilidades seleccionadas no es válida.',

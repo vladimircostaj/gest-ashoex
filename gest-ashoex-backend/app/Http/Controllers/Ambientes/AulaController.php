@@ -134,7 +134,7 @@ class AulaController extends Controller
      *                 @OA\Property(property="id_uso", type="integer", example=2),
      *                 @OA\Property(property="facilidades", type="array", @OA\Items(type="integer", example=1))
      *             ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(), example={}),
      *             @OA\Property(property="message", type="string", example="Aula registrada exitosamente")
      *         )
@@ -303,7 +303,7 @@ class AulaController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Aula eliminada exitosamente'
-        ], 200);
+        ], 204);
 
     }
 }

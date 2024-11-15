@@ -22,7 +22,7 @@ class StoreUsoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'tipo_uso' => 'required|string|max:100',
+            'tipo_uso' => 'required|string|max:100|unique:uso,tipo_uso',
         ];
     }
     public function messages()
