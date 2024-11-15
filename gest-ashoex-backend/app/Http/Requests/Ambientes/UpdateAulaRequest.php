@@ -23,7 +23,7 @@ class UpdateAulaRequest extends FormRequest
     {
         return [
             'numero_aula' => 'required|string|max:30|unique:aula,numero_aula',
-            'capacidad' => 'nullable|integer',
+            'capacidad' => 'required|integer|min:15|max:400',
             'habilitada' => 'boolean',
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
             'id_uso' => 'required|exists:uso,id_uso',
