@@ -23,7 +23,7 @@ class UpdateEdificioRequest extends FormRequest
     {
         return [
             'nombre_edificio' => 'required|string|max:100|unique:edificio,nombre_edificio',
-            'geolocalizacion' => 'required|string|max:255|unique:edificio,geolocalizacion,',
+            'geolocalizacion' => 'required|string|max:255|unique:edificio,geolocalizacion',
         ];
     }
 
