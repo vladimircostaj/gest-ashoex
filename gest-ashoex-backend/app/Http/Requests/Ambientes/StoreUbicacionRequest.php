@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Ambientes;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreUbicacionRequest extends FormRequest
 {
@@ -22,7 +23,12 @@ class StoreUbicacionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'piso' => 'required|integer|min:0|max:5|unique:ubicacion,piso',
+            'piso' => [
+                'required', 'integer', 'min:0', 'max:5',
+                Rule::unique('ubicacion')->where(function ($query) {
+                    return $query->where('id_edificio', $this->input('id_edificio'));
+                }),
+            ],
             'id_edificio' => 'required|exists:edificio,id_edificio',
         ];
     }
