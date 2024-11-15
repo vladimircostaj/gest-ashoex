@@ -23,7 +23,7 @@ class UpdateUbicacionRequest extends FormRequest
     {
         return [
             'piso' => 'required|integer|min:0|max:5|unique:ubicacion,piso',
-            'id_edificio' => 'required|exists:edificio,id_edificio',
+            'id_edificio' => 'sometimes|exists:edificio,id_edificio',
         ];
     }
 
