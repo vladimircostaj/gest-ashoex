@@ -9,7 +9,45 @@ use Illuminate\Http\Request;
 
 class UbicacionController extends Controller
 {
-    // Obtener todas las ubicaciones con sus aulas
+    /**
+     * @OA\Get(
+     *     path="/api/ubicaciones",
+     *     tags={"Ubicaciones"},
+     *     summary="Obtiene todas las ubicaciones con sus aulas",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de ubicaciones recuperada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id_ubicacion", type="integer", example=1),
+     *                     @OA\Property(property="piso", type="integer", example=3),
+     *                     @OA\Property(property="id_edificio", type="integer", example=1),
+     *                     @OA\Property(property="aulas", type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id_aula", type="integer", example=11),
+     *                             @OA\Property(property="numero_aula", type="string", example="INF123")
+     *                         )
+     *                     )
+     *                 )
+     *             ),
+     *             @OA\Property(property="error", type="null", example=null),
+     *             @OA\Property(property="message", type="string", example="Lista de ubicaciones recuperada exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Error interno del servidor")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $ubicaciones = Ubicacion::with('aulas')->get();

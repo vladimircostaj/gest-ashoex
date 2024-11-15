@@ -276,7 +276,7 @@ class EdificioController extends Controller
      *         description="ID del edificio a eliminar"
      *     ),
      *     @OA\Response(
-     *         response=200,
+     *         response=204,
      *         description="Edificio eliminado exitosamente",
      *         @OA\JsonContent(
      *             type="object",

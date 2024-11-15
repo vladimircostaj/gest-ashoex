@@ -10,6 +10,36 @@ use App\Http\Requests\Ambientes\UpdateFacilidadRequest;
 class FacilidadController extends Controller
 {
     // Obtener todas las facilidades
+    /**
+     * @OA\Get(
+     *     path="/api/facilidades",
+     *     tags={"Facilidades"},
+     *     summary="Lista todas las facilidades disponibles",
+     *     description="Devuelve una lista de todas las facilidades almacenadas en la base de datos.",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de facilidades recuperada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(
+     *                 type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="nombre_facilidad", type="string", example="Televisor")
+     *             )),
+     *             @OA\Property(property="error", type="null", example=null),
+     *             @OA\Property(property="message", type="string", example="Lista de facilidades recuperada exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="error", type="string", example="Error interno del servidor")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $facilidades = Facilidad::all();
@@ -22,6 +52,46 @@ class FacilidadController extends Controller
     }
 
     // Obtener una facilidad por su ID
+    /**
+     * @OA\Get(
+     *     path="/api/facilidades/{id}",
+     *     tags={"Facilidades"},
+     *     summary="Obtiene una facilidad específica",
+     *     description="Devuelve la información de una facilidad utilizando su ID.",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID de la facilidad que se desea recuperar",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Facilidad recuperada exitosamente",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                 @OA\Property(property="id", type="integer", example=1),
+     *                 @OA\Property(property="nombre_facilidad", type="string", example="Televisor")
+     *             ),
+     *             @OA\Property(property="error", type="null", example=null),
+     *             @OA\Property(property="message", type="string", example="Facilidad recuperada exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Facilidad no encontrada",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="null", example=null),
+     *             @OA\Property(property="error", type="string", example="Facilidad no encontrada"),
+     *             @OA\Property(property="message", type="string", example="")
+     *         )
+     *     )
+     * )
+     */
     public function show($id)
     {
         $facilidad = Facilidad::find($id);

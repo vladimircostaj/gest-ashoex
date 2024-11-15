@@ -31,12 +31,9 @@ class UsoController extends Controller{
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Error del servidor",
+     *         description="Error interno del servidor",
      *         @OA\JsonContent(
-     *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="data", type="string", nullable=true, example="null"),
-     *             @OA\Property(property="error", type="string", example="Error del servidor"),
-     *             @OA\Property(property="message", type="string", example="Hubo un error en el servidor")
+     *             @OA\Property(property="error", type="string", example="Error interno del servidor")
      *         )
      *     )
      * )
@@ -275,7 +272,7 @@ class UsoController extends Controller{
     // Eliminar un uso
      /**
      * @OA\Delete(
-     *     path="/api/uso/{id}",
+     *     path="/api/usos/{id}",
      *     tags={"Usos"},
      *     summary="Elimina un uso por el ID proporcionado",
      *     description="Elimina un uso de la base de datos dado su ID",
