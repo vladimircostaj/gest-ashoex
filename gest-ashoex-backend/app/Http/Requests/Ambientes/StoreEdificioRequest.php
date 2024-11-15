@@ -24,7 +24,19 @@ class StoreEdificioRequest extends FormRequest
     {
         return [
             'nombre_edificio' => 'required|string|max:100|unique:edificio,nombre_edificio',
-            'geolocalizacion' => 'nullable|string|max:255',
+            'geolocalizacion' => 'required|string|max:255|unique:edificio,geolocalizacion,',
+        ];
+    }
+
+    public function messages(): array{
+        return [
+            'nombre_edificio.required' => 'El nombre del edificio es obligatorio.',
+            'nombre_edificio.string' => 'El nombre del edificio debe ser una cadena de texto.',
+            'nombre_edificio.max' => 'El nombre del edificio no puede tener más de 100 caracteres.',
+            'nombre_edificio.unique' => 'Este nombre de edificio ya está registrado.',
+
+            'geolocalizacion.string' => 'La geolocalización debe ser una cadena de texto.',
+            'geolocalizacion.max' => 'La geolocalización no puede tener más de 255 caracteres.',
         ];
     }
 }

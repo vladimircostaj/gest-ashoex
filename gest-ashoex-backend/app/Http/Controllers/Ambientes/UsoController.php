@@ -7,9 +7,40 @@ use App\Http\Requests\Ambientes\StoreUsoRequest;
 use App\Http\Requests\Ambientes\UpdateUsoRequest;
 use App\Models\Ambientes\Uso;
 
-class UsoController extends Controller
-{
-    // Obtener todos los usos
+
+class UsoController extends Controller{
+    /**
+     * @OA\Get(
+     *     path="/api/usos",
+     *     summary="Obtener lista de usos",
+     *     tags={"Usos"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de usos recuperada exitosamente",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id_uso", type="integer", example=1),
+     *                     @OA\Property(property="tipo_uso", type="string", example="Uso de Aula")
+     *                 )
+     *             ),
+     *             @OA\Property(property="error", type="string", nullable=true, example="null"),
+     *             @OA\Property(property="message", type="string", example="Lista de usos recuperada exitosamente")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="string", nullable=true, example="null"),
+     *             @OA\Property(property="error", type="string", example="Error del servidor"),
+     *             @OA\Property(property="message", type="string", example="Hubo un error en el servidor")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $usos = Uso::all();
@@ -65,7 +96,6 @@ class UsoController extends Controller
     public function show($id)
     {
         $uso = Uso::find($id);
-
         if (!$uso) {
             return response()->json([
                 'success' => false,
@@ -74,7 +104,6 @@ class UsoController extends Controller
                 'message' => ''
             ], 404);
         }
-
         return response()->json([
             'success' => true,
             'data' => $uso,
@@ -107,7 +136,7 @@ class UsoController extends Controller
      *                 @OA\Property(property="tipo_uso", type="string", example="Laboratorio de Quimica"),
      *                 @OA\Property(property="id_uso", type="integer", example=11)
      *             ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(), example=null),
      *             @OA\Property(property="message", type="string", example="Uso registrado exitosamente")
      *         )
@@ -139,8 +168,7 @@ class UsoController extends Controller
 
     public function store(StoreUsoRequest $request)
     {
-         $uso = Uso::create($request->validated());
-
+        $uso = Uso::create($request->validated());
         return response()->json([
             'success' => true,
             'data' => $uso,
@@ -191,7 +219,7 @@ class UsoController extends Controller
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                 @OA\Items(type="string", example="Uso de ambiente no encontrado")),
      *             @OA\Property(property="message", type="string", example="")
      *         )
@@ -228,14 +256,14 @@ class UsoController extends Controller
         if (!$uso) {
             return response()->json([
                 'success' => false,
-                'data' => [],
-                'error' => ['Uso de ambiente no encontrado'],
+                'data' => null,
+                'error' => 'Uso de ambiente no encontrado',
                 'message' => ''
             ], 404);
         }
-    
+
         $uso->update($request->validated());
-    
+
         return response()->json([
             'success' => true,
             'data' => $uso,
@@ -245,7 +273,7 @@ class UsoController extends Controller
     }
 
     // Eliminar un uso
-        /**
+     /**
      * @OA\Delete(
      *     path="/api/uso/{id}",
      *     tags={"Usos"},
@@ -270,7 +298,7 @@ class UsoController extends Controller
      *                  @OA\Items(type="object"),
      *                  example=null
      *             ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(type="object"),
      *                  example=null
      *             ),
@@ -293,7 +321,6 @@ class UsoController extends Controller
      *     )
      * )
      */
-
     public function destroy($id)
     {
         $uso = Uso::find($id);
@@ -314,7 +341,6 @@ class UsoController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Uso eliminado exitosamente'
-        ]);
-
+        ], 204);
     }
 }

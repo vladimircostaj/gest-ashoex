@@ -21,46 +21,7 @@ class FacilidadController extends Controller
         ]);
     }
 
-    /**
-     * @OA\Get(
-     *     path="/api/facilidades/{id}",
-     *     tags={"Facilidades"},
-     *     summary="Obtiene los detalles de una facilidad por su ID",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(type="integer"),
-     *         description="ID de la facilidad"
-     *     ),
-     *     @OA\Response(
-     *         response=200,
-     *         description="Facilidad recuperada exitosamente",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id_facilidad", type="integer", example=1),
-     *                 @OA\Property(property="nombre_facilidad", type="string", example="Pizarra"),
-     *             ),
-     *             @OA\Property(property="error", type="null", example=null),
-     *             @OA\Property(property="message", type="string", example="Facilidad recuperada exitosamente")
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Facilidad no encontrada",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="data", type="null", example=null),
-     *             @OA\Property(property="error", type="string", example="Facilidad no encontrada"),
-     *             @OA\Property(property="message", type="string", example="")
-     *         )
-     *     ),
-     * )
-     */
-
+    // Obtener una facilidad por su ID
     public function show($id)
     {
         $facilidad = Facilidad::find($id);
@@ -93,7 +54,7 @@ class FacilidadController extends Controller
      *             type="object",
      *             required={"nombre_facilidad"},
      *             @OA\Property(property="nombre_facilidad", type="string", example="Televisor"),
-     *             @OA\Property(property="aulas", type="array", 
+     *             @OA\Property(property="aulas", type="array",
      *                 @OA\Items(type="integer", example=1)
      *             )
      *         )
@@ -214,21 +175,34 @@ class FacilidadController extends Controller
      * )
      */
     public function update(UpdateFacilidadRequest $request, $id)
-    {
-        $facilidad = Facilidad::findOrFail($id);
-        $facilidad->update($request->validated());
+{
+    $facilidad = Facilidad::find($id);
 
-        if ($request->has('aulas')) {
-            $facilidad->aulas()->sync($request->aulas);
-        }
-
+    // Si no se encuentra, devolver un error 404
+    if (!$facilidad) {
         return response()->json([
-            'success' => true,
-            'data' => $facilidad,
-            'error' => null,
-            'message' => 'Facilidad actualizada exitosamente'
-        ]);
+            'success' => false,
+            'data' => null,
+            'error' => ['Facilidad no encontrada'],
+            'message' => 'No se pudo actualizar la facilidad'
+        ], 404);
     }
+
+    // Actualiza la facilidad si se encuentra
+    $facilidad->update($request->validated());
+
+    if ($request->has('aulas')) {
+        $facilidad->aulas()->sync($request->aulas);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $facilidad,
+        'error' => null,
+        'message' => 'Facilidad actualizada exitosamente'
+    ]);
+}
+
 
     /**
      * @OA\Delete(
@@ -289,6 +263,6 @@ class FacilidadController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Facilidad eliminada exitosamente'
-        ]);
+        ], 204);
     }
 }

@@ -90,7 +90,7 @@ class UbicacionController extends Controller
      */
 
     public function show($id)
-    {       
+    {
         $ubicacion = Ubicacion::with('aulas.uso', 'aulas.facilidades')->findOrFail($id);
 
         if (!$ubicacion) {
@@ -153,7 +153,7 @@ class UbicacionController extends Controller
      *                     type="object",
      *                     @OA\Property(property="status", type="string", example="422"),
      *                     @OA\Property(property="detail", type="string", example="El campo piso es obligatorio.")
-     *                 ), example={ 
+     *                 ), example={
      *                         {
      *                             "status": 422,
      *                             "detail": "El campo piso es obligatorio."
@@ -287,7 +287,7 @@ class UbicacionController extends Controller
      *                  @OA\Items(type="object"),
      *                  example="null"
      *              ),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                  @OA\Items(type="object"),
      *                  example="null"
      *              ),
@@ -328,7 +328,7 @@ class UbicacionController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Ubicación eliminada exitosamente'
-        ]);
+        ], 204);
     }
 }
 

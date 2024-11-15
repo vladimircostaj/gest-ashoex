@@ -11,6 +11,48 @@ use Illuminate\Http\Request;
 class EdificioController extends Controller
 {
     // Obtener todos los edificios con sus ubicaciones
+    /**
+     * @OA\Get(
+     *     path="/api/edificios",
+     *     tags={"Edificios"},
+     *     summary="Obtener todos los edificios con sus ubicaciones",
+     *     description="Devuelve una lista de todos los edificios, incluyendo sus ubicaciones asociadas",
+     *     operationId="obtenerEdificios",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Lista de edificios obtenida exitosamente",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(
+     *                 @OA\Property(property="id_edificio", type="integer", example=1),
+     *                 @OA\Property(property="nombre_edificio", type="string", example="Edificio A"),
+     *                 @OA\Property(property="geolocalizacion", type="string", example="Latitud: 19.4326, Longitud: -99.1332"),
+     *                 @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-30T12:34:56Z"),
+     *                 @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-30T12:34:56Z"),
+     *                 @OA\Property(
+     *                     property="ubicaciones",
+     *                     type="array",
+     *                     description="Lista de ubicaciones dentro del edificio",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id_ubicacion", type="integer", example=1),
+     *                         @OA\Property(property="piso", type="integer", example=1),
+     *                         @OA\Property(property="id_edificio", type="integer", example=1),
+     *                         @OA\Property(property="created_at", type="string", format="date-time", example="2024-10-30T12:34:56Z"),
+     *                         @OA\Property(property="updated_at", type="string", format="date-time", example="2024-10-30T12:34:56Z")
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="Error interno del servidor")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $edificios = Edificio::with('ubicaciones')->get();
@@ -188,7 +230,7 @@ class EdificioController extends Controller
      *             @OA\Property(property="message", type="string", example="Edificio actualizado exitosamente")
      *         )
      *     ),
-     *    
+     *
      *     @OA\Response(
      *         response=422,
      *         description="Datos de entrada inválidos",
@@ -196,7 +238,7 @@ class EdificioController extends Controller
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
      *             @OA\Property(property="data", type="array", @OA\Items(), example={}),
-     *             @OA\Property(property="error", type="array", 
+     *             @OA\Property(property="error", type="array",
      *                 @OA\Items(
      *                     type="object",
      *                     @OA\Property(property="status", type="integer", example=422),
@@ -206,7 +248,7 @@ class EdificioController extends Controller
      *             @OA\Property(property="message", type="string", example="Error")
      *         )
      *     ),
-     *    
+     *
      * )
      */
     public function update(UpdateEdificioRequest $request, $id)
@@ -276,6 +318,6 @@ class EdificioController extends Controller
             'data' => null,
             'error' => null,
             'message' => 'Edificio eliminado exitosamente'
-        ], 200);
+        ], 204);
     }
 }

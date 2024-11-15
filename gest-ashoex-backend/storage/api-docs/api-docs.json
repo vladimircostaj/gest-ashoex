@@ -456,6 +456,185 @@
                 }
             }
         },
+        "/api/edificios": {
+            "get": {
+                "tags": [
+                    "Edificios"
+                ],
+                "summary": "Obtener todos los edificios con sus ubicaciones",
+                "description": "Devuelve una lista de todos los edificios, incluyendo sus ubicaciones asociadas",
+                "operationId": "obtenerEdificios",
+                "responses": {
+                    "200": {
+                        "description": "Lista de edificios obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id_edificio": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre_edificio": {
+                                                "type": "string",
+                                                "example": "Edificio A"
+                                            },
+                                            "geolocalizacion": {
+                                                "type": "string",
+                                                "example": "Latitud: 19.4326, Longitud: -99.1332"
+                                            },
+                                            "created_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-30T12:34:56Z"
+                                            },
+                                            "updated_at": {
+                                                "type": "string",
+                                                "format": "date-time",
+                                                "example": "2024-10-30T12:34:56Z"
+                                            },
+                                            "ubicaciones": {
+                                                "description": "Lista de ubicaciones dentro del edificio",
+                                                "type": "array",
+                                                "items": {
+                                                    "properties": {
+                                                        "id_ubicacion": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "piso": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "id_edificio": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "created_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-10-30T12:34:56Z"
+                                                        },
+                                                        "updated_at": {
+                                                            "type": "string",
+                                                            "format": "date-time",
+                                                            "example": "2024-10-30T12:34:56Z"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error interno del servidor"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Edificios"
+                ],
+                "summary": "Crear un nuevo edificio",
+                "description": "Crea un edificio con el nombre y la geolocalización proporcionados.",
+                "operationId": "createEdificio",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_edificio"
+                                ],
+                                "properties": {
+                                    "nombre_edificio": {
+                                        "type": "string",
+                                        "example": "Edificio Central"
+                                    },
+                                    "geolocalizacion": {
+                                        "type": "string",
+                                        "example": "-19.57347,-65.75537"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Éxito. Edificio creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre_edificio": {
+                                            "type": "string",
+                                            "example": "Edificio Central"
+                                        },
+                                        "geolocalizacion": {
+                                            "type": "string",
+                                            "example": "-19.57347,-65.75537"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-28T12:34:56Z"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time",
+                                            "example": "2024-10-28T12:34:56Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación. Faltan datos o no son válidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "El nombre del edificio es obligatorio."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/edificios/{id}": {
             "get": {
                 "tags": [
@@ -833,305 +1012,6 @@
                 }
             }
         },
-        "/api/edificios": {
-            "post": {
-                "tags": [
-                    "Edificios"
-                ],
-                "summary": "Crear un nuevo edificio",
-                "description": "Crea un edificio con el nombre y la geolocalización proporcionados.",
-                "operationId": "createEdificio",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "nombre_edificio"
-                                ],
-                                "properties": {
-                                    "nombre_edificio": {
-                                        "type": "string",
-                                        "example": "Edificio Central"
-                                    },
-                                    "geolocalizacion": {
-                                        "type": "string",
-                                        "example": "-19.57347,-65.75537"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Éxito. Edificio creado correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "nombre_edificio": {
-                                            "type": "string",
-                                            "example": "Edificio Central"
-                                        },
-                                        "geolocalizacion": {
-                                            "type": "string",
-                                            "example": "-19.57347,-65.75537"
-                                        },
-                                        "created_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2024-10-28T12:34:56Z"
-                                        },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2024-10-28T12:34:56Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Error de validación. Faltan datos o no son válidos",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "error": {
-                                            "type": "string",
-                                            "example": "El nombre del edificio es obligatorio."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/facilidades/{id}": {
-            "get": {
-                "tags": [
-                    "Facilidades"
-                ],
-                "summary": "Obtiene los detalles de una facilidad por su ID",
-                "operationId": "1a68143bd04d402d2212937bf1473dbb",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID de la facilidad",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Facilidad recuperada exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "data": {
-                                            "properties": {
-                                                "id_facilidad": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "nombre_facilidad": {
-                                                    "type": "string",
-                                                    "example": "Pizarra"
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "error": {
-                                            "type": "null",
-                                            "example": null
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Facilidad recuperada exitosamente"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Facilidad no encontrada",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "data": {
-                                            "type": "null",
-                                            "example": null
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Facilidad no encontrada"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": ""
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "Facilidades"
-                ],
-                "summary": "Actualizar facilidad",
-                "operationId": "e84f16e8dc67a086412b73c2533c050c",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID de la facilidad",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "properties": {
-                                    "nombre_facilidad": {
-                                        "description": "Nombre de la facilidad",
-                                        "type": "string",
-                                        "example": "Proyector"
-                                    },
-                                    "id_aula": {
-                                        "description": "ID del aula",
-                                        "type": "integer",
-                                        "example": "1"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Facilidad actualizada correctamente"
-                    },
-                    "404": {
-                        "description": "Facilidad no encontrada"
-                    },
-                    "422": {
-                        "description": "Error de validación"
-                    }
-                }
-            },
-            "delete": {
-                "tags": [
-                    "Facilidades"
-                ],
-                "summary": "Elimina una facilidad por su ID",
-                "description": "Elimina una facilidad existente y devuelve el resultado de la operación",
-                "operationId": "035186a5e362c44b0663efa26b4ecef7",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "ID de la facilidad",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Facilidad eliminada exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "data": {
-                                            "type": "null",
-                                            "example": null
-                                        },
-                                        "error": {
-                                            "type": "null",
-                                            "example": null
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Facilidad eliminada exitosamente"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Facilidad no encontrada",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "data": {
-                                            "type": "null",
-                                            "example": null
-                                        },
-                                        "error": {
-                                            "type": "string",
-                                            "example": "Facilidad no encontrada"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": ""
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
         "/api/facilidades": {
             "post": {
                 "tags": [
@@ -1255,6 +1135,135 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/facilidades/{id}": {
+            "put": {
+                "tags": [
+                    "Facilidades"
+                ],
+                "summary": "Actualizar facilidad",
+                "operationId": "e84f16e8dc67a086412b73c2533c050c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la facilidad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre_facilidad": {
+                                        "description": "Nombre de la facilidad",
+                                        "type": "string",
+                                        "example": "Proyector"
+                                    },
+                                    "id_aula": {
+                                        "description": "ID del aula",
+                                        "type": "integer",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Facilidad actualizada correctamente"
+                    },
+                    "404": {
+                        "description": "Facilidad no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Facilidades"
+                ],
+                "summary": "Elimina una facilidad por su ID",
+                "description": "Elimina una facilidad existente y devuelve el resultado de la operación",
+                "operationId": "035186a5e362c44b0663efa26b4ecef7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la facilidad",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Facilidad eliminada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Facilidad eliminada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Facilidad no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Facilidad no encontrada"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": ""
                                         }
                                     },
                                     "type": "object"
@@ -1778,6 +1787,200 @@
                 }
             }
         },
+        "/api/usos": {
+            "get": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Obtener lista de usos",
+                "operationId": "ec564765309f605a557276f870e93257",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usos recuperada exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_uso": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "tipo_uso": {
+                                                        "type": "string",
+                                                        "example": "Uso de Aula"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Lista de usos recuperada exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "null",
+                                            "nullable": true
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Error del servidor"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hubo un error en el servidor"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Usos"
+                ],
+                "summary": "Almacena un nuevo uso en la base de datos",
+                "operationId": "3bc21717511505af421b348ac988220f",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "tipo_uso"
+                                ],
+                                "properties": {
+                                    "tipo_uso": {
+                                        "type": "string",
+                                        "example": "Uso de oficina"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Uso registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "tipo_uso": {
+                                                    "type": "string",
+                                                    "example": "Laboratorio de Quimica"
+                                                },
+                                                "id_uso": {
+                                                    "type": "integer",
+                                                    "example": 11
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Uso registrado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {},
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "string",
+                                                        "example": "422"
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "Debe ingresar un tipo de uso valido."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "status": 422,
+                                                    "detail": "Debe ingresar un tipo de uso valido."
+                                                }
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/usos/{id}": {
             "get": {
                 "tags": [
@@ -2011,121 +2214,6 @@
                                                 {
                                                     "status": 422,
                                                     "detail": "El campo tipo uso es obligatorio."
-                                                }
-                                            ]
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Error"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/usos": {
-            "post": {
-                "tags": [
-                    "Usos"
-                ],
-                "summary": "Almacena un nuevo uso en la base de datos",
-                "operationId": "3bc21717511505af421b348ac988220f",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "required": [
-                                    "tipo_uso"
-                                ],
-                                "properties": {
-                                    "tipo_uso": {
-                                        "type": "string",
-                                        "example": "Uso de oficina"
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Uso registrado exitosamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "data": {
-                                            "properties": {
-                                                "tipo_uso": {
-                                                    "type": "string",
-                                                    "example": "Laboratorio de Quimica"
-                                                },
-                                                "id_uso": {
-                                                    "type": "integer",
-                                                    "example": 11
-                                                }
-                                            },
-                                            "type": "object"
-                                        },
-                                        "error": {
-                                            "type": "array",
-                                            "items": {},
-                                            "example": null
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Uso registrado exitosamente"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Error de validación",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": false
-                                        },
-                                        "data": {
-                                            "type": "array",
-                                            "items": {},
-                                            "example": []
-                                        },
-                                        "error": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "status": {
-                                                        "type": "string",
-                                                        "example": "422"
-                                                    },
-                                                    "detail": {
-                                                        "type": "string",
-                                                        "example": "Debe ingresar un tipo de uso valido."
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "example": [
-                                                {
-                                                    "status": 422,
-                                                    "detail": "Debe ingresar un tipo de uso valido."
                                                 }
                                             ]
                                         },
