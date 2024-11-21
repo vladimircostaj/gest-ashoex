@@ -57,7 +57,7 @@ const HamburgerMenu = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 1.2rem;
+  font-size: 1.8 rem;
   font-weight: bold;
   margin: 0;
   flex: 1;
@@ -72,7 +72,7 @@ const LogoContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-left: -10px;
+  margin-left: -50 px;
 `;
 
 const LogoImage = styled.img`
