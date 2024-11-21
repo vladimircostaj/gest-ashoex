@@ -36,7 +36,7 @@ const StyledHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  background-color: black;
+  background-color: #2D2A2A;
   color: white;
   position: fixed;
   top: 0;
