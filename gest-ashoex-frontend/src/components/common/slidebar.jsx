@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IconButton, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
-  if (!isOpen) return null; // Si no está abierto, no se renderiza
+  if (!isOpen) return null;
+
+  const [isAmbientesOpen, setIsAmbientesOpen] = useState(false);
+  const [isCurriculaOpen, setIsCurriculaOpen] = useState(false);
+  const [isPersonalOpen, setIsPersonalOpen] = useState(false);
+
+  const toggleAmbientes = () => setIsAmbientesOpen((prev) => !prev);
+  const toggleCurricula = () => setIsCurriculaOpen((prev) => !prev);
+  const togglePersonal = () => setIsPersonalOpen((prev) => !prev);
 
   return (
     <SliderContainer>
@@ -17,11 +25,37 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 
       <Divider style={{ backgroundColor: 'gray' }} />
 
-      {/* Aquí van los menús */}
+      
       <Menu>
-        <MenuItem>📅 Ambientes</MenuItem>
-        <MenuItem>📘 Currícula</MenuItem>
-        <MenuItem>🧑‍💼 Personal</MenuItem>
+        <MenuItem onClick={toggleAmbientes}>
+          📅 Ambientes {isAmbientesOpen ? '▲' : '▼'}
+        </MenuItem>
+        {isAmbientesOpen && (
+          <SubMenu>
+            <SubMenuItem>➕ Agregar Ambiente</SubMenuItem>
+            <SubMenuItem>📜 Ver Lista de Ambientes</SubMenuItem>
+          </SubMenu>
+        )}
+
+        <MenuItem onClick={toggleCurricula}>
+          📘 Currícula {isCurriculaOpen ? '▲' : '▼'}
+        </MenuItem>
+        {isCurriculaOpen && (
+          <SubMenu>
+            <SubMenuItem>➕ Agregar Currícula</SubMenuItem>
+            <SubMenuItem>📜 Ver Lista de Currículas</SubMenuItem>
+          </SubMenu>
+        )}
+
+        <MenuItem onClick={togglePersonal}>
+          🧑‍💼 Personal {isPersonalOpen ? '▲' : '▼'}
+        </MenuItem>
+        {isPersonalOpen && (
+          <SubMenu>
+            <SubMenuItem>➕ Agregar Personal</SubMenuItem>
+            <SubMenuItem>📜 Ver Lista de Personal</SubMenuItem>
+          </SubMenu>
+        )}
       </Menu>
     </SliderContainer>
   );
@@ -60,6 +94,24 @@ const Menu = styled.div`
 const MenuItem = styled.div`
   margin-bottom: 20px;
   font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const SubMenu = styled.div`
+  padding-left: 20px;
+  margin-top: 10px;
+`;
+
+const SubMenuItem = styled.div`
+  margin-bottom: 10px;
+  font-size: 1rem;
   cursor: pointer;
 
   &:hover {
