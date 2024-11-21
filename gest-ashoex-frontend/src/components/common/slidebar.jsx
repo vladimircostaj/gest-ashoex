@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IconButton, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday'; 
-import BookIcon from '@mui/icons-material/Book'; 
-import PersonIcon from '@mui/icons-material/Person'; 
-import AddCircleIcon from '@mui/icons-material/AddCircle'; 
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import BookIcon from '@mui/icons-material/Book';
+import PersonIcon from '@mui/icons-material/Person';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
@@ -15,7 +15,6 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
   const [isCurriculaOpen, setIsCurriculaOpen] = useState(false);
   const [isPersonalOpen, setIsPersonalOpen] = useState(false);
 
-  // Funciones para alternar los submenús
   const toggleAmbientes = () => setIsAmbientesOpen((prev) => !prev);
   const toggleCurricula = () => setIsCurriculaOpen((prev) => !prev);
   const togglePersonal = () => setIsPersonalOpen((prev) => !prev);
@@ -88,7 +87,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 };
 
 const SliderContainer = styled.div`
-  width: 300px;
+  width: 280px;
   height: 100%;
   background-color: black;
   color: white;
@@ -111,6 +110,7 @@ const SliderHeader = styled.div`
 const Title = styled.h1`
   font-size: 1.2rem;
   color: white;
+  font-weight: bold;
 `;
 
 const Menu = styled.div`
@@ -118,15 +118,16 @@ const Menu = styled.div`
 `;
 
 const MenuItem = styled.div`
-  margin-bottom: 20px;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   cursor: pointer;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  padding: 10px 0;
+  margin-bottom: 10px;
 
   &:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
   }
 `;
 
@@ -136,14 +137,16 @@ const SubMenu = styled.div`
 `;
 
 const SubMenuItem = styled.div`
-  margin-bottom: 10px;
   font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
+  padding: 5px 0;
+  margin-bottom: 8px;
 
   &:hover {
-    text-decoration: underline;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
   }
 `;
 
