@@ -2,6 +2,11 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { IconButton, Divider } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday'; 
+import BookIcon from '@mui/icons-material/Book'; 
+import PersonIcon from '@mui/icons-material/Person'; 
+import AddCircleIcon from '@mui/icons-material/AddCircle'; 
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
   if (!isOpen) return null;
@@ -10,6 +15,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
   const [isCurriculaOpen, setIsCurriculaOpen] = useState(false);
   const [isPersonalOpen, setIsPersonalOpen] = useState(false);
 
+  // Funciones para alternar los submenús
   const toggleAmbientes = () => setIsAmbientesOpen((prev) => !prev);
   const toggleCurricula = () => setIsCurriculaOpen((prev) => !prev);
   const togglePersonal = () => setIsPersonalOpen((prev) => !prev);
@@ -25,35 +31,55 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 
       <Divider style={{ backgroundColor: 'gray' }} />
 
-      
       <Menu>
         <MenuItem onClick={toggleAmbientes}>
-          📅 Ambientes {isAmbientesOpen ? '▲' : '▼'}
+          <CalendarTodayIcon style={{ color: 'white', marginRight: '10px' }} />
+          Ambientes {isAmbientesOpen ? '▲' : '▼'}
         </MenuItem>
         {isAmbientesOpen && (
           <SubMenu>
-            <SubMenuItem>➕ Agregar Ambiente</SubMenuItem>
-            <SubMenuItem>📜 Ver Lista de Ambientes</SubMenuItem>
+            <SubMenuItem>
+              <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
+              Agregar Ambiente
+            </SubMenuItem>
+            <SubMenuItem>
+              <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
+              Ver Lista de Ambientes
+            </SubMenuItem>
           </SubMenu>
         )}
 
         <MenuItem onClick={toggleCurricula}>
-          📘 Currícula {isCurriculaOpen ? '▲' : '▼'}
+          <BookIcon style={{ color: 'white', marginRight: '10px' }} />
+          Currícula {isCurriculaOpen ? '▲' : '▼'}
         </MenuItem>
         {isCurriculaOpen && (
           <SubMenu>
-            <SubMenuItem>➕ Agregar Currícula</SubMenuItem>
-            <SubMenuItem>📜 Ver Lista de Currículas</SubMenuItem>
+            <SubMenuItem>
+              <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
+              Agregar Currícula
+            </SubMenuItem>
+            <SubMenuItem>
+              <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
+              Ver Lista de Currículas
+            </SubMenuItem>
           </SubMenu>
         )}
 
         <MenuItem onClick={togglePersonal}>
-          🧑‍💼 Personal {isPersonalOpen ? '▲' : '▼'}
+          <PersonIcon style={{ color: 'white', marginRight: '10px' }} />
+          Personal {isPersonalOpen ? '▲' : '▼'}
         </MenuItem>
         {isPersonalOpen && (
           <SubMenu>
-            <SubMenuItem>➕ Agregar Personal</SubMenuItem>
-            <SubMenuItem>📜 Ver Lista de Personal</SubMenuItem>
+            <SubMenuItem>
+              <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
+              Agregar Personal
+            </SubMenuItem>
+            <SubMenuItem>
+              <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
+              Ver Lista de Personal
+            </SubMenuItem>
           </SubMenu>
         )}
       </Menu>
@@ -113,6 +139,8 @@ const SubMenuItem = styled.div`
   margin-bottom: 10px;
   font-size: 1rem;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 
   &:hover {
     text-decoration: underline;
