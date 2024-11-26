@@ -99,7 +99,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 const SliderContainer = styled.div`
   width: 280px;
   height: 100%;
-  background-color: black;
+  background-color: #2D2A2A;
   color: white;
   position: fixed;
   top: 0;
