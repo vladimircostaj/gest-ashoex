@@ -9,7 +9,7 @@ import RegistrarPersonalPage from './pages/registrar_personal_page.jsx';
 import ListaPersonalAcademico from './components/ListaPersonalAcademico/ListaPersonalAcademico.jsx';
 import ActualizarPersonalPage from './pages/ActualizarPersonalPage.jsx';
 import Header from './components/common/header.jsx';
-import SliderBar from './components/common/slideBar.jsx';
+import SliderBar from './components/common/slidebar.jsx';
 
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
