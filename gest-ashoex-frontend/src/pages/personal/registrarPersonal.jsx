@@ -32,23 +32,33 @@ const RegistrarPersonal = () => {
             gap: '15px', 
           }}
         >
-        
           <InputField
             label="Nombre completo:"
             id="nombre"
             placeholder="Ingrese su nombre completo"
+            style={{
+              container: { textAlign: 'left' }, 
+            }}
           />
+
           <InputField
             label="Correo Electrónico:"
             id="correo"
             type="email"
             placeholder="Ingrese su correo"
+            style={{
+              container: { textAlign: 'left' },
+            }}
           />
+
           <InputField
             label="Teléfono:"
             id="telefono"
             type="tel"
             placeholder="Ingrese su teléfono"
+            style={{
+              container: { textAlign: 'left' },
+            }}
           />
 
           <SelectField
@@ -59,6 +69,9 @@ const RegistrarPersonal = () => {
               { value: 'docente', label: 'Docente' },
               { value: 'administrativo', label: 'Administrativo' },
             ]}
+            style={{
+              container: { textAlign: 'left' },
+            }}
           />
 
           <div
@@ -91,7 +104,7 @@ const RegistrarPersonal = () => {
                 borderRadius: '8px',
                 fontWeight: 'bold',
                 padding: '10px 15px',
-                width: '48%',
+                width: '48%', 
                 textAlign: 'center',
               }}
               type="submit"

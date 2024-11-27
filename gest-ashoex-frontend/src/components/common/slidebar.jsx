@@ -7,8 +7,9 @@ import BookIcon from '@mui/icons-material/Book';
 import PersonIcon from '@mui/icons-material/Person';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';  
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';  
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
   if (!isOpen) return null;
@@ -16,6 +17,8 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
   const [isAmbientesOpen, setIsAmbientesOpen] = useState(false);
   const [isCurriculaOpen, setIsCurriculaOpen] = useState(false);
   const [isPersonalOpen, setIsPersonalOpen] = useState(false);
+
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const toggleAmbientes = () => setIsAmbientesOpen((prev) => !prev);
   const toggleCurricula = () => setIsCurriculaOpen((prev) => !prev);
@@ -33,6 +36,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
       <Divider style={{ backgroundColor: 'gray' }} />
 
       <Menu>
+        {/* Ambientes Section */}
         <MenuItem onClick={toggleAmbientes}>
           <CalendarTodayIcon style={{ color: 'white', marginRight: '10px' }} />
           Ambientes {isAmbientesOpen ? <ExpandLessIcon style={{ color: 'white' }} /> : <ExpandMoreIcon style={{ color: 'white' }} />}
@@ -50,6 +54,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
           </SubMenu>
         )}
 
+        {/* Curricula Section */}
         <MenuItem onClick={toggleCurricula}>
           <BookIcon style={{ color: 'white', marginRight: '10px' }} />
           Currícula {isCurriculaOpen ? <ExpandLessIcon style={{ color: 'white' }} /> : <ExpandMoreIcon style={{ color: 'white' }} />}
@@ -67,17 +72,18 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
           </SubMenu>
         )}
 
+        {/* Personal Section */}
         <MenuItem onClick={togglePersonal}>
           <PersonIcon style={{ color: 'white', marginRight: '10px' }} />
           Personal {isPersonalOpen ? <ExpandLessIcon style={{ color: 'white' }} /> : <ExpandMoreIcon style={{ color: 'white' }} />}
         </MenuItem>
         {isPersonalOpen && (
           <SubMenu>
-            <SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/registrar-personal")}>
               <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
               Agregar Personal
             </SubMenuItem>
-            <SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/ListaPersonalAcademico")} >
               <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
               Ver Lista de Personal
             </SubMenuItem>
@@ -87,6 +93,8 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
     </SliderContainer>
   );
 };
+
+
 
 const SliderContainer = styled.div`
   width: 280px;
