@@ -426,9 +426,9 @@ class AulaController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => null,
-            'error' => null,
-            'message' => 'Aula eliminada exitosamente'
-        ], 204);
+            'data' => [],
+            'error' => []   ,
+            'message' => 'Operación exitosa'
+        ], 200);
     }
 }
