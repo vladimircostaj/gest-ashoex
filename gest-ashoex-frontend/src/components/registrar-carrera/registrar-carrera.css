@@ -1,0 +1,87 @@
+/* Contenedor principal del formulario */
+.crear-carrera-container {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1rem;
+   
+
+  }
+  
+  /* Título del formulario */
+  .form-title {
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+  
+  /* Contenedor del formulario */
+  .form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1rem;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Color de fondo ligero */
+  }
+  
+  /* Espaciado entre grupos de formulario */
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Estilo para las etiquetas */
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Estilo para los campos de entrada */
+  .form-group input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  /* Interacción con los campos de entrada */
+  .form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Botón de envío */
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  /* Interacción con el botón */
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Ajustes adicionales para pantallas pequeñas */
+  @media (max-width: 480px) {
+    .form {
+      padding: 0.75rem;
+    }
+  
+    button {
+      font-size: 0.9rem;
+      padding: 0.6rem;
+    }
+  }
+  
