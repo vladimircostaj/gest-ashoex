@@ -10,7 +10,10 @@ import ListaPersonalAcademico from './components/ListaPersonalAcademico/ListaPer
 import ActualizarPersonalPage from './pages/ActualizarPersonalPage.jsx';
 import Header from './components/common/header.jsx';
 import SliderBar from './components/common/slidebar.jsx';
-
+import RegistrarMateriaForm from './components/registrar_materia/registrar_materia_form.jsx';
+import CrearCarreraForm from './components/registrar-carrera/registrar-carrera.jsx';
+import ListaMaterias from './components/lista-materias/lista_materias.jsx';
+import ListaCarreras from './components/lista-carreras/lista-carreras.jsx';
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -26,6 +29,10 @@ function App() {
         <Route path="/registrar-personal" element={<RegistrarPersonalPage />} />
         <Route path="/ListaPersonalAcademico" element={<ListaPersonalAcademico />} />
         <Route path="/modificar-personal" element={<ActualizarPersonalPage />} />
+        <Route path="/registrar-materia" element={<RegistrarMateriaForm/>} />
+        <Route path="/registrar-carrera" element={<CrearCarreraForm/>} />
+        <Route path="/lista-materias" element={<ListaMaterias/>} />
+        <Route path="/lista-carreras" element={<ListaCarreras/>} />
       </Routes>
     </Router>
   );
