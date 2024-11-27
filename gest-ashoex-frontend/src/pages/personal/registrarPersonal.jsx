@@ -1,4 +1,7 @@
 import React from 'react';
+import Title from '../../components/typography/title';
+import InputField from '../../components/form/inputField';
+import SelectField from '../../components/form/selectField';
 
 const RegistrarPersonal = () => {
   return (
@@ -17,106 +20,54 @@ const RegistrarPersonal = () => {
           borderRadius: '12px',
           padding: '20px',
           backgroundColor: '#fff',
+          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
         }}
       >
+        <Title text="Registrar Personal Académico" />
 
-        <h2
-          style={{
-            textAlign: 'center',
-            fontSize: '1.5rem',
-            fontWeight: '600',
-            marginBottom: '20px',
-            color: '#333',
-          }}
-        >
-          Registrar Personal Académico
-        </h2>
-
-    
         <form
           style={{
             display: 'flex',
             flexDirection: 'column',
-            gap: '15px',
+            gap: '15px', 
           }}
         >
-          {[
-            { label: 'Nombre completo:', id: 'nombre', type: 'text', placeholder: 'Ingrese el nombre completo' },
-            { label: 'Correo Electrónico:', id: 'correo', type: 'email', placeholder: 'Ingrese el correo' },
-            { label: 'Teléfono:', id: 'telefono', type: 'tel', placeholder: 'Ingrese el teléfono' },
-          ].map((field) => (
-            <div
-              key={field.id}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-              }}
-            >
-              <label
-                htmlFor={field.id}
-                style={{
-                  fontSize: '14px',
-                  fontWeight: '500',
-                  color: '#555',
-                  minWidth: '110px', 
-                  textAlign: 'right',
-                }}
-              >
-                {field.label}
-              </label>
-              <input
-                id={field.id}
-                type={field.type}
-                placeholder={field.placeholder}
-                style={{
-                  flex: '1',
-                  padding: '10px',
-                  borderRadius: '8px',
-                  border: '1px solid #ccc',
-                  fontSize: '14px',
-                }}
-              />
-            </div>
-          ))}
+        
+          <InputField
+            label="Nombre completo:"
+            id="nombre"
+            placeholder="Ingrese su nombre completo"
+          />
+          <InputField
+            label="Correo Electrónico:"
+            id="correo"
+            type="email"
+            placeholder="Ingrese su correo"
+          />
+          <InputField
+            label="Teléfono:"
+            id="telefono"
+            type="tel"
+            placeholder="Ingrese su teléfono"
+          />
+
+          <SelectField
+            label="Tipo de personal:"
+            id="tipo-personal"
+            options={[
+              { value: '', label: 'Seleccione una opción' },
+              { value: 'docente', label: 'Docente' },
+              { value: 'administrativo', label: 'Administrativo' },
+            ]}
+          />
 
           <div
             style={{
               display: 'flex',
-              alignItems: 'center',
-              gap: '10px',
+              justifyContent: 'space-between',
+              marginTop: '20px',
             }}
           >
-            <label
-              htmlFor="tipo-personal"
-              style={{
-                fontSize: '14px',
-                fontWeight: '500',
-                color: '#555',
-                minWidth: '110px',
-                textAlign: 'right',
-              }}
-            >
-              Tipo de personal:
-            </label>
-            <select
-              id="tipo-personal"
-              style={{
-                flex: '1',
-                padding: '10px',
-                borderRadius: '8px',
-                border: '1px solid #ccc',
-                fontSize: '14px',
-              }}
-            >
-              <option value="">Seleccione una opción</option>
-              <option value="docente">Docente</option>
-              <option value="administrativo">Auxiliar</option>
-            </select>
-          </div>
-
-          
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
             <button
               className="btn"
               style={{
@@ -124,9 +75,8 @@ const RegistrarPersonal = () => {
                 color: '#fff',
                 borderRadius: '8px',
                 fontWeight: 'bold',
-                padding: '10px 20px',
-                flex: '1',
-                marginRight: '10px',
+                padding: '10px 15px',
+                width: '48%',
                 textAlign: 'center',
               }}
               type="button"
@@ -140,9 +90,8 @@ const RegistrarPersonal = () => {
                 color: '#fff',
                 borderRadius: '8px',
                 fontWeight: 'bold',
-                padding: '10px 20px',
-                flex: '1',
-                marginLeft: '10px',
+                padding: '10px 15px',
+                width: '48%',
                 textAlign: 'center',
               }}
               type="submit"

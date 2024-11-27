@@ -1,17 +1,32 @@
 import React from 'react';
 
-const SelectField = ({ label, options }) => {
+const SelectField = ({ label, id, options, style = {} }) => {
+  const defaultStyles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '5px',
+    },
+    label: {
+      fontSize: '14px',
+      fontWeight: '500',
+      color: '#555',
+    },
+    select: {
+      width: '100%',
+      padding: '10px',
+      borderRadius: '8px',
+      border: '1px solid #ccc',
+      fontSize: '14px',
+    },
+  };
+
   return (
-    <div className="mb-3">
-      <label className="form-label fw-bold">{label}</label>
-      <select
-        className="form-select"
-        style={{
-          borderRadius: '5px',
-          boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.2)',
-          fontSize: '14px',
-        }}
-      >
+    <div style={{ ...defaultStyles.container, ...style.container }}>
+      <label htmlFor={id} style={{ ...defaultStyles.label, ...style.label }}>
+        {label}
+      </label>
+      <select id={id} style={{ ...defaultStyles.select, ...style.select }}>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
