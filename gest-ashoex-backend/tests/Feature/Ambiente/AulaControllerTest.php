@@ -92,7 +92,7 @@ class AulaControllerTest extends TestCase
             ]);
     }*/
 
-     /**
+    /**
      * Test para actualizar un aula existente
      */
     public function testActualizarAulaExitosamente(): void
@@ -137,7 +137,7 @@ class AulaControllerTest extends TestCase
 
         $response = $this->deleteJson("/api/aulas/{$aula->id_aula}");
 
-        $response->assertStatus(204);
+        $response->assertStatus(200);
 
         $this->assertDatabaseMissing('aula', [
             'id_aula' => $aula->id_aula,

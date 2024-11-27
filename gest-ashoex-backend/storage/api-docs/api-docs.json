@@ -501,16 +501,22 @@
                                             "example": true
                                         },
                                         "data": {
-                                            "type": "null",
-                                            "example": "null"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
                                         },
                                         "error": {
-                                            "type": "null",
-                                            "example": "null"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Aula eliminada exitosamente"
+                                            "example": "Operación exitosa"
                                         }
                                     },
                                     "type": "object"
@@ -529,16 +535,22 @@
                                             "example": false
                                         },
                                         "data": {
-                                            "type": "null",
-                                            "example": "null"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
                                         },
                                         "error": {
-                                            "type": "string",
-                                            "example": "Aula no encontrada"
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": "El aula no existe"
+                                            }
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": ""
+                                            "example": "Operación fallida"
                                         }
                                     },
                                     "type": "object"
