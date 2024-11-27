@@ -10,6 +10,7 @@ import ListaPersonalAcademico from './components/ListaPersonalAcademico/ListaPer
 import ActualizarPersonalPage from './pages/ActualizarPersonalPage.jsx';
 import Header from './components/common/header.jsx';
 import SliderBar from './components/common/slideBar.jsx';
+import RegistrarPersonal from './pages/personal/registrarPersonal.jsx';
 
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -23,9 +24,12 @@ function App() {
       <Routes>
         <Route path="/" element={<HealthCheck />} />
         <Route path="/personal/:id/informacion" element={<InformacionPersonalAcademico />} />
-        <Route path="/registrar-personal" element={<RegistrarPersonalPage />} />
+        <Route path="/registrar-personal" element={<RegistrarPersonalPage />} />  
         <Route path="/ListaPersonalAcademico" element={<ListaPersonalAcademico />} />
         <Route path="/modificar-personal" element={<ActualizarPersonalPage />} />
+
+
+        <Route path="/registrarPersonal" element={<RegistrarPersonal />} />
       </Routes>
     </Router>
   );
