@@ -75,7 +75,7 @@ class EdificioTest extends TestCase
     {
         $edificio = Edificio::factory()->create();
         $response = $this->delete("/api/edificios/{$edificio->id_edificio}");
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     public function test_delete_edificio_inexistente_returns_404(): void
@@ -88,12 +88,30 @@ class EdificioTest extends TestCase
     {
         $edificio = Edificio::factory()->create();
         $response = $this->delete("/api/edificios/{$edificio->id_edificio}");
-        $response->assertStatus(204);
+        $response->assertStatus(200);
     }
 
     public function test_delete_edificio_no_existente_retorna_404(): void
     {
         $response = $this->delete('/api/edificios/999');
         $response->assertStatus(404);
+    }
+
+    public function test_delete_edificio_retorna_respuesta_satisfactoriamente(): void
+    {
+
+         $edificio = Edificio::factory()->create();
+
+         $response = $this->deleteJson("/api/edificios/{$edificio->id_edificio}");
+ 
+         $response->assertStatus(200)
+                  ->assertJson([
+                      'success' => true,
+                      'data' => null,
+                      'error' => null,
+                      'message' => 'Edificio eliminado exitosamente'
+                  ]);
+ 
+         $this->assertDatabaseMissing('edificio', ['id_edificio' => $edificio->id_edificio]);
     }
 }
