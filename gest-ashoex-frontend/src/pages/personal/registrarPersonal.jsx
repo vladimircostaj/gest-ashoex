@@ -37,7 +37,8 @@ const RegistrarPersonal = () => {
             id="nombre"
             placeholder="Ingrese su nombre completo"
             style={{
-              container: { textAlign: 'left' }, 
+              container: { textAlign: 'left' },
+              input: { width: '90%' }, 
             }}
           />
 
@@ -48,6 +49,7 @@ const RegistrarPersonal = () => {
             placeholder="Ingrese su correo"
             style={{
               container: { textAlign: 'left' },
+              input: { width: '90%' },
             }}
           />
 
@@ -58,6 +60,7 @@ const RegistrarPersonal = () => {
             placeholder="Ingrese su teléfono"
             style={{
               container: { textAlign: 'left' },
+              input: { width: '90%' },
             }}
           />
 
@@ -67,13 +70,15 @@ const RegistrarPersonal = () => {
             options={[
               { value: '', label: 'Seleccione una opción' },
               { value: 'docente', label: 'Docente' },
-              { value: 'administrativo', label: 'Administrativo' },
+              { value: 'auxiliar', label: 'Auxiliar' },
             ]}
             style={{
               container: { textAlign: 'left' },
+              select: { width: '100%' }, 
             }}
           />
 
+         
           <div
             style={{
               display: 'flex',
@@ -89,7 +94,7 @@ const RegistrarPersonal = () => {
                 borderRadius: '8px',
                 fontWeight: 'bold',
                 padding: '10px 15px',
-                width: '48%',
+                width: '48%', 
                 textAlign: 'center',
               }}
               type="button"
@@ -104,7 +109,7 @@ const RegistrarPersonal = () => {
                 borderRadius: '8px',
                 fontWeight: 'bold',
                 padding: '10px 15px',
-                width: '48%', 
+                width: '48%',
                 textAlign: 'center',
               }}
               type="submit"
