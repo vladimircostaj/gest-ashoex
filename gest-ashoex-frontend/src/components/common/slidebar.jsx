@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { IconButton, Divider } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import BookIcon from '@mui/icons-material/Book';
-import PersonIcon from '@mui/icons-material/Person';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { IconButton, Divider } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import BookIcon from "@mui/icons-material/Book";
+import PersonIcon from "@mui/icons-material/Person";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
@@ -29,26 +29,31 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
       <SliderHeader>
         <Title>Gest - Ashoex</Title>
         <IconButton onClick={toggleSlider}>
-          <CloseIcon style={{ color: 'white' }} />
+          <CloseIcon style={{ color: "white" }} />
         </IconButton>
       </SliderHeader>
 
-      <Divider style={{ backgroundColor: 'gray' }} />
+      <Divider style={{ backgroundColor: "gray" }} />
 
       <Menu>
         {/* Ambientes Section */}
         <MenuItem onClick={toggleAmbientes}>
-          <CalendarTodayIcon style={{ color: 'white', marginRight: '10px' }} />
-          Ambientes {isAmbientesOpen ? <ExpandLessIcon style={{ color: 'white' }} /> : <ExpandMoreIcon style={{ color: 'white' }} />}
+          <CalendarTodayIcon style={{ color: "white", marginRight: "10px" }} />
+          Ambientes{" "}
+          {isAmbientesOpen ? (
+            <ExpandLessIcon style={{ color: "white" }} />
+          ) : (
+            <ExpandMoreIcon style={{ color: "white" }} />
+          )}
         </MenuItem>
         {isAmbientesOpen && (
           <SubMenu>
-            <SubMenuItem>
-              <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
+            <SubMenuItem onClick={() => navigate("/registrar-ambiente")}>
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar Ambiente
             </SubMenuItem>
-            <SubMenuItem>
-              <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
+            <SubMenuItem onClick={() => navigate("/listar-ambiente")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Ambientes
             </SubMenuItem>
           </SubMenu>
@@ -56,17 +61,22 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 
         {/* Curricula Section */}
         <MenuItem onClick={toggleCurricula}>
-          <BookIcon style={{ color: 'white', marginRight: '10px' }} />
-          Currícula {isCurriculaOpen ? <ExpandLessIcon style={{ color: 'white' }} /> : <ExpandMoreIcon style={{ color: 'white' }} />}
+          <BookIcon style={{ color: "white", marginRight: "10px" }} />
+          Currícula{" "}
+          {isCurriculaOpen ? (
+            <ExpandLessIcon style={{ color: "white" }} />
+          ) : (
+            <ExpandMoreIcon style={{ color: "white" }} />
+          )}
         </MenuItem>
         {isCurriculaOpen && (
           <SubMenu>
             <SubMenuItem>
-              <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar Currícula
             </SubMenuItem>
             <SubMenuItem>
-              <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Currículas
             </SubMenuItem>
           </SubMenu>
@@ -74,17 +84,22 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 
         {/* Personal Section */}
         <MenuItem onClick={togglePersonal}>
-          <PersonIcon style={{ color: 'white', marginRight: '10px' }} />
-          Personal {isPersonalOpen ? <ExpandLessIcon style={{ color: 'white' }} /> : <ExpandMoreIcon style={{ color: 'white' }} />}
+          <PersonIcon style={{ color: "white", marginRight: "10px" }} />
+          Personal{" "}
+          {isPersonalOpen ? (
+            <ExpandLessIcon style={{ color: "white" }} />
+          ) : (
+            <ExpandMoreIcon style={{ color: "white" }} />
+          )}
         </MenuItem>
         {isPersonalOpen && (
           <SubMenu>
             <SubMenuItem onClick={() => navigate("/registrar-personal")}>
-              <AddCircleIcon style={{ color: 'white', marginRight: '10px' }} />
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar Personal
             </SubMenuItem>
-            <SubMenuItem onClick={() => navigate("/ListaPersonalAcademico")} >
-              <ListAltIcon style={{ color: 'white', marginRight: '10px' }} />
+            <SubMenuItem onClick={() => navigate("/ListaPersonalAcademico")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Personal
             </SubMenuItem>
           </SubMenu>
@@ -94,12 +109,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
   );
 };
 
-
-
 const SliderContainer = styled.div`
   width: 280px;
   height: 100%;
-  background-color: #2D2A2A;
+  background-color: #2d2a2a;
   color: white;
   position: fixed;
   top: 0;
@@ -112,8 +125,8 @@ const SliderContainer = styled.div`
 
 const SliderHeader = styled.div`
   display: flex;
-  justify-content: space-between; 
-  align-items: center; 
+  justify-content: space-between;
+  align-items: center;
   padding: 10px;
   width: 100%;
 `;
@@ -123,7 +136,7 @@ const Title = styled.h1`
   color: white;
   text-align: center;
   margin: 0;
-  flex-grow: 1; 
+  flex-grow: 1;
 `;
 
 const Menu = styled.div`

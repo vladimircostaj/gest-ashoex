@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import Logo from '../../images/logo.png';
+import React, { useState } from "react";
+import styled from "styled-components";
+import Logo from "../../images/logo.png";
 
 const Header = ({ toggleSlider }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const handleLogoClick = () => {
-    setShowPopup(!showPopup); 
+    setShowPopup(!showPopup);
   };
 
   return (
@@ -36,7 +36,7 @@ const StyledHeader = styled.header`
   align-items: center;
   justify-content: space-between;
   padding: 10px 16px;
-  background-color: #2D2A2A;
+  background-color: #2d2a2a;
   color: white;
   position: fixed;
   top: 0;
@@ -83,7 +83,7 @@ const Title = styled.h1`
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
-  position: relative; 
+  position: relative;
   margin-left: auto;
   margin-right: 30px;
 `;
@@ -97,7 +97,7 @@ const LogoImage = styled.img`
   cursor: pointer;
 
   &:hover {
-    border-color: #4e75ff; 
+    border-color: #4e75ff;
   }
 `;
 
@@ -120,7 +120,7 @@ const Popup = styled.div`
     cursor: pointer;
 
     &:hover {
-      color: #4e75ff; 
+      color: #4e75ff;
     }
   }
 `;
