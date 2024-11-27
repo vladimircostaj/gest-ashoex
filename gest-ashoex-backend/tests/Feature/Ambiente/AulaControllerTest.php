@@ -155,8 +155,8 @@ class AulaControllerTest extends TestCase
             ->assertJson([
                 'success' => false,
                 'data' => null,
-                'error' => null,
-                'message' => 'Aula no encontrada',
+                'error' => ['Aula no encontrada'],
+                'message' => "Operación fallida",
             ]);
     }
 
