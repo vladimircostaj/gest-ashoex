@@ -253,7 +253,15 @@ class EdificioController extends Controller
      */
     public function update(UpdateEdificioRequest $request, $id)
     {
-        $edificio = Edificio::findOrFail($id);
+        $edificio = Edificio::find($id);
+        if (!$edificio) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => 'Edificio no encontrado',
+                'message' => ''
+            ], 404);
+        }
         $edificio->update($request->validated());
         return response()->json([
             'success' => true,

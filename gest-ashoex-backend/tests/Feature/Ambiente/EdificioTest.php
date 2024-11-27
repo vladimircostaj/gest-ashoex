@@ -63,6 +63,19 @@ class EdificioTest extends TestCase
         $response = $this->put("/api/edificios/{$edificio->id_edificio}", $data);
         $response->assertStatus(200)->assertJsonFragment($data);
     }
+    public function test_put_edificio_inexistente_returns_404(): void
+    {
+        $edificio = Edificio::factory()->create();
+        $data = ['nombre_edificio' => 'Edificio Actualizado'];
+        $response = $this->put("/api/edificios/9999", $data);
+        $response->assertStatus(404)
+        ->assertJson([
+            'success' => false,
+                'data' => null,
+                'error' => 'Edificio no encontrado',
+                'message' => '',
+        ]);
+    }
 
     public function test_put_edificio_falla_con_datos_invalidos(): void
     {

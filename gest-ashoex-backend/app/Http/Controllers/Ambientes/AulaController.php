@@ -353,7 +353,6 @@ class AulaController extends Controller
     }
 
     /**
-    /**
      * @OA\Delete(
      *     path="/api/aulas/{id}",
      *     tags={"Aulas"},
