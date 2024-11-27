@@ -21,6 +21,7 @@ const RegistrarPersonal = () => {
           padding: '20px',
           backgroundColor: '#fff',
           boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
+          marginLeft: '-20px', 
         }}
       >
         <Title text="Registrar Personal Académico" />
@@ -78,7 +79,6 @@ const RegistrarPersonal = () => {
             }}
           />
 
-         
           <div
             style={{
               display: 'flex',
