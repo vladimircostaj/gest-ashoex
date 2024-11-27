@@ -1,0 +1,84 @@
+/* Contenedor principal del formulario */
+.form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f9f9f9; /* Color de fondo ligero */
+  }
+  
+  /* Espaciado entre grupos de formulario */
+  .form-group {
+    margin-bottom: 1.5rem; /* Más espacio entre campos */
+  }
+  
+  /* Estilo para las etiquetas */
+  .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold; /* Resaltar el texto */
+    color: #333;
+  }
+  
+  /* Estilo para los campos de entrada */
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+  }
+  
+  /* Interacción con los campos de entrada */
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Estilo específico para el select */
+  .form-group select {
+    appearance: none; /* Eliminar apariencia predeterminada */
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="4" height="5" viewBox="0 0 4 5"><path fill="%23000" d="M2 0L0 2h4L2 0zM2 5L0 3h4L2 5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 0.65rem auto;
+    cursor: pointer;
+  }
+  
+  /* Botón de envío */
+  button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  /* Interacción con el botón */
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Ajustes adicionales para pantallas pequeñas */
+  @media (max-width: 480px) {
+    .form {
+      padding: 0.75rem;
+    }
+  
+    button {
+      font-size: 0.9rem;
+      padding: 0.6rem;
+    }
+  }
+  
