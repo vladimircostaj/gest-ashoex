@@ -52,7 +52,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar Ambiente
             </SubMenuItem>
-            <SubMenuItem onClick={() => navigate("/listar-ambiente")}>
+            <SubMenuItem onClick={() => navigate("/lista-ambientes")}>
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Ambientes
             </SubMenuItem>

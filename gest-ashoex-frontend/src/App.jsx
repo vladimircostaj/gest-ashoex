@@ -6,6 +6,7 @@ import SlideBar from "./components/common/slidebar.jsx";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegistrarAmbiente from "./pages/Ambiente/registrar_ambiente_page.jsx";
+import ListaAmbientes from "./pages/Ambiente/listar_ambientes_page.jsx";
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HealthCheck />} />
         <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
+        <Route path="/lista-ambientes" element={<ListaAmbientes />} />
       </Routes>
     </Router>
   );

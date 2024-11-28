@@ -17,7 +17,6 @@ const RegistrarAmbienteForm = () => {
     facilidades: [],
   });
 
-  // Manejar cambios en los campos
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
