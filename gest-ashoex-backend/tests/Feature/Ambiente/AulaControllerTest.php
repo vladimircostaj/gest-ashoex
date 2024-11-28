@@ -25,7 +25,7 @@ class AulaControllerTest extends TestCase
     public function testRegistrarAulaExitosamente(): void
     {
         $ubicacion = Ubicacion::factory()->create();
-        $uso = Uso::factory()->create();
+        $usos = Uso::factory(2)->create();
         $facilidades = Facilidad::factory(2)->create();
 
         $data = [
@@ -33,7 +33,7 @@ class AulaControllerTest extends TestCase
             'capacidad' => 50,
             'habilitada' => true,
             'id_ubicacion' => $ubicacion->id_ubicacion,
-            'id_uso' => $uso->id_uso,
+            'usos' => $usos->pluck('id_uso')->toArray(),
             'facilidades' => $facilidades->pluck('id_facilidad')->toArray(),
         ];
 
@@ -47,7 +47,6 @@ class AulaControllerTest extends TestCase
                     'capacidad' => 50,
                     'habilitada' => true,
                     'id_ubicacion' => $ubicacion->id_ubicacion,
-                    'id_uso' => $uso->id_uso,
                 ],
                 'error' => null,
                 'message' => 'Aula registrada exitosamente',
@@ -99,13 +98,14 @@ class AulaControllerTest extends TestCase
     {
         $aula = Aula::factory()->create();
         $facilidades = Facilidad::factory(2)->create();
+        $usos = Uso::factory(2)->create();
 
         $data = [
             'numero_aula' => 'A102',
             'capacidad' => 70,
             'habilitada' => false,
             'id_ubicacion' => $aula->id_ubicacion,
-            'id_uso' => $aula->id_uso,
+            'usos' => $usos->pluck('id_uso')->toArray(),
             'facilidades' => $facilidades->pluck('id_facilidad')->toArray(),
         ];
 

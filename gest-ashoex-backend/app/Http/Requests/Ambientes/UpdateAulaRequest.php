@@ -26,7 +26,8 @@ class UpdateAulaRequest extends FormRequest
             'capacidad' => 'required|integer|min:15|max:400',
             'habilitada' => 'boolean',
             'id_ubicacion' => 'sometimes|exists:ubicacion,id_ubicacion',
-            'id_uso' => 'sometimes|exists:uso,id_uso',
+           'usos' => 'sometimes|required|array',
+            'usos.*' => 'exists:uso,id_uso',
             'facilidades' => 'sometimes|required|array',
             'facilidades.*' => 'exists:facilidad,id_facilidad',
         ];
@@ -46,8 +47,9 @@ class UpdateAulaRequest extends FormRequest
             'id_ubicacion.required' => 'La ubicación es obligatoria.',
             'id_ubicacion.exists' => 'La ubicación seleccionada no es válida.',
 
-            'id_uso.required' => 'El uso es obligatorio.',
-            'id_uso.exists' => 'El uso seleccionado no es válido.',
+            'usos.required' => 'Debe seleccionar al menos un uso.',
+            'usos.array' => 'El campo usos debe ser un arreglo.',
+            'usos.*.exists' => 'Alguna de los usos seleccionados no es válido.',
 
             'facilidades.required' => 'Debe seleccionar al menos una facilidad.',
             'facilidades.array' => 'El campo facilidades debe ser un arreglo.',

@@ -10,7 +10,7 @@ class Aula extends Model
     use HasFactory;
     protected $table = 'aula';
     protected $primaryKey = 'id_aula';
-    protected $fillable = ['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion', 'id_uso'];
+    protected $fillable = ['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion'];
     protected $hidden = ['created_at', 'updated_at'];
 
     public function ubicacion()
@@ -18,9 +18,9 @@ class Aula extends Model
         return $this->belongsTo(Ubicacion::class, 'id_ubicacion');
     }
 
-    public function uso()
+    public function usos()
     {
-        return $this->belongsTo(Uso::class, 'id_uso');
+        return $this->belongsToMany(Uso::class, 'aula_uso', 'id_aula','id_uso');
     }
 
     public function facilidades()

@@ -15,6 +15,6 @@ class Uso extends Model
 
     public function aulas()
     {
-        return $this->hasMany(Aula::class, 'id_uso');
+        return $this->belongsToMany(Aula::class, 'aula_uso', 'id_uso', 'id_aula');
     }
 }
