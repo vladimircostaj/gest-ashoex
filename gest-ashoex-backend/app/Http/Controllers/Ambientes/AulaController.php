@@ -61,7 +61,7 @@ class AulaController extends Controller
      */
     public function index()
     {
-        $aulas = Aula::with('uso', 'facilidades')->get();
+        $aulas = Aula::with('usos', 'facilidades')->get();
         return response()->json([
             'success' => true,
             'data' => $aulas,
@@ -127,7 +127,7 @@ class AulaController extends Controller
      */
     public function show($id)
     {
-        $aula = Aula::with('uso', 'facilidades')->find($id);
+        $aula = Aula::with('usos', 'facilidades')->find($id);
 
         if (!$aula) {
             return response()->json([
@@ -146,8 +146,7 @@ class AulaController extends Controller
                 'numero_aula' => $aula->numero_aula,
                 'capacidad' => $aula->capacidad,
                 'habilitada' => $aula->habilitada,
-                'id_ubicacion' => $aula->id_ubicacion,
-                'id_uso' => $aula->id_uso
+                'id_ubicacion' => $aula->id_ubicacion
 
             ],
             'error' => null,
@@ -156,7 +155,7 @@ class AulaController extends Controller
     }
 
 
-    
+
     /**
      * @OA\Post(
      *     path="/api/aulas",
@@ -230,6 +229,7 @@ class AulaController extends Controller
         $aula = Aula::create($request->validated());
 
         $aula->facilidades()->attach($request->facilidades);
+        $aula->usos()->attach($request->usos);
 
         return response()->json([
             'success' => true,
@@ -338,11 +338,15 @@ class AulaController extends Controller
     {
         $aula = Aula::findOrFail($id);
         $aula->update($request->validated());
-        $aula->update($request->validated());
 
         if ($request->has('facilidades')) {
             $aula->facilidades()->sync($request->facilidades);
         }
+
+        if ($request->has('usos')) {
+            $aula->usos()->sync($request->usos);
+        }
+
 
         return response()->json([
             'success' => true,
@@ -374,13 +378,13 @@ class AulaController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(type="string"),  
+     *                 @OA\Items(type="string"),
      *                 example={}
      *             ),
      *             @OA\Property(
      *                 property="error",
      *                 type="array",
-     *                 @OA\Items(type="string"),  
+     *                 @OA\Items(type="string"),
      *                 example={}
      *             ),
      *             @OA\Property(property="message", type="string", example="Operación exitosa")
@@ -395,7 +399,7 @@ class AulaController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="array",
-     *                 @OA\Items(type="string"),  
+     *                 @OA\Items(type="string"),
      *                 example={}
      *             ),
      *             @OA\Property(

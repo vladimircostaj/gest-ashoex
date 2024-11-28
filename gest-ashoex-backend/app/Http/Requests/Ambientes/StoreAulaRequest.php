@@ -26,7 +26,8 @@ class StoreAulaRequest extends FormRequest
             'capacidad' => 'required|integer|min:15|max:400',
             'habilitada' => 'required|boolean',
             'id_ubicacion' => 'required|exists:ubicacion,id_ubicacion',
-            'id_uso' => 'required|exists:uso,id_uso',
+            'usos' => 'required|array',
+            'usos.*' => 'exists:uso,id_uso',
             'facilidades' => 'required|array',
             'facilidades.*' => 'exists:facilidad,id_facilidad',
         ];
@@ -46,8 +47,9 @@ class StoreAulaRequest extends FormRequest
             'id_ubicacion.required' => 'La ubicación es obligatoria.',
             'id_ubicacion.exists' => 'La ubicación seleccionada no es válida.',
 
-            'id_uso.required' => 'El uso es obligatorio.',
-            'id_uso.exists' => 'El uso seleccionado no es válido.',
+            'usos.required' => 'Debe seleccionar al menos un uso.',
+            'usos.array' => 'El campo usos debe ser un arreglo.',
+            'usos.*.exists' => 'Alguna de los usos seleccionadas no es válida.',
 
             'facilidades.required' => 'Debe seleccionar al menos una facilidad.',
             'facilidades.array' => 'El campo facilidades debe ser un arreglo.',

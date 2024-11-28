@@ -18,7 +18,6 @@ class AulaFactory extends Factory
             'capacidad' => $this->faker->numberBetween(20, 100),
             'habilitada' => $this->faker->boolean(),
             'id_ubicacion' => Ubicacion::factory(),
-            'id_uso' => Uso::factory(),
         ];
     }
 }

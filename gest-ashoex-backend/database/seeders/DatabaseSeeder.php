@@ -8,6 +8,7 @@ use Database\Seeders\Ambientes\EdificioTableSeeder;
 use Database\Seeders\Ambientes\FacilidadTableSeeder;
 use Database\Seeders\Ambientes\UbicacionTableSeeder;
 use Database\Seeders\Ambientes\UsoTableSeeder;
+use Database\Seeders\Ambientes\AulaUsoTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -25,5 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AulaTableSeeder::class);
         $this->call(FacilidadTableSeeder::class);
         $this->call(AulaFacilidadTableSeeder::class);
+        $this->call(AulaUsoTableSeeder::class);
     }
 }

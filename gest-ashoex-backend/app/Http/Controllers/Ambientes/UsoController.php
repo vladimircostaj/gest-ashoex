@@ -166,6 +166,10 @@ class UsoController extends Controller{
     public function store(StoreUsoRequest $request)
     {
         $uso = Uso::create($request->validated());
+
+        if ($request->has('aulas')) {
+            $uso->aulas()->sync($request->aulas);
+        }
         return response()->json([
             'success' => true,
             'data' => $uso,
@@ -260,6 +264,10 @@ class UsoController extends Controller{
         }
 
         $uso->update($request->validated());
+
+        if ($request->has('aulas')) {
+            $uso->aulas()->sync($request->aulas);
+        }
 
         return response()->json([
             'success' => true,

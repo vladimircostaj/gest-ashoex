@@ -17,7 +17,6 @@ return new class extends Migration
             $table->integer('capacidad')->nullable();
             $table->boolean('habilitada')->default(true);
             $table->foreignId('id_ubicacion')->constrained('ubicacion', 'id_ubicacion')->onDelete('cascade');
-            $table->foreignId('id_uso')->constrained('uso', 'id_uso')->onDelete('cascade');
             $table->timestamps();
         });
     }

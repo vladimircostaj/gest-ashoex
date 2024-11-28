@@ -23,6 +23,8 @@ class UpdateUsoRequest extends FormRequest
     {
         return [
             'tipo_uso' => 'required|string|max:100|unique:uso,tipo_uso',
+            'aulas' => 'sometimes|required|array',
+            'aulas.*' => 'exists:aula,id_aula',
         ];
     }
 
@@ -32,6 +34,10 @@ class UpdateUsoRequest extends FormRequest
             'tipo_uso.required' => 'Debe ingresar un tipo de uso válido.',
             'tipo_uso.string' => 'El tipo de uso debe ser una cadena de texto.',
             'tipo_uso.max' => 'El tipo de uso no puede tener más de 100 caracteres.',
+
+            'aulas.array' => 'El campo aulas debe ser un arreglo.',
+            'aulas.required' => 'Debe seleccionar al menos un aula.',
+            'aulas.*.exists' => 'Alguna de las aulas seleccionadas no es válida.',
         ];
     }
 }
