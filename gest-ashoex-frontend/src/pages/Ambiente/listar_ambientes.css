@@ -94,6 +94,14 @@ table.table .avatar {
   vertical-align: middle;
   margin-right: 10px;
 }
+table.table td i {
+  font-size: 19px;
+}
+table.table .avatar {
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-right: 10px;
+}
 .pagination {
   float: right;
   margin: 0 0 5px;

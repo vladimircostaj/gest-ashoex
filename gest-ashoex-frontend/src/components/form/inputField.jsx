@@ -1,23 +1,31 @@
-import React from 'react';
+import React from "react";
 
-const InputField = ({ label, id, type = 'text', placeholder, style = {} }) => {
+const InputField = ({
+  label,
+  id,
+  type = "text",
+  placeholder,
+  value,
+  onChange,
+  style = {},
+}) => {
   const defaultStyles = {
     container: {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '5px',
+      display: "flex",
+      flexDirection: "column",
+      gap: "5px",
     },
     label: {
-      fontSize: '14px',
-      fontWeight: '500',
-      color: '#555',
+      fontSize: "14px",
+      fontWeight: "500",
+      color: "#555",
     },
     input: {
-      width: '100%',
-      padding: '10px',
-      borderRadius: '8px',
-      border: '1px solid #ccc',
-      fontSize: '14px',
+      width: "100%",
+      padding: "10px",
+      borderRadius: "8px",
+      border: "1px solid #ccc",
+      fontSize: "14px",
     },
   };
 
@@ -31,6 +39,8 @@ const InputField = ({ label, id, type = 'text', placeholder, style = {} }) => {
         type={type}
         placeholder={placeholder}
         style={{ ...defaultStyles.input, ...style.input }}
+        value={value}
+        onChange={onChange}
       />
     </div>
   );

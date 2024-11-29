@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
 import SelectField from "../../components/form/selectField";
 import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
+import { useParams } from "react-router-dom";
 import "./registrar_ambiente.css"; // Importa el archivo CSS
 
-const RegistrarAmbienteForm = () => {
+const EditarAmbiente = () => {
+  const { ambienteId } = useParams(); // Obtenemos el id del ambiente desde la URL
+
   const [formData, setFormData] = useState({
     numero_aula: "",
     capacidad: "",
@@ -21,6 +24,60 @@ const RegistrarAmbienteForm = () => {
     facilidades: [],
   });
 
+  // Simulando una lista de ambientes
+  const ambientes = [
+    {
+      id: "1",
+      numero_aula: "101",
+      capacidad: 30,
+      id_ubicacion: "1",
+      id_uso: "1",
+      facilidades: "Proyector",
+    },
+    {
+      id: "2",
+      numero_aula: "102",
+      capacidad: 50,
+      id_ubicacion: "2",
+      id_uso: "2",
+      facilidades: "Computadoras",
+    },
+    {
+      id: "3",
+      numero_aula: "103",
+      capacidad: 40,
+      id_ubicacion: "1",
+      id_uso: "1",
+      facilidades: "Proyector, Computadoras",
+    },
+  ];
+
+  // Simulando la carga de opciones disponibles
+  const dataDisponibles = {
+    ubicaciones: [
+      { id: "1", nombre: "Salon A" },
+      { id: "2", nombre: "Salon B" },
+    ],
+    usos: [
+      { id: "1", nombre: "Clase" },
+      { id: "2", nombre: "Practica" },
+    ],
+    facilidades: [
+      { id: "1", nombre: "Proyector" },
+      { id: "2", nombre: "Computadoras" },
+    ],
+  };
+
+  // Cargar los datos del ambiente cuando se carga el componente
+  useEffect(() => {
+    const ambiente = ambientes.find((amb) => amb.id === ambienteId);
+
+    if (ambiente) {
+      setFormData(ambiente);
+    }
+    setDisponibles(dataDisponibles);
+  }, [ambienteId]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -30,7 +87,7 @@ const RegistrarAmbienteForm = () => {
   };
 
   const handleCancel = () => {
-    console.log("Registro cancelado");
+    console.log("Edición cancelada");
   };
 
   const handleSave = () => {
@@ -41,7 +98,7 @@ const RegistrarAmbienteForm = () => {
     <div className="form-container">
       <div className="card form-card">
         <div className="mb-3 text-center">
-          <Title text="Registrar Ambientes" />
+          <Title text="Editar Ambiente" />
         </div>
 
         <form className="d-flex flex-column gap-3">
@@ -134,4 +191,4 @@ const RegistrarAmbienteForm = () => {
   );
 };
 
-export default RegistrarAmbienteForm;
+export default EditarAmbiente;

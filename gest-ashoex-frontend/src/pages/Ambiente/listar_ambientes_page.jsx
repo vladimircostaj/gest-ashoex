@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./listar_ambientes.css";
+import Title from "../../components/typography/title";
+import { Link } from "react-router-dom";
 
 const ListaAmbientes = () => {
   // Lista de ambientes estática
@@ -38,8 +40,8 @@ const ListaAmbientes = () => {
     <div className="container mt-5">
       <div className="table title">
         <div className="row">
-          <div className="col-sm-12">
-            <h1>Ambientes Registrados</h1>
+          <div className="">
+            <Title text={"Listado de Ambientes"}></Title>
           </div>
         </div>
       </div>
@@ -65,9 +67,12 @@ const ListaAmbientes = () => {
               <td>{ambiente.uso}</td>
               <td>{ambiente.facilidades}</td>
               <td>
-                <a href="#" className="edit mr-6 ml-6 ">
+                <Link
+                  to={`/editar-ambiente/${ambiente.id}`}
+                  className="edit mr-6 ml-6"
+                >
                   <FaEdit />
-                </a>
+                </Link>
                 <a href="#" className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>
