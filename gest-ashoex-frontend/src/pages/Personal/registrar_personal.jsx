@@ -2,44 +2,33 @@ import React from 'react';
 import Title from '../../components/typography/title';
 import InputField from '../../components/form/inputField';
 import SelectField from '../../components/form/selectField';
+import SaveButton from '../../components/buttons/saveButton';
+import CancelButton from '../../components/buttons/cancelButton';
 
 const RegistrarPersonal = () => {
-  return (
-    <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{
-        backgroundColor: '#f4f4f4',
-        padding: '20px',
-      }}
-    >
-      <div
-        className="card shadow"
-        style={{
-          width: '100%',
-          maxWidth: '360px',
-          borderRadius: '12px',
-          padding: '20px',
-          backgroundColor: '#fff',
-          boxShadow: '0 4px 10px rgba(0, 0, 0, 0.1)',
-          marginLeft: '10px', // Desplaza el formulario a la izquierda
-        }}
-      >
-        <Title text="Registrar Personal Académico" />
+  const handleCancel = () => {
+    console.log('Cancelado');
+  };
 
-        <form
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '15px', 
-          }}
-        >
+  const handleSave = () => {
+    console.log('Guardado');
+  };
+
+  return (
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light p-3">
+      <div className="card shadow-lg rounded-4 p-4" style={{ maxWidth: '400px', width: '100%' }}>
+        <div className="mb-3">
+          <Title text="Registrar Personal Académico" />
+        </div>
+
+        <form className="d-flex flex-column gap-3">
           <InputField
             label="Nombre completo:"
             id="nombre"
             placeholder="Ingrese su nombre completo"
             style={{
               container: { textAlign: 'left' },
-              input: { width: '90%' }, 
+              input: { width: '100%' },
             }}
           />
 
@@ -50,7 +39,7 @@ const RegistrarPersonal = () => {
             placeholder="Ingrese su correo"
             style={{
               container: { textAlign: 'left' },
-              input: { width: '90%' },
+              input: { width: '100%' },
             }}
           />
 
@@ -61,7 +50,7 @@ const RegistrarPersonal = () => {
             placeholder="Ingrese su teléfono"
             style={{
               container: { textAlign: 'left' },
-              input: { width: '90%' },
+              input: { width: '100%' },
             }}
           />
 
@@ -75,47 +64,13 @@ const RegistrarPersonal = () => {
             ]}
             style={{
               container: { textAlign: 'left' },
-              select: { width: '100%' }, 
+              select: { width: '100%' },
             }}
           />
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              marginTop: '20px',
-            }}
-          >
-            <button
-              className="btn"
-              style={{
-                backgroundColor: '#007bff',
-                color: '#fff',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                padding: '10px 15px',
-                width: '48%', 
-                textAlign: 'center',
-              }}
-              type="button"
-            >
-              Cancelar
-            </button>
-            <button
-              className="btn"
-              style={{
-                backgroundColor: '#ff6600',
-                color: '#fff',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                padding: '10px 15px',
-                width: '48%',
-                textAlign: 'center',
-              }}
-              type="submit"
-            >
-              Guardar
-            </button>
+          <div className="d-flex justify-content-between gap-2 mt-3">
+            <CancelButton onClick={handleCancel} />
+            <SaveButton onClick={handleSave} />
           </div>
         </form>
       </div>
