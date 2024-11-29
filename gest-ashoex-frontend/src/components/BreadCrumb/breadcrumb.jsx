@@ -1,25 +1,38 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
-const Breadcrumb = ({ items }) => {
+export const Breadcrumb = () => {
+  const location = useLocation();
+  const pathnames = location.pathname.split("/").filter((x) => x);
+
   return (
-    <nav aria-label="breadcrumb">
+    <nav
+      aria-label="breadcrumb"
+      style={{
+        // position: "fixed",
+        // top: "10%", // Puedes ajustar este valor si es necesario
+        // left: "18%", // Esto coloca el breadcrumb al 25% desde el lado izquierdo
+        right: "0", // El valor '0' hace que se extienda hasta el borde derecho
+        zIndex: 1000,
+        backgroundColor: "white", // O cualquier otro color
+        padding: "5px",
+        boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Opcional: para un borde sutil
+      }}
+    >
       <ol className="breadcrumb">
-        {items.map((item, index) => (
-          <li
-            key={index}
-            className={`breadcrumb-item ${
-              index === items.length - 1 ? "active" : ""
-            }`}
-            aria-current={index === items.length - 1 ? "page" : undefined}
-          >
-            {index === items.length - 1 ? (
-              item.label
-            ) : (
-              <Link to={item.path}>{item.label}</Link>
-            )}
-          </li>
-        ))}
+        <li className="breadcrumb-item">
+          <Link to="/">Home</Link>
+        </li>
+        {pathnames.map((value, index) => {
+          const to = `/${pathnames.slice(0, index + 1).join("/")}`;
+          return (
+            <li key={to} className="breadcrumb-item">
+              <Link to={to}>
+                {value.charAt(0).toUpperCase() + value.slice(1)}
+              </Link>
+            </li>
+          );
+        })}
       </ol>
     </nav>
   );

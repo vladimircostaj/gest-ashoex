@@ -18,9 +18,10 @@ function App() {
       )}
 
       <Routes>
-        <Route path="/" element={<HealthCheck />} />
-        <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
-        <Route path="/lista-ambientes" element={<ListaAmbientes />} />
+        <Route path="/" element={<HealthCheck />}>
+          <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
+          <Route path="/lista-ambientes" element={<ListaAmbientes />} />
+        </Route>
       </Routes>
     </Router>
   );

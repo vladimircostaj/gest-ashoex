@@ -8,7 +8,7 @@ const RegistrarAmbienteForm = () => {
     habilitada: false,
     id_ubicacion: "",
     id_uso: "",
-    facilidades: [],
+    facilidades: "",
   });
 
   const [disponibles, setDisponibles] = useState({
@@ -48,13 +48,20 @@ const RegistrarAmbienteForm = () => {
     }
   };
 
-  // Manejar el envío del formulario
   const handleSubmit = async (e) => {};
+
+  const handleCancel = () => {};
 
   return (
     <div className="container mt-5">
       <h1 className="mb-4">Registro de Ambiente</h1>
-      <form className="form" onSubmit={handleSubmit}>
+      <form
+        className="form p-4 shadow-lg rounded"
+        style={{
+          background: "linear-gradient(135deg, #d3d3d3, #e0e0e0)", // Gris tenue
+        }}
+        onSubmit={handleSubmit}
+      >
         <div className="mb-3">
           <label htmlFor="numero_aula" className="form-label">
             Número del Aula:
@@ -149,9 +156,19 @@ const RegistrarAmbienteForm = () => {
           </select>
         </div>
 
-        <button type="submit" className="btn btn-primary">
-          Registrar Ambiente
-        </button>
+        <div className="flex justify-content-between  ">
+          <button
+            type="button"
+            className="btn btn-danger" // Rojo
+            onClick={handleCancel}
+          >
+            Cancelar
+          </button>
+          <button type="submit" className="btn btn-primary ms-2">
+            {" "}
+            Registrar
+          </button>
+        </div>
       </form>
     </div>
   );

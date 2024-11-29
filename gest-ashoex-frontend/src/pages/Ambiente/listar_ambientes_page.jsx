@@ -35,15 +35,15 @@ const ListaAmbientes = () => {
   ];
 
   return (
-    <div className="mt-4">
+    <div className="container mt-5">
       <div className="table title">
         <div className="row">
           <div className="col-sm-12">
-            <h2>Listado de Ambientes</h2>
+            <h1>Ambientes Registrados</h1>
           </div>
         </div>
       </div>
-      <table className="table table-striped table-hover">
+      <table className="table table-striped table-hover ">
         <thead>
           <tr>
             <th># Aula</th>
@@ -65,10 +65,10 @@ const ListaAmbientes = () => {
               <td>{ambiente.uso}</td>
               <td>{ambiente.facilidades}</td>
               <td>
-                <a href="#" className="edit">
+                <a href="#" className="edit mr-6 ml-6 ">
                   <FaEdit />
                 </a>
-                <a href="#" className="delete">
+                <a href="#" className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>
               </td>
