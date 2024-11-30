@@ -106,7 +106,8 @@ const EditarAmbiente = () => {
             label="Número del Aula:"
             id="numero_aula"
             placeholder="Ingrese el número del aula"
-            // value={formData.numero_aula}
+            name={"numero_aula"}
+            value={formData.numero_aula}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -118,8 +119,9 @@ const EditarAmbiente = () => {
             label="Capacidad:"
             id="capacidad"
             type="number"
+            name={"capacidad"}
             placeholder="Ingrese la capacidad"
-            // value={formData.capacidad}
+            value={formData.capacidad}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -130,6 +132,7 @@ const EditarAmbiente = () => {
           <SelectField
             label="Ubicación:"
             id="id_ubicacion"
+            name={"id_ubicacion"}
             options={[
               { value: "", label: "Seleccione una ubicación" },
               ...disponibles.ubicaciones.map((ubicacion) => ({
@@ -137,7 +140,7 @@ const EditarAmbiente = () => {
                 label: ubicacion.nombre,
               })),
             ]}
-            // value={formData.id_ubicacion}
+            value={formData.id_ubicacion}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -148,6 +151,7 @@ const EditarAmbiente = () => {
           <SelectField
             label="Uso:"
             id="id_uso"
+            name={"id_uso"}
             options={[
               { value: "", label: "Seleccione un uso" },
               ...disponibles.usos.map((uso) => ({
@@ -155,7 +159,7 @@ const EditarAmbiente = () => {
                 label: uso.nombre,
               })),
             ]}
-            // value={formData.id_uso}
+            value={formData.id_uso}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -166,6 +170,7 @@ const EditarAmbiente = () => {
           <SelectField
             label="Facilidades:"
             id="facilidades"
+            name={"facilidades"}
             options={[
               { value: "", label: "Seleccione una facilidad" },
               ...disponibles.facilidades.map((facilidad) => ({
@@ -173,7 +178,7 @@ const EditarAmbiente = () => {
                 label: facilidad.nombre,
               })),
             ]}
-            // value={formData.facilidades}
+            value={formData.facilidades}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },

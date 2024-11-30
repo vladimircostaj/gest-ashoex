@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 
-const SaveButton = ({ onClick, text = 'Guardar' }) => {
+const SaveButton = ({ onClick, text = "Guardar" }) => {
   return (
     <button
       className="btn text-white fw-bold w-100"
-      type="submit"
+      type="button"
       onClick={onClick}
-      style={{ backgroundColor: '#FF995B', border: 'none' }}
+      style={{ backgroundColor: "#FF995B", border: "none" }}
     >
       {text}
     </button>

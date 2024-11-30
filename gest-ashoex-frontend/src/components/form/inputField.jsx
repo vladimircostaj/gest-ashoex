@@ -3,6 +3,7 @@ import React from "react";
 const InputField = ({
   label,
   id,
+  name,
   type = "text",
   placeholder,
   value,
@@ -41,6 +42,7 @@ const InputField = ({
         style={{ ...defaultStyles.input, ...style.input }}
         value={value}
         onChange={onChange}
+        name={name}
       />
     </div>
   );

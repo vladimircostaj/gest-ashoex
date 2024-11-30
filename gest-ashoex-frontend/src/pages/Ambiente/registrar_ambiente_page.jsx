@@ -1,9 +1,9 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
-import SelectField from "../../components/form/selectField";
-import SaveButton from "../../components/buttons/saveButton";
-import CancelButton from "../../components/buttons/cancelButton";
+import SelectField from "../../components/form/selectField"; // Si tienes este componente
+import SaveButton from "../../components/buttons/saveButton"; // Si tienes este componente
+import CancelButton from "../../components/buttons/cancelButton"; // Si tienes este componente
 import "./registrar_ambiente.css"; // Importa el archivo CSS
 
 const RegistrarAmbienteForm = () => {
@@ -11,8 +11,8 @@ const RegistrarAmbienteForm = () => {
     numero_aula: "",
     capacidad: "",
     id_ubicacion: "",
-    id_uso: "1",
-    facilidades: "1",
+    id_uso: "",
+    facilidades: "",
   });
 
   const [disponibles, setDisponibles] = useState({
@@ -40,6 +40,13 @@ const RegistrarAmbienteForm = () => {
 
   const handleCancel = () => {
     console.log("Registro cancelado");
+    setFormData({
+      numero_aula: "",
+      capacidad: "",
+      id_ubicacion: "",
+      id_uso: "",
+      facilidades: "",
+    });
   };
 
   const handleSave = () => {
@@ -57,7 +64,9 @@ const RegistrarAmbienteForm = () => {
           <InputField
             label="Número del Aula:"
             id="numero_aula"
+            name="numero_aula"
             placeholder="Ingrese el número del aula"
+            value={formData.numero_aula}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -68,8 +77,10 @@ const RegistrarAmbienteForm = () => {
           <InputField
             label="Capacidad:"
             id="capacidad"
+            name="capacidad"
             type="number"
             placeholder="Ingrese la capacidad"
+            value={formData.capacidad}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -87,6 +98,7 @@ const RegistrarAmbienteForm = () => {
                 label: ubicacion.nombre,
               })),
             ]}
+            value={formData.id_ubicacion}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -104,6 +116,7 @@ const RegistrarAmbienteForm = () => {
                 label: uso.nombre,
               })),
             ]}
+            value={formData.id_uso}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
