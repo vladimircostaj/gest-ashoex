@@ -9,7 +9,10 @@ import RegistrarAmbiente from "./pages/Ambiente/registrar_ambiente_page.jsx";
 import ListaAmbientes from "./pages/Ambiente/listar_ambientes_page.jsx";
 import RegistrarPersonal from "./pages/Personal/registrar_personal.jsx";
 import EditarAmbiente from "./pages/Ambiente/editar_ambiente_page.jsx";
-
+import RegistrarMateriaForm from "./pages/Curricula/registrar_materia_page.jsx";
+import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
+import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
+import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -30,7 +33,12 @@ function App() {
             element={<EditarAmbiente />}
           />
         </Route>
-      </Routes>
+        <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
+        <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
+        <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
+        <Route path="/listar-curriculas" element={<ListaCurriculas />} />
+
+      </Routes> 
     </Router>
   );
 }
