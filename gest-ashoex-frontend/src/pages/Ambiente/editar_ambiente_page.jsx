@@ -106,7 +106,7 @@ const EditarAmbiente = () => {
             label="Número del Aula:"
             id="numero_aula"
             placeholder="Ingrese el número del aula"
-            value={formData.numero_aula}
+            // value={formData.numero_aula}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -119,7 +119,7 @@ const EditarAmbiente = () => {
             id="capacidad"
             type="number"
             placeholder="Ingrese la capacidad"
-            value={formData.capacidad}
+            // value={formData.capacidad}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -137,7 +137,7 @@ const EditarAmbiente = () => {
                 label: ubicacion.nombre,
               })),
             ]}
-            value={formData.id_ubicacion}
+            // value={formData.id_ubicacion}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -155,7 +155,7 @@ const EditarAmbiente = () => {
                 label: uso.nombre,
               })),
             ]}
-            value={formData.id_uso}
+            // value={formData.id_uso}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -173,7 +173,7 @@ const EditarAmbiente = () => {
                 label: facilidad.nombre,
               })),
             ]}
-            value={formData.facilidades}
+            // value={formData.facilidades}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },

@@ -11,14 +11,23 @@ const RegistrarAmbienteForm = () => {
     numero_aula: "",
     capacidad: "",
     id_ubicacion: "",
-    id_uso: "",
-    facilidades: "",
+    id_uso: "1",
+    facilidades: "1",
   });
 
   const [disponibles, setDisponibles] = useState({
-    ubicaciones: [],
-    usos: [],
-    facilidades: [],
+    ubicaciones: [
+      { id: 1, nombre: "Edificio A" },
+      { id: 2, nombre: "Edificio B" },
+    ],
+    usos: [
+      { id: 1, nombre: "Clase" },
+      { id: 2, nombre: "Laboratorio" },
+    ],
+    facilidades: [
+      { id: 1, nombre: "Proyector" },
+      { id: 2, nombre: "Aire Acondicionado" },
+    ],
   });
 
   const handleChange = (e) => {
@@ -49,7 +58,6 @@ const RegistrarAmbienteForm = () => {
             label="Número del Aula:"
             id="numero_aula"
             placeholder="Ingrese el número del aula"
-            value={formData.numero_aula}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -62,7 +70,6 @@ const RegistrarAmbienteForm = () => {
             id="capacidad"
             type="number"
             placeholder="Ingrese la capacidad"
-            value={formData.capacidad}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -72,7 +79,7 @@ const RegistrarAmbienteForm = () => {
 
           <SelectField
             label="Ubicación:"
-            id="id_ubicacion"
+            name="id_ubicacion"
             options={[
               { value: "", label: "Seleccione una ubicación" },
               ...disponibles.ubicaciones.map((ubicacion) => ({
@@ -80,7 +87,6 @@ const RegistrarAmbienteForm = () => {
                 label: ubicacion.nombre,
               })),
             ]}
-            value={formData.id_ubicacion}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -90,7 +96,7 @@ const RegistrarAmbienteForm = () => {
 
           <SelectField
             label="Uso:"
-            id="id_uso"
+            name="id_uso"
             options={[
               { value: "", label: "Seleccione un uso" },
               ...disponibles.usos.map((uso) => ({
@@ -98,7 +104,6 @@ const RegistrarAmbienteForm = () => {
                 label: uso.nombre,
               })),
             ]}
-            value={formData.id_uso}
             onChange={handleChange}
             style={{
               container: { textAlign: "left" },
@@ -108,7 +113,7 @@ const RegistrarAmbienteForm = () => {
 
           <SelectField
             label="Facilidades:"
-            id="facilidades"
+            name="facilidades"
             options={[
               { value: "", label: "Seleccione una facilidad" },
               ...disponibles.facilidades.map((facilidad) => ({
