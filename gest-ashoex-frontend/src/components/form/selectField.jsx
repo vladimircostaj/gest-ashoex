@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SelectField = ({ label, id, options, style = {} }) => {
+const SelectField = ({ label, id, value, options, onChange, style = {} }) => {
   const defaultStyles = {
     container: {
       display: 'flex',
@@ -26,7 +26,12 @@ const SelectField = ({ label, id, options, style = {} }) => {
       <label htmlFor={id} style={{ ...defaultStyles.label, ...style.label }}>
         {label}
       </label>
-      <select id={id} style={{ ...defaultStyles.select, ...style.select }}>
+      <select
+        id={id}
+        value={value} 
+        onChange={onChange}
+        style={{ ...defaultStyles.select, ...style.select }}
+      >
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}

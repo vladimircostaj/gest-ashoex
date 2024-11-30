@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Title from '../../components/typography/title';
 import InputField from '../../components/form/inputField';
 import SelectField from '../../components/form/selectField';
@@ -6,12 +6,47 @@ import SaveButton from '../../components/buttons/saveButton';
 import CancelButton from '../../components/buttons/cancelButton';
 
 const RegistrarPersonal = () => {
-  const handleCancel = () => {
-    console.log('Cancelado');
+  const [formData, setFormData] = useState({
+    nombre: '',
+    correo: '',
+    telefono: '',
+    tipoPersonal: '', 
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData({ ...formData, [id]: value });
+
+    // Elimina el error si el campo no está vacío
+    if (value.trim() !== '') {
+      setErrors({ ...errors, [id]: '' });
+    }
   };
 
   const handleSave = () => {
-    console.log('Guardado');
+    const newErrors = {};
+
+   
+    Object.keys(formData).forEach((key) => {
+   
+      if (key !== 'tipoPersonal' && !formData[key].trim()) {
+        newErrors[key] = 'Campo obligatorio';
+      } else if (key === 'tipoPersonal' && formData[key] === '') {
+        newErrors[key] = 'Campo obligatorio';
+      }
+    });
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      console.log('Guardado:', formData);
+    }
+  };
+
+  const handleCancel = () => {
+    console.log('Cancelado');
   };
 
   return (
@@ -21,52 +56,96 @@ const RegistrarPersonal = () => {
           <Title text="Registrar Personal Académico" />
         </div>
 
-        <form className="d-flex flex-column gap-3">
-          <InputField
-            label="Nombre completo:"
-            id="nombre"
-            placeholder="Ingrese su nombre completo"
-            style={{
-              container: { textAlign: 'left' },
-              input: { width: '100%' },
-            }}
-          />
+        <form className="d-flex flex-column gap-4" onSubmit={(e) => e.preventDefault()}>
+          <div className="position-relative">
+            <InputField
+              label={
+                <span>
+                  Nombre completo: <span className="text-danger">*</span>
+                </span>
+              }
+              id="nombre"
+              placeholder="Ingrese su nombre completo"
+              value={formData.nombre}
+              onChange={handleChange}
+              style={{
+                container: { textAlign: 'left' },
+                input: { width: '100%' },
+              }}
+            />
+            <div className="text-danger position-absolute" style={{ fontSize: '0.75rem', top: '100%', left: '5px', height: '12px' }}>
+              {errors.nombre}
+            </div>
+          </div>
 
-          <InputField
-            label="Correo Electrónico:"
-            id="correo"
-            type="email"
-            placeholder="Ingrese su correo"
-            style={{
-              container: { textAlign: 'left' },
-              input: { width: '100%' },
-            }}
-          />
+          <div className="position-relative">
+            <InputField
+              label={
+                <span>
+                  Correo Electrónico: <span className="text-danger">*</span>
+                </span>
+              }
+              id="correo"
+              type="email"
+              placeholder="Ingrese su correo"
+              value={formData.correo}
+              onChange={handleChange}
+              style={{
+                container: { textAlign: 'left' },
+                input: { width: '100%' },
+              }}
+            />
+            <div className="text-danger position-absolute" style={{ fontSize: '0.75rem', top: '100%', left: '5px', height: '12px' }}>
+              {errors.correo}
+            </div>
+          </div>
 
-          <InputField
-            label="Teléfono:"
-            id="telefono"
-            type="tel"
-            placeholder="Ingrese su teléfono"
-            style={{
-              container: { textAlign: 'left' },
-              input: { width: '100%' },
-            }}
-          />
+          <div className="position-relative">
+            <InputField
+              label={
+                <span>
+                  Teléfono: <span className="text-danger">*</span>
+                </span>
+              }
+              id="telefono"
+              type="tel"
+              placeholder="Ingrese su teléfono"
+              value={formData.telefono}
+              onChange={handleChange}
+              style={{
+                container: { textAlign: 'left' },
+                input: { width: '100%' },
+              }}
+            />
+            <div className="text-danger position-absolute" style={{ fontSize: '0.75rem', top: '100%', left: '5px', height: '12px' }}>
+              {errors.telefono}
+            </div>
+          </div>
 
-          <SelectField
-            label="Tipo de personal:"
-            id="tipo-personal"
-            options={[
-              { value: '', label: 'Seleccione una opción' },
-              { value: 'docente', label: 'Docente' },
-              { value: 'auxiliar', label: 'Auxiliar' },
-            ]}
-            style={{
-              container: { textAlign: 'left' },
-              select: { width: '100%' },
-            }}
-          />
+          <div className="position-relative">
+            <SelectField
+              label={
+                <span>
+                  Tipo de personal: <span className="text-danger">*</span>
+                </span>
+              }
+              id="tipoPersonal"
+              value={formData.tipoPersonal} 
+              options={[
+                { value: '', label: 'Seleccione una opción' },
+                { value: 'docente', label: 'Docente' },
+                { value: 'auxiliar', label: 'Auxiliar' },
+              ]}
+              onChange={handleChange} 
+              style={{
+                container: { textAlign: 'left' },
+                select: { width: '100%' },
+              }}
+            />
+            <div className="text-danger position-absolute" style={{ fontSize: '0.75rem', top: '100%', left: '5px', height: '12px' }}>
+              {errors.tipoPersonal}
+            </div>
+          </div>
 
           <div className="d-flex justify-content-between gap-2 mt-3">
             <CancelButton onClick={handleCancel} />
