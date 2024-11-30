@@ -5,6 +5,7 @@ import SelectField from "../../components/form/selectField"; // Si tienes este c
 import SaveButton from "../../components/buttons/saveButton"; // Si tienes este componente
 import CancelButton from "../../components/buttons/cancelButton"; // Si tienes este componente
 import "./registrar_ambiente.css"; // Importa el archivo CSS
+import { toast } from "sonner";
 
 const RegistrarAmbienteForm = () => {
   const [formData, setFormData] = useState({
@@ -51,6 +52,7 @@ const RegistrarAmbienteForm = () => {
 
   const handleSave = () => {
     console.log("Datos guardados:", formData);
+    toast.success("Ambiente registrado exitosamente");
   };
 
   return (
