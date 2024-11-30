@@ -52,7 +52,11 @@ const RegistrarPersonal = () => {
         <form className="d-flex flex-column gap-4" onSubmit={(e) => e.preventDefault()}>
           <div className="position-relative">
             <InputField
-              label="Nombre completo:"
+              label={
+                <span>
+                  Nombre completo: <span className="text-danger">*</span>
+                </span>
+              }
               id="nombre"
               placeholder="Ingrese su nombre completo"
               value={formData.nombre}
@@ -69,7 +73,11 @@ const RegistrarPersonal = () => {
 
           <div className="position-relative">
             <InputField
-              label="Correo Electrónico:"
+              label={
+                <span>
+                  Correo Electrónico: <span className="text-danger">*</span>
+                </span>
+              }
               id="correo"
               type="email"
               placeholder="Ingrese su correo"
@@ -87,7 +95,11 @@ const RegistrarPersonal = () => {
 
           <div className="position-relative">
             <InputField
-              label="Teléfono:"
+              label={
+                <span>
+                  Teléfono: <span className="text-danger">*</span>
+                </span>
+              }
               id="telefono"
               type="tel"
               placeholder="Ingrese su teléfono"
@@ -105,7 +117,11 @@ const RegistrarPersonal = () => {
 
           <div className="position-relative">
             <SelectField
-              label="Tipo de personal:"
+              label={
+                <span>
+                  Tipo de personal: <span className="text-danger">*</span>
+                </span>
+              }
               id="tipoPersonal"
               value={formData.tipoPersonal}
               options={[
