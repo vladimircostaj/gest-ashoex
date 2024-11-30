@@ -10,7 +10,7 @@ const RegistrarPersonal = () => {
     nombre: '',
     correo: '',
     telefono: '',
-    tipoPersonal: '',
+    tipoPersonal: '', 
   });
 
   const [errors, setErrors] = useState({});
@@ -18,6 +18,8 @@ const RegistrarPersonal = () => {
   const handleChange = (e) => {
     const { id, value } = e.target;
     setFormData({ ...formData, [id]: value });
+
+    // Elimina el error si el campo no está vacío
     if (value.trim() !== '') {
       setErrors({ ...errors, [id]: '' });
     }
@@ -25,8 +27,13 @@ const RegistrarPersonal = () => {
 
   const handleSave = () => {
     const newErrors = {};
+
+   
     Object.keys(formData).forEach((key) => {
-      if (!formData[key].trim()) {
+   
+      if (key !== 'tipoPersonal' && !formData[key].trim()) {
+        newErrors[key] = 'Campo obligatorio';
+      } else if (key === 'tipoPersonal' && formData[key] === '') {
         newErrors[key] = 'Campo obligatorio';
       }
     });
@@ -123,13 +130,13 @@ const RegistrarPersonal = () => {
                 </span>
               }
               id="tipoPersonal"
-              value={formData.tipoPersonal}
+              value={formData.tipoPersonal} 
               options={[
                 { value: '', label: 'Seleccione una opción' },
                 { value: 'docente', label: 'Docente' },
                 { value: 'auxiliar', label: 'Auxiliar' },
               ]}
-              onChange={handleChange}
+              onChange={handleChange} 
               style={{
                 container: { textAlign: 'left' },
                 select: { width: '100%' },
