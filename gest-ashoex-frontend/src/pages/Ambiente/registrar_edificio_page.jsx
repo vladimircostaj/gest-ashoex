@@ -3,7 +3,10 @@ import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
 import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
+import axios from "axios";
 import "./registrar_ambiente.css";
+
+const endpoint = `http://localhost:8000/api/edificios`;
 
 const RegistrarEdificioForm = () => {
   const [formData, setFormData] = useState({
@@ -29,8 +32,12 @@ const RegistrarEdificioForm = () => {
     console.log("Registro cancelado");
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
+    await axios.post(endpoint, {
+      nombre_edificio: formData.nombre_edificio,
+      geolocalizacion: formData.geolocalizacion,
+    });    
     console.log("Datos guardados:", formData);
   };
 
