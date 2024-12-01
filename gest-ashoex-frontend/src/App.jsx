@@ -37,8 +37,7 @@ function App() {
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
-
-      </Routes> 
+      </Routes>
     </Router>
   );
 }

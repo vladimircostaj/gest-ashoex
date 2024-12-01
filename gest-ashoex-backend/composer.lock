@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "763fbfa5606f6b7d07d5b506e7618762",
+    "content-hash": "7e8c3c14ff33b199b4a0838993eb8423",
     "packages": [
         {
             "name": "brick/math",
@@ -1209,13 +1209,17 @@
         {
             "name": "laravel/framework",
             "version": "v11.24.1",
+            "version": "v11.24.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
                 "reference": "e063fa80ac5818099f45a3a57dd803476c8f3a2a"
+                "reference": "e063fa80ac5818099f45a3a57dd803476c8f3a2a"
             },
             "dist": {
                 "type": "zip",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/e063fa80ac5818099f45a3a57dd803476c8f3a2a",
+                "reference": "e063fa80ac5818099f45a3a57dd803476c8f3a2a",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/e063fa80ac5818099f45a3a57dd803476c8f3a2a",
                 "reference": "e063fa80ac5818099f45a3a57dd803476c8f3a2a",
                 "shasum": ""
@@ -1413,6 +1417,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
+            "time": "2024-09-25T07:21:24+00:00"
             "time": "2024-09-25T07:21:24+00:00"
         },
         {
@@ -8105,5 +8110,5 @@
         "php": "^8.2"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.3.0"
 }
