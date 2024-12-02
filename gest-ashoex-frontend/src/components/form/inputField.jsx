@@ -8,6 +8,7 @@ const InputField = ({
   value,
   onChange,
   style = {},
+  error = "",
 }) => {
   const defaultStyles = {
     container: {
@@ -27,9 +28,18 @@ const InputField = ({
       border: "1px solid #ccc",
       fontSize: "14px",
     },
+    errorInput: {
+      border: "1px solid red", // Estilo de borde para indicar error
+    },
+    errorMessage: {
+      fontSize: "12px",
+      color: "red",
+      marginTop: "5px",
+    },
   };
 
   return (
+    <div className="mb-3">
     <div style={{ ...defaultStyles.container, ...style.container }}>
       <label htmlFor={id} style={{ ...defaultStyles.label, ...style.label }}>
         {label}
@@ -38,10 +48,16 @@ const InputField = ({
         id={id}
         type={type}
         placeholder={placeholder}
-        style={{ ...defaultStyles.input, ...style.input }}
+        style={{
+          ...defaultStyles.input,
+          ...(error ? defaultStyles.errorInput : {}),
+          ...style.input,
+        }}
         value={value}
         onChange={onChange}
       />
+      {error && <div style={defaultStyles.errorMessage}>{error}</div>}
+    </div>
     </div>
   );
 };
