@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
+import SelectField from "../../components/form/selectField";
 import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
 //import { useParams, useHistory } from "react-router-dom";
@@ -25,7 +26,7 @@ const EditarEdificioPage = () => {
   useEffect(() => {
     const cargarEdificio = () => {
       const edificio = {
-        id: id,
+        id: 1,
         nombre: "Edificio de Laboratorios FCYT ",
         geolocalizacion: "Al lado del edificio nuevo",
       };
@@ -81,7 +82,7 @@ const EditarEdificioPage = () => {
             className="d-flex flex-column gap-3">
             {/* ID / Código (solo lectura) */}
             
-              <InputField
+            <SelectField
                 label={
                   <span>
                     ID/Código: <span className="text-danger">*</span>
@@ -89,8 +90,14 @@ const EditarEdificioPage = () => {
                 }
                 id="id"
                 placeholder="ID de la edificio"
+                options={[
+                    { value: "", label: "eliga un edificio " },
+                    ...formData.map((edificio) => ({
+                        value: edificio.id,
+                        label: edificio.id+" "+edificio.nombre,
+                      })),
+                  ]}
                 value={formData.id}
-                onChange={handleChange}
                 disabled
                 style={{
                   container: { textAlign: "left" },
