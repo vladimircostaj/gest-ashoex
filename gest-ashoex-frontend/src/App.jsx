@@ -29,6 +29,7 @@ function App() {
         <Route path="/" element={<HealthCheck />}>
           <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
           <Route path="/lista-ambientes" element={<ListaAmbientes />} />
+          <Route path="/lista-edificios" element={<ListaEdificios />} />
           <Route path="/registrar-personal" element={<RegistrarPersonal />} />
           <Route path="/registrar-ubicacion" element={<RegistrarUbicacionForm />} />
           <Route

@@ -16,81 +16,135 @@
                 "operationId": "getAllAulas",
                 "responses": {
                     "200": {
-                        "description": "Éxito. Lista de aulas obtenida correctamente",
+                        "description": "Éxito. Lista de aulas obtenida correctamente.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
-                                            "numero_aula": {
-                                                "type": "string",
-                                                "example": "A101"
-                                            },
-                                            "capacidad": {
-                                                "type": "integer",
-                                                "example": 40
-                                            },
-                                            "habilitada": {
-                                                "type": "boolean",
-                                                "example": true
-                                            },
-                                            "id_ubicacion": {
-                                                "type": "integer",
-                                                "example": 2
-                                            },
-                                            "usos": {
-                                                "type": "array",
-                                                "items": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 1
-                                                        },
-                                                        "nombre": {
-                                                            "type": "string",
-                                                            "example": "Clases"
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id_aula": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "numero_aula": {
+                                                        "type": "string",
+                                                        "example": "693 A"
+                                                    },
+                                                    "capacidad": {
+                                                        "type": "integer",
+                                                        "example": 100
+                                                    },
+                                                    "habilitada": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "id_ubicacion": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "usos": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id_uso": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "tipo_uso": {
+                                                                    "type": "string",
+                                                                    "example": "Clases"
+                                                                },
+                                                                "pivot": {
+                                                                    "properties": {
+                                                                        "id_aula": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "id_uso": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
                                                         }
                                                     },
-                                                    "type": "object"
-                                                }
-                                            },
-                                            "facilidades": {
-                                                "type": "array",
-                                                "items": {
-                                                    "properties": {
-                                                        "id": {
-                                                            "type": "integer",
-                                                            "example": 1
-                                                        },
-                                                        "descripcion": {
-                                                            "type": "string",
-                                                            "example": "Proyector"
+                                                    "facilidades": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "id_facilidad": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "nombre_facilidad": {
+                                                                    "type": "string",
+                                                                    "example": "Pizarra"
+                                                                },
+                                                                "pivot": {
+                                                                    "properties": {
+                                                                        "id_aula": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "id_facilidad": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
                                                         }
-                                                    },
-                                                    "type": "object"
-                                                }
+                                                    }
+                                                },
+                                                "type": "object"
                                             }
                                         },
-                                        "type": "object"
-                                    }
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
                                 }
                             }
                         }
                     },
                     "500": {
-                        "description": "Error interno del servidor",
+                        "description": "Error interno del servidor.",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
                                         "error": {
                                             "type": "string",
                                             "example": "Error interno del servidor"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Se produjo un error al recuperar las aulas"
                                         }
                                     },
                                     "type": "object"
@@ -104,8 +158,9 @@
                 "tags": [
                     "Aulas"
                 ],
-                "summary": "Almacena una nueva aula en la base de datos",
-                "operationId": "4ed9f79dd5cd9461861129d4b77d29db",
+                "summary": "Registrar una nueva aula",
+                "description": "Crea una nueva aula con sus usos y facilidades asociadas.",
+                "operationId": "storeAula",
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -113,20 +168,20 @@
                             "schema": {
                                 "required": [
                                     "numero_aula",
+                                    "capacidad",
+                                    "habilitada",
                                     "id_ubicacion",
-                                    "id_uso",
+                                    "usos",
                                     "facilidades"
                                 ],
                                 "properties": {
                                     "numero_aula": {
                                         "type": "string",
-                                        "maxLength": 30,
                                         "example": "Aula 101"
                                     },
                                     "capacidad": {
                                         "type": "integer",
-                                        "example": 30,
-                                        "nullable": true
+                                        "example": 30
                                     },
                                     "habilitada": {
                                         "type": "boolean",
@@ -136,9 +191,12 @@
                                         "type": "integer",
                                         "example": 1
                                     },
-                                    "id_uso": {
-                                        "type": "integer",
-                                        "example": 2
+                                    "usos": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
                                     },
                                     "facilidades": {
                                         "type": "array",
@@ -155,7 +213,7 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Aula registrada exitosamente",
+                        "description": "Aula creada exitosamente",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -165,49 +223,30 @@
                                             "example": true
                                         },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "numero_aula": {
-                                                    "type": "string",
-                                                    "example": "Aula 101"
-                                                },
-                                                "capacidad": {
-                                                    "type": "integer",
-                                                    "example": 30
-                                                },
-                                                "habilitada": {
-                                                    "type": "boolean",
-                                                    "example": true
-                                                },
-                                                "id_ubicacion": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "id_uso": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "facilidades": {
-                                                    "type": "array",
-                                                    "items": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    }
-                                                }
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
                                             },
-                                            "type": "object"
+                                            "example": [
+                                                {
+                                                    "id_aula": 5,
+                                                    "numero_aula": "Aula 101",
+                                                    "capacidad": 40,
+                                                    "habilitada": true,
+                                                    "id_ubicacion": 1
+                                                }
+                                            ]
                                         },
                                         "error": {
                                             "type": "array",
-                                            "items": {},
+                                            "items": {
+                                                "type": "string"
+                                            },
                                             "example": []
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Aula registrada exitosamente"
+                                            "example": "Operación exitosa"
                                         }
                                     },
                                     "type": "object"
@@ -216,7 +255,7 @@
                         }
                     },
                     "422": {
-                        "description": "Error de validación",
+                        "description": "Errores de validación",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -227,7 +266,9 @@
                                         },
                                         "data": {
                                             "type": "array",
-                                            "items": {},
+                                            "items": {
+                                                "type": "string"
+                                            },
                                             "example": []
                                         },
                                         "error": {
@@ -235,34 +276,56 @@
                                             "items": {
                                                 "properties": {
                                                     "status": {
-                                                        "type": "string",
-                                                        "example": "422"
+                                                        "type": "integer",
+                                                        "example": 422
                                                     },
                                                     "detail": {
                                                         "type": "string",
-                                                        "example": "El campo numero aula es obligatorio."
+                                                        "example": "El número del aula es obligatorio."
                                                     }
                                                 },
                                                 "type": "object"
-                                            },
-                                            "example": [
-                                                {
-                                                    "status": "422",
-                                                    "detail": "El campo numero aula es obligatorio."
-                                                },
-                                                {
-                                                    "status": "422",
-                                                    "detail": "El campo id ubicacion seleccionado no existe."
-                                                },
-                                                {
-                                                    "status": "422",
-                                                    "detail": "El campo facilidades seleccionado no existe."
-                                                }
-                                            ]
+                                            }
                                         },
                                         "message": {
                                             "type": "string",
                                             "example": "Error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string",
+                                                "example": [
+                                                    "Error interno del servidor"
+                                                ]
+                                            }
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Se produjo un error al registrar el aula"
                                         }
                                     },
                                     "type": "object"
@@ -278,9 +341,9 @@
                 "tags": [
                     "Aulas"
                 ],
-                "summary": "Obtener información de un aula específica",
-                "description": "Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
-                "operationId": "getAulaById",
+                "summary": "Obtener detalles de un aula específica",
+                "description": "Obtiene información detallada de un aula específica por su ID.",
+                "operationId": "getAula",
                 "parameters": [
                     {
                         "name": "id",
@@ -288,68 +351,47 @@
                         "description": "ID del aula",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "Éxito. Datos del aula obtenidos correctamente",
+                        "description": "Detalles del aula recuperados exitosamente",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 1
-                                        },
-                                        "numero_aula": {
-                                            "type": "string",
-                                            "example": "A101"
-                                        },
-                                        "capacidad": {
-                                            "type": "integer",
-                                            "example": 40
-                                        },
-                                        "habilitada": {
+                                        "success": {
                                             "type": "boolean",
                                             "example": true
                                         },
-                                        "id_ubicacion": {
-                                            "type": "integer",
-                                            "example": 2
-                                        },
-                                        "usos": {
+                                        "data": {
                                             "type": "array",
                                             "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "nombre": {
-                                                        "type": "string",
-                                                        "example": "Clases"
-                                                    }
-                                                },
                                                 "type": "object"
-                                            }
+                                            },
+                                            "example": [
+                                                {
+                                                    "id_aula": 1,
+                                                    "numero_aula": "Aula 101",
+                                                    "capacidad": 40,
+                                                    "habilitada": true,
+                                                    "id_ubicacion": 1
+                                                }
+                                            ]
                                         },
-                                        "facilidades": {
+                                        "error": {
                                             "type": "array",
                                             "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "descripcion": {
-                                                        "type": "string",
-                                                        "example": "Proyector"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            }
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
                                         }
                                     },
                                     "type": "object"
@@ -358,14 +400,70 @@
                         }
                     },
                     "404": {
-                        "description": "No encontrado. Aula no existe",
+                        "description": "Aula no encontrada",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
                                         "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "No se encontró el aula con el ID proporcionado"
+                                            ]
+                                        },
+                                        "message": {
                                             "type": "string",
                                             "example": "Aula no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "Error interno del servidor"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Se produjo un error al obtener los detalles del aula"
                                         }
                                     },
                                     "type": "object"
@@ -379,18 +477,18 @@
                 "tags": [
                     "Aulas"
                 ],
-                "summary": "Actualizar un aula existente",
-                "description": "Actualiza un aula por su ID",
-                "operationId": "4a8ff30e91a40a21952f1277a2aab123",
+                "summary": "Actualizar una aula existente",
+                "description": "Actualiza los datos de una aula existente, incluyendo sus facilidades y usos asociados.",
+                "operationId": "updateAula",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del aula",
+                        "description": "ID de la aula a actualizar",
                         "required": true,
                         "schema": {
                             "type": "integer",
-                            "format": "int64"
+                            "example": 1
                         }
                     }
                 ],
@@ -399,22 +497,40 @@
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "numero_aula",
+                                    "capacidad"
+                                ],
                                 "properties": {
                                     "numero_aula": {
                                         "type": "string",
-                                        "example": "Aula 101"
+                                        "example": "Aula 202"
                                     },
                                     "capacidad": {
                                         "type": "integer",
-                                        "example": "30"
+                                        "example": 50
                                     },
                                     "habilitada": {
                                         "type": "boolean",
-                                        "example": "true"
+                                        "example": true
                                     },
                                     "id_ubicacion": {
                                         "type": "integer",
-                                        "example": "1"
+                                        "example": 2
+                                    },
+                                    "usos": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "facilidades": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
                                     }
                                 },
                                 "type": "object"
@@ -424,38 +540,83 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Aula actualizada",
+                        "description": "Aula actualizada exitosamente",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id_aula": {
-                                            "type": "integer",
-                                            "example": "1"
-                                        },
-                                        "numero_aula": {
-                                            "type": "string",
-                                            "example": "Aula 101"
-                                        },
-                                        "capacidad": {
-                                            "type": "integer",
-                                            "example": "30"
-                                        },
-                                        "habilitada": {
+                                        "success": {
                                             "type": "boolean",
-                                            "example": "true"
+                                            "example": true
                                         },
-                                        "id_ubicacion": {
-                                            "type": "integer",
-                                            "example": "1"
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            },
+                                            "example": [
+                                                {
+                                                    "id_aula": 1,
+                                                    "numero_aula": "Aula 202",
+                                                    "capacidad": 50,
+                                                    "habilitada": true,
+                                                    "id_ubicacion": 2
+                                                }
+                                            ]
                                         },
-                                        "created_at": {
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "message": {
                                             "type": "string",
-                                            "format": "date-time"
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Errores de validación.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
                                         },
-                                        "updated_at": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 422
+                                                    },
+                                                    "detail": {
+                                                        "type": "string",
+                                                        "example": "El número del aula es obligatorio."
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "message": {
                                             "type": "string",
-                                            "format": "date-time"
+                                            "example": "Error"
                                         }
                                     },
                                     "type": "object"
@@ -464,10 +625,76 @@
                         }
                     },
                     "404": {
-                        "description": "Aula no encontrada"
+                        "description": "Aula no encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "No se encontró el aula con el ID especificado."
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Aula no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
-                    "422": {
-                        "description": "Error de validación"
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "Error interno del servidor"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Se produjo un error al actualizar el aula"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -475,9 +702,9 @@
                 "tags": [
                     "Aulas"
                 ],
-                "summary": "Elimina un aula por el ID proporcionado",
-                "description": "Elimina el aula especificada por su ID.",
-                "operationId": "62e06a1af9f1853b52bbcfadb27dea25",
+                "summary": "Eliminar un aula existente",
+                "description": "Elimina un aula especificada por su ID.",
+                "operationId": "deleteAula",
                 "parameters": [
                     {
                         "name": "id",
@@ -485,7 +712,8 @@
                         "description": "ID del aula a eliminar",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
@@ -544,13 +772,51 @@
                                         "error": {
                                             "type": "array",
                                             "items": {
-                                                "type": "string",
-                                                "example": "El aula no existe"
-                                            }
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "El aula no existe"
+                                            ]
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Operación fallida"
+                                            "example": "Aula no encontrada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": []
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "example": [
+                                                "Error interno del servidor"
+                                            ]
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Se produjo un error al eliminar el aula"
                                         }
                                     },
                                     "type": "object"
