@@ -9,7 +9,7 @@ use App\Http\Requests\Ambientes\UpdateAulaRequest;
 
 class AulaController extends Controller
 {
-    // Obtener todas las aulas con sus usos y facilidades
+
     /**
      * @OA\Get(
      *     path="/api/aulas",
@@ -19,112 +19,140 @@ class AulaController extends Controller
      *     tags={"Aulas"},
      *     @OA\Response(
      *         response=200,
-     *         description="Éxito. Lista de aulas obtenida correctamente",
+     *         description="Éxito. Lista de aulas obtenida correctamente.",
      *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(
-     *                 type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="numero_aula", type="string", example="A101"),
-     *                 @OA\Property(property="capacidad", type="integer", example=40),
-     *                 @OA\Property(property="habilitada", type="boolean", example=true),
-     *                 @OA\Property(property="id_ubicacion", type="integer", example=2),
-     *                 @OA\Property(
-     *                     property="usos",
-     *                     type="array",
-     *                     @OA\Items(
-     *                         type="object",
-     *                         @OA\Property(property="id", type="integer", example=1),
-     *                         @OA\Property(property="nombre", type="string", example="Clases")
-     *                     )
-     *                 ),
-     *                 @OA\Property(
-     *                     property="facilidades",
-     *                     type="array",
-     *                     @OA\Items(
-     *                         type="object",
-     *                         @OA\Property(property="id", type="integer", example=1),
-     *                         @OA\Property(property="descripcion", type="string", example="Proyector")
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id_aula", type="integer", example=1),
+     *                     @OA\Property(property="numero_aula", type="string", example="693 A"),
+     *                     @OA\Property(property="capacidad", type="integer", example=100),
+     *                     @OA\Property(property="habilitada", type="boolean", example=true),
+     *                     @OA\Property(property="id_ubicacion", type="integer", example=1),
+     *                     @OA\Property(
+     *                         property="usos",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id_uso", type="integer", example=1),
+     *                             @OA\Property(property="tipo_uso", type="string", example="Clases"),
+     *                             @OA\Property(
+     *                                 property="pivot",
+     *                                 type="object",
+     *                                 @OA\Property(property="id_aula", type="integer", example=1),
+     *                                 @OA\Property(property="id_uso", type="integer", example=1)
+     *                             )
+     *                         )
+     *                     ),
+     *                     @OA\Property(
+     *                         property="facilidades",
+     *                         type="array",
+     *                         @OA\Items(
+     *                             type="object",
+     *                             @OA\Property(property="id_facilidad", type="integer", example=1),
+     *                             @OA\Property(property="nombre_facilidad", type="string", example="Pizarra"),
+     *                             @OA\Property(
+     *                                 property="pivot",
+     *                                 type="object",
+     *                                 @OA\Property(property="id_aula", type="integer", example=1),
+     *                                 @OA\Property(property="id_facilidad", type="integer", example=1)
+     *                             )
+     *                         )
      *                     )
      *                 )
-     *             )
+     *             ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="array",
+     *                 @OA\Items(type="string"),
+     *                 example={}
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
      *         )
      *     ),
      *     @OA\Response(
      *         response=500,
-     *         description="Error interno del servidor",
+     *         description="Error interno del servidor.",
      *         @OA\JsonContent(
-     *             @OA\Property(property="error", type="string", example="Error interno del servidor")
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="error", type="string", example="Error interno del servidor"),
+     *             @OA\Property(property="message", type="string", example="Se produjo un error al recuperar las aulas")
      *         )
      *     )
      * )
      */
+
     public function index()
     {
         $aulas = Aula::with('usos', 'facilidades')->get();
         return response()->json([
             'success' => true,
             'data' => $aulas,
-            'error' => null,
-            'message' => 'Lista de aulas recuperada exitosamente'
+            'error' => [],
+            'message' => 'Operación exitosa'
         ]);
     }
 
     /**
      * @OA\Get(
      *     path="/api/aulas/{id}",
-     *     summary="Obtener información de un aula específica",
-     *     description="Retorna los detalles de un aula por su ID, incluyendo sus usos y facilidades.",
-     *     operationId="getAulaById",
+     *     summary="Obtener detalles de un aula específica",
+     *     description="Obtiene información detallada de un aula específica por su ID.",
+     *     operationId="getAula",
      *     tags={"Aulas"},
-     *
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID del aula",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(type="integer", example=1)
      *     ),
-     *
      *     @OA\Response(
      *         response=200,
-     *         description="Éxito. Datos del aula obtenidos correctamente",
+     *         description="Detalles del aula recuperados exitosamente",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(property="id", type="integer", example=1),
-     *             @OA\Property(property="numero_aula", type="string", example="A101"),
-     *             @OA\Property(property="capacidad", type="integer", example=40),
-     *             @OA\Property(property="habilitada", type="boolean", example=true),
-     *             @OA\Property(property="id_ubicacion", type="integer", example=2),
-     *             @OA\Property(
-     *                 property="usos",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="nombre", type="string", example="Clases")
-     *                 )
-     *             ),
-     *             @OA\Property(
-     *                 property="facilidades",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="descripcion", type="string", example="Proyector")
-     *                 )
-     *             )
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="object"), example={
+     *                 {"id_aula": 1, "numero_aula": "Aula 101", "capacidad": 40, "habilitada": true, "id_ubicacion": 1}
+     *             }),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="No encontrado. Aula no existe",
+     *         description="Aula no encontrada",
      *         @OA\JsonContent(
-     *             @OA\Property(property="error", type="string", example="Aula no encontrada")
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={
+     *                 "No se encontró el aula con el ID proporcionado"
+     *             }),
+     *             @OA\Property(property="message", type="string", example="Aula no encontrada")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={
+     *                 "Error interno del servidor"
+     *             }),
+     *             @OA\Property(property="message", type="string", example="Se produjo un error al obtener los detalles del aula")
      *         )
      *     )
      * )
      */
+
     public function show($id)
     {
         $aula = Aula::with('usos', 'facilidades')->find($id);
@@ -132,25 +160,24 @@ class AulaController extends Controller
         if (!$aula) {
             return response()->json([
                 'success' => false,
-                'data' => null,
+                'data' => [],
                 "error" => ["Aula no encontrada"],
-                "message" => "Operación fallida"
+                "message" => "Error"
             ], 404);
         }
 
         return response()->json([
             'success' => true,
-            'data' => [
-                'id' => $aula->id,
+            'data' => [[
                 'id_aula' => $aula->id_aula,
                 'numero_aula' => $aula->numero_aula,
                 'capacidad' => $aula->capacidad,
                 'habilitada' => $aula->habilitada,
                 'id_ubicacion' => $aula->id_ubicacion
 
-            ],
-            'error' => null,
-            'message' => 'Aula recuperada exitosamente'
+            ]],
+            'error' => [],
+            'message' => 'Operación exitosa'
         ]);
     }
 
@@ -159,18 +186,24 @@ class AulaController extends Controller
     /**
      * @OA\Post(
      *     path="/api/aulas",
+     *     summary="Registrar una nueva aula",
+     *     description="Crea una nueva aula con sus usos y facilidades asociadas.",
+     *     operationId="storeAula",
      *     tags={"Aulas"},
-     *     summary="Almacena una nueva aula en la base de datos",
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
      *             type="object",
-     *             required={"numero_aula", "id_ubicacion", "id_uso", "facilidades"},
-     *             @OA\Property(property="numero_aula", type="string", maxLength=30, example="Aula 101"),
-     *             @OA\Property(property="capacidad", type="integer", nullable=true, example=30),
+     *             required={"numero_aula", "capacidad", "habilitada", "id_ubicacion", "usos", "facilidades"},
+     *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
+     *             @OA\Property(property="capacidad", type="integer", example=30),
      *             @OA\Property(property="habilitada", type="boolean", example=true),
      *             @OA\Property(property="id_ubicacion", type="integer", example=1),
-     *             @OA\Property(property="id_uso", type="integer", example=2),
+     *             @OA\Property(
+     *                 property="usos",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             ),
      *             @OA\Property(
      *                 property="facilidades",
      *                 type="array",
@@ -180,50 +213,54 @@ class AulaController extends Controller
      *     ),
      *     @OA\Response(
      *         response=201,
-     *         description="Aula registrada exitosamente",
+     *         description="Aula creada exitosamente",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="integer", example=1),
-     *                 @OA\Property(property="numero_aula", type="string", example="Aula 101"),
-     *                 @OA\Property(property="capacidad", type="integer", example=30),
-     *                 @OA\Property(property="habilitada", type="boolean", example=true),
-     *                 @OA\Property(property="id_ubicacion", type="integer", example=1),
-     *                 @OA\Property(property="id_uso", type="integer", example=2),
-     *                 @OA\Property(property="facilidades", type="array", @OA\Items(type="integer", example=1))
-     *             ),
-     *             @OA\Property(property="error", type="array",
-     *                  @OA\Items(), example={}),
-     *             @OA\Property(property="message", type="string", example="Aula registrada exitosamente")
+     *             @OA\Property(property="data", type="array", @OA\Items(type="object"), example={
+     *                 {"id_aula": 5, "numero_aula": "Aula 101", "capacidad": 40, "habilitada": true, "id_ubicacion": 1}
+     *             }),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
      *         )
      *     ),
      *     @OA\Response(
      *         response=422,
-     *         description="Error de validación",
+     *         description="Errores de validación",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(property="data",  type="array",@OA\Items(), example={}),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
      *             @OA\Property(
      *                 property="error",
      *                 type="array",
      *                 @OA\Items(
      *                     type="object",
-     *                     @OA\Property(property="status", type="string", example="422"),
-     *                     @OA\Property(property="detail", type="string", example="El campo numero aula es obligatorio.")
-     *                 ),
-     *                 example={
-     *                     {"status": "422", "detail": "El campo numero aula es obligatorio."},
-     *                     {"status": "422", "detail": "El campo id ubicacion seleccionado no existe."},
-     *                     {"status": "422", "detail": "El campo facilidades seleccionado no existe."}
-     *                 }
+     *                     @OA\Property(property="status", type="integer", example=422),
+     *                     @OA\Property(property="detail", type="string", example="El número del aula es obligatorio.")
+     *                 )
      *             ),
      *             @OA\Property(property="message", type="string", example="Error")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="array",
+     *                 @OA\Items(type="string", example={"Error interno del servidor"})
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Se produjo un error al registrar el aula")
      *         )
      *     )
      * )
      */
+
     public function store(StoreAulaRequest $request)
     {
         $aula = Aula::create($request->validated());
@@ -233,107 +270,108 @@ class AulaController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $aula,
-            'error' => null,
-            'message' => 'Aula registrada exitosamente'
+            'data' => [$aula],
+            'error' => [],
+            'message' => 'Operación exitosa'
         ], 201);
     }
 
-    // Actualizar un aula existente
     /**
      * @OA\Put(
      *     path="/api/aulas/{id}",
+     *     summary="Actualizar una aula existente",
+     *     description="Actualiza los datos de una aula existente, incluyendo sus facilidades y usos asociados.",
+     *     operationId="updateAula",
      *     tags={"Aulas"},
-     *     summary="Actualizar un aula existente",
-     *     description="Actualiza un aula por su ID",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="ID del aula",
+     *         description="ID de la aula a actualizar",
      *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
+     *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
-     *             @OA\Property(property="capacidad", type="integer", example="30"),
-     *             @OA\Property(property="habilitada", type="boolean", example="true"),
-     *             @OA\Property(property="id_ubicacion", type="integer", example="1")
+     *             type="object",
+     *             required={"numero_aula", "capacidad"},
+     *             @OA\Property(property="numero_aula", type="string", example="Aula 202"),
+     *             @OA\Property(property="capacidad", type="integer", example=50),
+     *             @OA\Property(property="habilitada", type="boolean", example=true),
+     *             @OA\Property(property="id_ubicacion", type="integer", example=2),
+     *             @OA\Property(
+     *                 property="usos",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             ),
+     *             @OA\Property(
+     *                 property="facilidades",
+     *                 type="array",
+     *                 @OA\Items(type="integer", example=1)
+     *             )
      *         )
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Aula actualizada",
+     *         description="Aula actualizada exitosamente",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id_aula", type="integer", example="1"),
-     *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
-     *             @OA\Property(property="capacidad", type="integer", example="30"),
-     *             @OA\Property(property="habilitada", type="boolean", example="true"),
-     *             @OA\Property(property="id_ubicacion", type="integer", example="1"),
-     *             @OA\Property(property="created_at", type="string", format="date-time"),
-     *             @OA\Property(property="updated_at", type="string", format="date-time")
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="object"), example={
+     *                 {"id_aula": 1, "numero_aula": "Aula 202", "capacidad": 50, "habilitada": true, "id_ubicacion": 2}
+     *             }),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="message", type="string", example="Operación exitosa")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Errores de validación.",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(
+     *                 property="error",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="status", type="integer", example=422),
+     *                     @OA\Property(property="detail", type="string", example="El número del aula es obligatorio.")
+     *                 )
+     *             ),
+     *             @OA\Property(property="message", type="string", example="Error")
      *         )
      *     ),
      *     @OA\Response(
      *         response=404,
-     *         description="Aula no encontrada"
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Error de validación"
-     *     )
-     * )
-     * @OA\Put(
-     *     path="/api/aulas/{id}",
-     *     tags={"Aulas"},
-     *     summary="Actualizar un aula existente",
-     *     description="Actualiza un aula por su ID",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID del aula",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\RequestBody(
-     *         required=true,
+     *         description="Aula no encontrada",
      *         @OA\JsonContent(
-     *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
-     *             @OA\Property(property="capacidad", type="integer", example="30"),
-     *             @OA\Property(property="habilitada", type="boolean", example="true"),
-     *             @OA\Property(property="id_ubicacion", type="integer", example="1")
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={
+     *                 "No se encontró el aula con el ID especificado."
+     *             }),
+     *             @OA\Property(property="message", type="string", example="Aula no encontrada")
      *         )
      *     ),
      *     @OA\Response(
-     *         response=200,
-     *         description="Aula actualizada",
+     *         response=500,
+     *         description="Error interno del servidor",
      *         @OA\JsonContent(
-     *             @OA\Property(property="id_aula", type="integer", example="1"),
-     *             @OA\Property(property="numero_aula", type="string", example="Aula 101"),
-     *             @OA\Property(property="capacidad", type="integer", example="30"),
-     *             @OA\Property(property="habilitada", type="boolean", example="true"),
-     *             @OA\Property(property="id_ubicacion", type="integer", example="1"),
-     *             @OA\Property(property="created_at", type="string", format="date-time"),
-     *             @OA\Property(property="updated_at", type="string", format="date-time")
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={
+     *                 "Error interno del servidor"
+     *             }),
+     *             @OA\Property(property="message", type="string", example="Se produjo un error al actualizar el aula")
      *         )
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="Aula no encontrada"
-     *     ),
-     *     @OA\Response(
-     *         response=422,
-     *         description="Error de validación"
      *     )
      * )
      */
+
     public function update(UpdateAulaRequest $request, $id)
     {
         $aula = Aula::findOrFail($id);
@@ -350,24 +388,25 @@ class AulaController extends Controller
 
         return response()->json([
             'success' => true,
-            'data' => $aula,
-            'error' => null,
-            'message' => 'Aula actualizada exitosamente'
+            'data' => [$aula],
+            'error' => [],
+            'message' => 'Operación exitosa'
         ]);
     }
 
     /**
      * @OA\Delete(
      *     path="/api/aulas/{id}",
+     *     summary="Eliminar un aula existente",
+     *     description="Elimina un aula especificada por su ID.",
+     *     operationId="deleteAula",
      *     tags={"Aulas"},
-     *     summary="Elimina un aula por el ID proporcionado",
-     *     description="Elimina el aula especificada por su ID.",
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
      *         description="ID del aula a eliminar",
      *         required=true,
-     *         @OA\Schema(type="integer")
+     *         @OA\Schema(type="integer", example=1)
      *     ),
      *     @OA\Response(
      *         response=200,
@@ -375,18 +414,8 @@ class AulaController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=true),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(type="string"),
-     *                 example={}
-     *             ),
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="array",
-     *                 @OA\Items(type="string"),
-     *                 example={}
-     *             ),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={} ),
      *             @OA\Property(property="message", type="string", example="Operación exitosa")
      *         )
      *     ),
@@ -396,18 +425,24 @@ class AulaController extends Controller
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="success", type="boolean", example=false),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(type="string"),
-     *                 example={}
-     *             ),
-     *             @OA\Property(
-     *                 property="error",
-     *                 type="array",
-     *                 @OA\Items(type="string", example="El aula no existe")
-     *             ),
-     *             @OA\Property(property="message", type="string", example="Operación fallida")
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={
+     *                 "El aula no existe"
+     *             }),
+     *             @OA\Property(property="message", type="string", example="Aula no encontrada")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="Error interno del servidor",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="data", type="array", @OA\Items(type="string"), example={} ),
+     *             @OA\Property(property="error", type="array", @OA\Items(type="string"), example={
+     *                 "Error interno del servidor"
+     *             }),
+     *             @OA\Property(property="message", type="string", example="Se produjo un error al eliminar el aula")
      *         )
      *     )
      * )
@@ -421,7 +456,7 @@ class AulaController extends Controller
                 'success' => false,
                 'data' => [],
                 'error' => 'Aula no encontrada',
-                'message' => 'Operación fallida'
+                'message' => 'Error'
             ], 404);
         }
 
@@ -430,7 +465,7 @@ class AulaController extends Controller
         return response()->json([
             'success' => true,
             'data' => [],
-            'error' => []   ,
+            'error' => [],
             'message' => 'Operación exitosa'
         ], 200);
     }
