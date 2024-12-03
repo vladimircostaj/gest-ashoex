@@ -56,6 +56,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Ambientes
             </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/lista-edificios")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Edificios
+            </SubMenuItem>
           </SubMenu>
         )}
 
