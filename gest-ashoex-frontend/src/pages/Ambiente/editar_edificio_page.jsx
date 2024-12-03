@@ -13,27 +13,27 @@ const EditarEdificioPage = () => {
   //const history = useHistory();
 
   // Estado inicial, en un caso real lo cargarías desde una API o una base de datos
-  const [formData, setFormData] = useState([{
-    id: "",
-    nombre: "",
-    geolocation: "",
-  }]);
+  const edificios = [
+    {
+      id: 1,
+      nombre: "Edificio Nuevo",
+      geolocalizacion: "19.4326° N, 99.1332° W",
+    },
+    {
+      id: 2,
+      nombre: "Edificio Multiacademico",
+      geolocalizacion: "34.0522° N, 118.2437° W",
+    },
+    {
+      id: 3,
+      nombre: "Edificio Memi",
+      geolocalizacion: "48.8566° N, 2.3522° E",
+    },
+  ];
+  const [edificioValue,setEdificioValue]=useState({});
 
   const [errors, setErrors] = useState({});
 
-
-
-  useEffect(() => {
-    const cargarEdificio = () => {
-      const edificio = {
-        id: 1,
-        nombre: "Edificio de Laboratorios FCYT ",
-        geolocalizacion: "Al lado del edificio nuevo",
-      };
-      setFormData([edificio]);
-    };
-    cargarEdificio();
-  }, [id]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -69,6 +69,14 @@ const EditarEdificioPage = () => {
     //history.push("/curricula");
   };
 
+  const selectEdificio=(event) => {
+    const index = event.target.selectedIndex;
+    const optionElement = event.target.childNodes[index];
+    const optionElementId = optionElement.getAttribute('id');
+    setEdificioValue(edificios.find(({ id }) => id == optionElement.value));
+
+}
+
   return (
     <div className="form-container">
       {/* Breadcrumbs */}
@@ -90,15 +98,14 @@ const EditarEdificioPage = () => {
                 }
                 id="id"
                 placeholder="ID de la edificio"
+                onChange={selectEdificio}
                 options={[
                     { value: "", label: "eliga un edificio " },
-                    ...formData.map((edificio) => ({
+                    ...edificios.map((edificio) => ({
                         value: edificio.id,
                         label: edificio.id+" "+edificio.nombre,
                       })),
                   ]}
-                value={formData.id}
-                disabled
                 style={{
                   container: { textAlign: "left" },
                   input: { width: "100%" },
@@ -127,7 +134,7 @@ const EditarEdificioPage = () => {
                 }
                 id="nombre"
                 placeholder="Ingrese el nombre de la edificio"
-                value={formData.nombre}
+                value={edificioValue.nombre}
                 onChange={handleChange}
                 style={{
                   container: { textAlign: "left" },
@@ -157,7 +164,7 @@ const EditarEdificioPage = () => {
                 }
                 id="geolocalizacion"
                 placeholder="Ingrese la geolocalizacion del edificio"
-                value={formData.geolocalizacion}
+                value={edificioValue.geolocalizacion}
                 onChange={handleChange}
                 style={{
                   container: { textAlign: "left" },
