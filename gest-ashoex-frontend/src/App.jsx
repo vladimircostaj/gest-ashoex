@@ -13,6 +13,8 @@ import RegistrarMateriaForm from "./pages/Curricula/registrar_materia_page.jsx";
 import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
+import RegistrarGrupoPage from "./pages/Curricula/registrar_grupo_page.jsx";
+
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -36,6 +38,7 @@ function App() {
         <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
+        <Route path="/registrar-grupo/:materiaId" element={<RegistrarGrupoPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
 
       </Routes> 
