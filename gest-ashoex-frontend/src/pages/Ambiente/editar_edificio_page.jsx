@@ -30,10 +30,9 @@ const EditarEdificioPage = () => {
       geolocalizacion: "48.8566° N, 2.3522° E",
     },
   ];
-  const [edificioValue,setEdificioValue]=useState({});
+  const [edificioValue, setEdificioValue] = useState({});
 
   const [errors, setErrors] = useState({});
-
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -69,129 +68,121 @@ const EditarEdificioPage = () => {
     //history.push("/curricula");
   };
 
-  const selectEdificio=(event) => {
+  const selectEdificio = (event) => {
     const index = event.target.selectedIndex;
     const optionElement = event.target.childNodes[index];
-    const optionElementId = optionElement.getAttribute('id');
+    const optionElementId = optionElement.getAttribute("id");
     setEdificioValue(edificios.find(({ id }) => id == optionElement.value));
-
-}
+  };
 
   return (
     <div className="form-container">
-      {/* Breadcrumbs */}
-
       <div className="card form-card">
-          <div className="mb-3 text-center">
-            <Title text="Editar Edificio" />
+        <div className="mb-3 text-center">
+          <Title text="Editar Edificio" />
+        </div>
+
+        <form className="d-flex flex-column gap-3">
+          {/* ID / Código (solo lectura) */}
+
+          <SelectField
+            label={
+              <span>
+                ID/Código: <span className="text-danger">*</span>
+              </span>
+            }
+            id="id"
+            placeholder="ID de la edificio"
+            onChange={selectEdificio}
+            options={[
+              { value: "", label: "eliga un edificio " },
+              ...edificios.map((edificio) => ({
+                value: edificio.id,
+                label: edificio.id + " " + edificio.nombre,
+              })),
+            ]}
+            style={{
+              container: { textAlign: "left" },
+              input: { width: "100%" },
+            }}
+          />
+          <div
+            className="text-danger position-absolute"
+            style={{
+              fontSize: "0.75rem",
+              top: "100%",
+              left: "5px",
+              height: "12px",
+            }}
+          >
+            {errors.id}
           </div>
 
-          <form
-            className="d-flex flex-column gap-3">
-            {/* ID / Código (solo lectura) */}
-            
-            <SelectField
-                label={
-                  <span>
-                    ID/Código: <span className="text-danger">*</span>
-                  </span>
-                }
-                id="id"
-                placeholder="ID de la edificio"
-                onChange={selectEdificio}
-                options={[
-                    { value: "", label: "eliga un edificio " },
-                    ...edificios.map((edificio) => ({
-                        value: edificio.id,
-                        label: edificio.id+" "+edificio.nombre,
-                      })),
-                  ]}
-                style={{
-                  container: { textAlign: "left" },
-                  input: { width: "100%" },
-                }}
-              />
-              <div
-                className="text-danger position-absolute"
-                style={{
-                  fontSize: "0.75rem",
-                  top: "100%",
-                  left: "5px",
-                  height: "12px",
-                }}
-              >
-                {errors.id}
-              </div>
-            
+          {/* Nombre del edificio*/}
 
-            {/* Nombre del edificio*/}
-            
-              <InputField
-                label={
-                  <span>
-                    Nombre del Edificio: <span className="text-danger">*</span>
-                  </span>
-                }
-                id="nombre"
-                placeholder="Ingrese el nombre de la edificio"
-                value={edificioValue.nombre}
-                onChange={handleChange}
-                style={{
-                  container: { textAlign: "left" },
-                  input: { width: "100%" },
-                }}
-              />
-              <div
-                className="text-danger position-absolute"
-                style={{
-                  fontSize: "0.75rem",
-                  top: "100%",
-                  left: "5px",
-                  height: "12px",
-                }}
-              >
-                {errors.nombre}
-              </div>
-           
+          <InputField
+            label={
+              <span>
+                Nombre del Edificio: <span className="text-danger">*</span>
+              </span>
+            }
+            id="nombre"
+            placeholder="Ingrese el nombre de la edificio"
+            value={edificioValue.nombre}
+            onChange={handleChange}
+            style={{
+              container: { textAlign: "left" },
+              input: { width: "100%" },
+            }}
+          />
+          <div
+            className="text-danger position-absolute"
+            style={{
+              fontSize: "0.75rem",
+              top: "100%",
+              left: "5px",
+              height: "12px",
+            }}
+          >
+            {errors.nombre}
+          </div>
 
-            {/* Número de Semestres */}
-            
-              <InputField
-                label={
-                  <span>
-                    Geolocalizacion: <span className="text-danger">*</span>
-                  </span>
-                }
-                id="geolocalizacion"
-                placeholder="Ingrese la geolocalizacion del edificio"
-                value={edificioValue.geolocalizacion}
-                onChange={handleChange}
-                style={{
-                  container: { textAlign: "left" },
-                  input: { width: "100%" },
-                }}
-              />
-              <div
-                className="text-danger position-absolute"
-                style={{
-                  fontSize: "0.75rem",
-                  top: "100%",
-                  left: "5px",
-                  height: "12px",
-                }}
-              >
-                {errors.geolocalizacion}
-              </div>
-          
+          {/* Número de Semestres */}
 
-            {/* Botones de Acción */}
-            <div className="d-flex justify-content-between gap-2 mt-3">
-              <CancelButton onClick={handleCancel} />
-              <SaveButton onClick={handleSave} />
-            </div>
-          </form>
-        </div>
-      
+          <InputField
+            label={
+              <span>
+                Geolocalizacion: <span className="text-danger">*</span>
+              </span>
+            }
+            id="geolocalizacion"
+            placeholder="Ingrese la geolocalizacion del edificio"
+            value={edificioValue.geolocalizacion}
+            onChange={handleChange}
+            style={{
+              container: { textAlign: "left" },
+              input: { width: "100%" },
+            }}
+          />
+          <div
+            className="text-danger position-absolute"
+            style={{
+              fontSize: "0.75rem",
+              top: "100%",
+              left: "5px",
+              height: "12px",
+            }}
+          >
+            {errors.geolocalizacion}
+          </div>
+
+          {/* Botones de Acción */}
+          <div className="d-flex justify-content-between gap-2 mt-3">
+            <CancelButton onClick={handleCancel} />
+            <SaveButton onClick={handleSave} />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
