@@ -83,6 +83,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar carrera
             </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/listar-materias")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Materias
+            </SubMenuItem>
             <SubMenuItem onClick={() => navigate("/listar-curriculas")}>
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Currículas
