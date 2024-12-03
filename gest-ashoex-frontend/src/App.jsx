@@ -9,6 +9,7 @@ import RegistrarAmbiente from "./pages/Ambiente/registrar_ambiente_page.jsx";
 import ListaAmbientes from "./pages/Ambiente/listar_ambientes_page.jsx";
 import RegistrarPersonal from "./pages/Personal/registrar_personal.jsx";
 import EditarAmbiente from "./pages/Ambiente/editar_ambiente_page.jsx";
+import EditarPersonalAcademico from './pages/Personal/editar_personal_page.jsx';
 import RegistrarMateriaForm from "./pages/Curricula/registrar_materia_page.jsx";
 import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
@@ -37,6 +38,7 @@ function App() {
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
+        <Route path="/editar-personal/:personalId" element={<EditarPersonalAcademico />} />
       </Routes>
     </Router>
   );
