@@ -7,6 +7,7 @@ import BookIcon from "@mui/icons-material/Book";
 import PersonIcon from "@mui/icons-material/Person";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import ListAltIcon from "@mui/icons-material/ListAlt";
+import ApartmentIcon from '@mui/icons-material/Apartment';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -55,6 +56,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
             <SubMenuItem onClick={() => navigate("/lista-ambientes")}>
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Ambientes
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/editar-edificio")}>
+              <ApartmentIcon style={{ color: "white", marginRight: "10px" }} />
+              Editar Edificio
             </SubMenuItem>
           </SubMenu>
         )}
