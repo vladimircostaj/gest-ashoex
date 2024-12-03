@@ -59,6 +59,10 @@ const RegistrarUbicacionForm = () => {
 
     const handleCancel = () => {
         console.log("Registro cancelado");
+        // Limpiar los datos del formulario
+        setNumeroPiso("");
+        setEdificioSelected("");
+        setErrors({});
     };
 
     const handleSave = async (e) => {
