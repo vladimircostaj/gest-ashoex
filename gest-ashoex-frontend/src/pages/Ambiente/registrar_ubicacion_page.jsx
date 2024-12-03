@@ -61,10 +61,42 @@ const RegistrarUbicacionForm = () => {
         console.log("Registro cancelado");
     };
 
-    const handleSave = (e) => {
+    const handleSave = async (e) => {
         e.preventDefault();
         if (validate()) {
-            console.log("Datos guardados:", { numeroPiso, edificioSelected });
+            try {
+                const response = await axios.post(`${api}/ubicaciones`, {
+                    piso: numeroPiso,
+                    id_edificio: edificioSelected,
+                });
+                console.log("Datos guardados:", response.data);
+                if (!response.data.success) {
+                    const serverErrors = {};
+                    response.data.error.forEach(err => {
+                        if (err.detail.includes('piso')) {
+                            serverErrors.numeroPiso = err.detail;
+                        }
+                        if (err.detail.includes('edificio')) {
+                            serverErrors.edificioSelected = err.detail;
+                        }
+                    });
+                    setErrors(serverErrors);
+                }
+            } catch (error) {
+                console.error('Error saving data:', error);
+                if (error.response && error.response.data && error.response.data.error) {
+                    const serverErrors = {};
+                    error.response.data.error.forEach(err => {
+                        if (err.detail.includes('piso')) {
+                            serverErrors.numeroPiso = err.detail;
+                        }
+                        if (err.detail.includes('edificio')) {
+                            serverErrors.edificioSelected = err.detail;
+                        }
+                    });
+                    setErrors(serverErrors);
+                }
+            }
         } else {
             console.log("Errores en el formulario:", errors);
         }
@@ -90,7 +122,7 @@ const RegistrarUbicacionForm = () => {
                             input: { width: "100%" },
                         }}
                     />
-                    
+
                     {errors.numeroPiso && <div className="error">{errors.numeroPiso}</div>}
                     
                     <SelectField
