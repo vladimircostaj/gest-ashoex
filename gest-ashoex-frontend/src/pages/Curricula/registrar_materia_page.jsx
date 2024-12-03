@@ -6,6 +6,9 @@ import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
 import { createMateria } from "../../services/materiaService";
 import { Snackbar } from "@mui/material";
+import Breadcrumbs from "../../components/BreadCrumb/breadcrumb"
+
+import "./registrar_materia.css";
 
 const RegistrarMateriaForm = () => {
     const [snackbar, setSnackbar] = useState({
@@ -13,6 +16,11 @@ const RegistrarMateriaForm = () => {
         message: "",
         severity: "success",
     });
+    const breadcrumbRoutes = [
+        { label: "Home", path: "/" },
+        { label: "Currícula", path: "/curricula" },
+        { label: "Registrar Materia", path: "/registrar-materia" },
+    ];
     const [formData, setFormData] = useState({
         codigo: "",
         nombre: "",
@@ -85,13 +93,24 @@ const RegistrarMateriaForm = () => {
     };
 
     const handleCancel = () => {
+        setFormData({
+            codigo: "",
+            nombre: "",
+            tipo: "",
+            nro_PeriodoAcademico: "",
+        });
+        setErrors({});
         console.log("Registro cancelado");
     };
 
     return (
-        <div className="d-flex justify-content-center align-items-center vh-100 bg-light p-3">
+    <div className="container mt-4">
+        <div className="d-flex flex-column justify-content-center align-items-center gap-3">
+            <div className="mb-3">
+                <Breadcrumbs routes={breadcrumbRoutes} />
+            </div>
             <div
-                className="card shadow-lg rounded-4 p-4"
+                className="card shadow-lg rounded-4 p-4 vw-100"
                 style={{ maxWidth: "400px", width: "100%" }}
             >
                 <div className="mb-3">
@@ -245,6 +264,7 @@ const RegistrarMateriaForm = () => {
                 severity={snackbar.severity}
             />
         </div>
+    </div>
     );
 };
 
