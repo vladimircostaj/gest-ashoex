@@ -1468,13 +1468,6 @@
                                     "nombre_facilidad": {
                                         "type": "string",
                                         "example": "Televisor"
-                                    },
-                                    "aulas": {
-                                        "type": "array",
-                                        "items": {
-                                            "type": "integer",
-                                            "example": 1
-                                        }
                                     }
                                 },
                                 "type": "object"
