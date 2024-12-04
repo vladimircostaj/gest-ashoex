@@ -43,6 +43,7 @@ const AgregarCarreraPage = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
+      // Aquí puedes agregar la lógica para guardar la nueva carrera
       console.log("Guardado:", formData);
     }
   };
@@ -54,6 +55,7 @@ const AgregarCarreraPage = () => {
   return (
     <div className="d-flex flex-column gap-4 p-3">
       {/* Breadcrumbs */}
+      <Breadcrumbs routes={breadcrumbRoutes} />
 
       <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
         <div
