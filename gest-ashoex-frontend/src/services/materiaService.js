@@ -1,7 +1,7 @@
-const API_URL = "http://localhost:8000/api";
+const API_URL = "http://127.0.0.1:8000"; 
 
 const fetchMaterias = async () => {
-  const response = await fetch(`${API_URL}/materias`, 
+  const response = await fetch(`${API_URL}/api/materias`, 
     {
       method: "GET",
       headers: {
@@ -9,8 +9,9 @@ const fetchMaterias = async () => {
       },
     }
   ); 
-
-  return response.json();
+  const data = await response.json(); 
+  
+  return data;
 };
 
 const materiaService = {
