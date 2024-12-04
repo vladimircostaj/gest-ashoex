@@ -9,11 +9,13 @@ import RegistrarAmbiente from "./pages/Ambiente/registrar_ambiente_page.jsx";
 import ListaAmbientes from "./pages/Ambiente/listar_ambientes_page.jsx";
 import RegistrarPersonal from "./pages/Personal/registrar_personal.jsx";
 import EditarAmbiente from "./pages/Ambiente/editar_ambiente_page.jsx";
+import EditarPersonalAcademico from "./pages/Personal/editar_personal_page.jsx";
 import RegistrarMateriaForm from "./pages/Curricula/registrar_materia_page.jsx";
 import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
 import { ListarPersonal } from "./pages/Personal/listar_personal_page.jsx";
+import VisualizarInformacionPersonal from "./pages/Personal/visualizar_info_personal.jsx";
 
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -31,6 +33,10 @@ function App() {
           <Route path="/lista-ambientes" element={<ListaAmbientes />} />
           <Route path="/registrar-personal" element={<RegistrarPersonal />} />
           <Route
+            path="/visualizar-personal/:personalId"
+            element={<VisualizarInformacionPersonal />}
+          />
+          <Route
             path="/editar-ambiente/:ambienteId"
             element={<EditarAmbiente />}
           />
@@ -40,6 +46,10 @@ function App() {
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
         <Route path="/listar-personal-academico" element={<ListarPersonal />} />
+        <Route
+          path="/editar-personal/:personalId"
+          element={<EditarPersonalAcademico />}
+        />
       </Routes>
     </Router>
   );
