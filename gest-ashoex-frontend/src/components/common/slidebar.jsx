@@ -71,7 +71,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
         </MenuItem>
         {isCurriculaOpen && (
           <SubMenu>
-            <SubMenuItem onClick={() => navigate("/registrar-curricula")} >
+            <SubMenuItem onClick={() => navigate("/registrar-curricula")}>
               <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar Currícula
             </SubMenuItem>
@@ -106,7 +106,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
               Agregar Personal
             </SubMenuItem>
-            <SubMenuItem onClick={() => navigate("/ListaPersonalAcademico")}>
+            <SubMenuItem onClick={() => navigate("/listar-personal-academico")}>
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Personal
             </SubMenuItem>
