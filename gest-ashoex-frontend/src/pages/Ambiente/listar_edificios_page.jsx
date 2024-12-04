@@ -1,6 +1,7 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./listar_ambientes.css";
 import Title from "../../components/typography/title";
+import { Link } from "react-router-dom";
 
 const ListaEdificios = () => {
   // Lista de edificios estática
@@ -47,9 +48,12 @@ const ListaEdificios = () => {
               <td>{edificio.nombre}</td>
               <td>{edificio.geolocalizacion}</td>
               <td>
-                <a href="#" className="edit mr-6 ml-6">
+                <Link
+                  to={`/editar-edificio/${edificio.id}`}
+                  className="edit mr-6 ml-6"
+                >
                   <FaEdit />
-                </a>
+                </Link>
                 <a href="#" className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>
