@@ -4,90 +4,62 @@ import InputField from "../../components/form/inputField";
 import SelectField from "../../components/form/selectField";
 import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
-import { useParams } from "react-router-dom";
-import "./registrar_personalAcademico.css"; 
+import { useParams, useNavigate } from "react-router-dom";
+import "./registrar_personalAcademico.css";
 
 const EditarPersonalAcademico = () => {
-  const { personalId } = useParams(); 
+  const { personalId } = useParams(); // Simula un ID del personal académico
+  const navigate = useNavigate(); // Para redirigir después de guardar/cancelar
 
   const [formData, setFormData] = useState({
     nombre: "",
-    apellido: "",
-    correo: "",
-    id_departamento: "",
-    id_rol: "",
+    email: "",
+    telefono: "",
+    estado: "",
+    tipo_personal_id: "",
   });
 
   const [disponibles, setDisponibles] = useState({
-    departamentos: [],
-    roles: [],
+    tipos: [],
   });
 
-  // Simulando una lista de personal académico
-  const personalAcademico = [
-    {
-      id: "1",
-      nombre: "Juan",
-      apellido: "Pérez",
-      correo: "juan.perez@universidad.com",
-      id_departamento: "1",
-      id_rol: "1",
-    },
-    {
-      id: "2",
-      nombre: "Ana",
-      apellido: "González",
-      correo: "ana.gonzalez@universidad.com",
-      id_departamento: "2",
-      id_rol: "2",
-    },
-    {
-      id: "3",
-      nombre: "Carlos",
-      apellido: "López",
-      correo: "carlos.lopez@universidad.com",
-      id_departamento: "1",
-      id_rol: "3",
-    },
-  ];
-
-  // Simulando la carga de opciones disponibles
-  const dataDisponibles = {
-    departamentos: [
-      { id: "1", nombre: "Ciencias Sociales" },
-      { id: "2", nombre: "Ingeniería" },
-    ],
-    roles: [
-      { id: "1", nombre: "Profesor" },
-      { id: "2", nombre: "Investigador" },
-      { id: "3", nombre: "Asistente" },
-    ],
-  };
-
-  // Cargar los datos del personal académico cuando se carga el componente
+  // Simulación de datos de ejemplo
   useEffect(() => {
-    const personal = personalAcademico.find((per) => per.id === personalId);
+    const mockPersonal = {
+      id: personalId || 1,
+      nombre: "Juan Pérez",
+      email: "juan.perez@example.com",
+      telefono: "123456789",
+      estado: "activo",
+      tipo_personal_id: 2,
+    };
 
-    if (personal) {
-      setFormData(personal);
-    }
-    setDisponibles(dataDisponibles);
+    const mockTipos = [
+      { id: 1, nombre: "Docente" },
+      { id: 2, nombre: "Investigador" },
+      { id: 3, nombre: "Administrador" },
+    ];
+
+    // Simula la "carga" de datos
+    setTimeout(() => {
+      setFormData(mockPersonal);
+      setDisponibles({ tipos: mockTipos });
+    }, 500); // Simula un retraso de carga
   }, [personalId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    setFormData({ ...formData, [name]: value });
   };
 
   const handleCancel = () => {
-    console.log("Edición cancelada");
+    alert("Cancelando edición. Redirigiendo...");
+    navigate("/personal-academico"); // Simula la redirección a la lista
   };
 
   const handleSave = () => {
-    console.log("Datos guardados:", formData);
+    alert("Datos guardados:\n" + JSON.stringify(formData, null, 2));
+    navigate("/personal-academico"); // Simula la redirección a la lista
   };
 
   return (
@@ -102,78 +74,55 @@ const EditarPersonalAcademico = () => {
             label="Nombre:"
             id="nombre"
             placeholder="Ingrese el nombre"
-            name={"nombre"}
+            name="nombre"
             value={formData.nombre}
             onChange={handleChange}
-            style={{
-              container: { textAlign: "left" },
-              input: { width: "100%" },
-            }}
-          />
-
-          <InputField
-            label="Apellido:"
-            id="apellido"
-            placeholder="Ingrese el apellido"
-            name={"apellido"}
-            value={formData.apellido}
-            onChange={handleChange}
-            style={{
-              container: { textAlign: "left" },
-              input: { width: "100%" },
-            }}
           />
 
           <InputField
             label="Correo:"
-            id="correo"
+            id="email"
             type="email"
-            name={"correo"}
             placeholder="Ingrese el correo"
-            value={formData.correo}
+            name="email"
+            value={formData.email}
             onChange={handleChange}
-            style={{
-              container: { textAlign: "left" },
-              input: { width: "100%" },
-            }}
+          />
+
+          <InputField
+            label="Teléfono:"
+            id="telefono"
+            placeholder="Ingrese el teléfono"
+            name="telefono"
+            value={formData.telefono}
+            onChange={handleChange}
           />
 
           <SelectField
-            label="Departamento:"
-            id="id_departamento"
-            name={"id_departamento"}
+            label="Tipo de Personal:"
+            id="tipo_personal_id"
+            name="tipo_personal_id"
             options={[
-              { value: "", label: "Seleccione un departamento" },
-              ...disponibles.departamentos.map((departamento) => ({
-                value: departamento.id,
-                label: departamento.nombre,
+              { value: "", label: "Seleccione un tipo de personal" },
+              ...disponibles.tipos.map((tipo) => ({
+                value: tipo.id,
+                label: tipo.nombre,
               })),
             ]}
-            value={formData.id_departamento}
+            value={formData.tipo_personal_id}
             onChange={handleChange}
-            style={{
-              container: { textAlign: "left" },
-              select: { width: "100%" },
-            }}
           />
 
           <SelectField
-            label="Rol:"
-            id="id_rol"
-            name={"id_rol"}
+            label="Estado:"
+            id="estado"
+            name="estado"
             options={[
-              { value: "", label: "Seleccione un rol" },
-              ...disponibles.roles.map((rol) => ({
-                value: rol.id,
-                label: rol.nombre,
-              })),
+              { value: "activo", label: "Activo" },
+              { value: "inactivo", label: "Inactivo" },
             ]}
-            value={formData.id_rol}
+            value={formData.estado}
             onChange={handleChange}
-            style={{
-              container: { textAlign: "left" },
-              select: { width: "100%" },
-            }}
           />
 
           <div className="d-flex justify-content-between gap-2 mt-3">
