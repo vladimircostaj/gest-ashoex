@@ -37,12 +37,13 @@ function App() {
             path="/editar-ambiente/:ambienteId"
             element={<EditarAmbiente />}
           />
+          <Route path="/editar-edificio/:edificioId" element={<EditarEdificioPage />} />
         </Route>
         <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
-        <Route path="/editar-edificio" element={<EditarEdificioPage />} />
+        
 
       </Routes> 
     </Router>
