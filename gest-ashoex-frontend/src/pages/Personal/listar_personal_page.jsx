@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Title from "../../components/typography/title";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { getListaPersonal } from "../../services/ListaPersonalService";
 
@@ -134,15 +134,19 @@ export const ListarPersonal = () => {
                 <td>
                   {personal.tipo_personal_id === 1 ? "Titular" : "Auxiliar"}
                 </td>
-                <td className="d-flex justify-content-start align-items-center">
+                <td className="d-flex justify-content-start align-items-center gap-3">
+                  <Link
+                    to={`/visualizar-personal/${personal.personal_academico_id}`}
+                  >
+                    <FaEye />
+                  </Link>
                   <Link
                     to={`/editar-personal/${personal.personal_academico_id}`}
-                    className="edit mr-6 ml-6"
                   >
                     <FaEdit />
                   </Link>
                   <button
-                    className="btn text-danger my-auto"
+                    className="btn text-danger m-0 p-0"
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
