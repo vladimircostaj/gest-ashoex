@@ -102,7 +102,7 @@ export const ListarPersonal = () => {
   };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-md-5">
       <div className="table title">
         <div className="row">
           <div className="mt-2">
