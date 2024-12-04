@@ -7,21 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class ListaPersonalAcademicoController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/api/lista-personal-academico",
-     *     tags={"Personal Académico"},
-     *     summary="Obtiene la lista de todo el personal académico",
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de personal académico obtenida exitosamente",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/PersonalAcademico")
-     *         )
-     *     )
-     * )
-     */
+
     public function ListaPersonalAcademico()
     {
         $personalAcademicos = DB::table('personal_academicos')
@@ -37,6 +23,11 @@ class ListaPersonalAcademicoController extends Controller
             )
             ->get();
 
-        return response()->json($personalAcademicos);
+        return response()->json([
+            'success' => true,
+            'data' => $personalAcademicos,
+            'message' => 'Operación exitosa'
+        ]);
     }
+
 }
