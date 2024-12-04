@@ -1,32 +1,43 @@
-import { useEffect, useState } from 'react';
-import Title from '../../components/typography/title'
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import Title from "../../components/typography/title";
+import { useParams } from "react-router-dom";
+import { getPersonalById } from "../../services/personalService";
 
 const VisualizarInformacionPersonal = () => {
   const [personal, setPersonal] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { personalId } = useParams();
 
   useEffect(() => {
-    // usar servicio
-    setPersonal({
-      Tipo_personal: 'AUXILIAR',
-      telefono: '+59174677370',
-      personal_academico_id: 1,
-      tipo_personal_id: 2,
-      nombre: 'Dr. Haleigh Treutel',
-      email: 'wschamberger@example.net',
-      estado: 'ACTIVO',
-    });
+    const fetchData = async () => {
+      setIsLoading(true);
+      const response = await getPersonalById(personalId);
+      response.success ? setPersonal(response.data) : setError(response);
+      setIsLoading(false);
+    };
+    fetchData();
   }, [personalId]);
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light p-3">
-      <div className="card shadow-lg rounded-4 p-4" style={{ maxWidth: '400px', width: '100%' }}>
+      <div
+        className="card shadow-lg rounded-4 p-4"
+        style={{ maxWidth: "400px", width: "100%" }}
+      >
         <div className="mb-3">
           <Title text="Información Personal Académico" />
         </div>
 
-        { personal? (
+        {isLoading ? (
+          // Indicador de carga
+          <div className="d-flex justify-content-center align-items-center">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+        ) : personal ? (
+          // Mostrar datos si están disponibles
           <div className="d-flex flex-column gap-4">
             <div className="position-relative">
               <h5>Nombre:</h5>
@@ -34,7 +45,7 @@ const VisualizarInformacionPersonal = () => {
             </div>
 
             <div className="position-relative">
-              <h5>Telefono:</h5>
+              <h5>Teléfono:</h5>
               <p>{personal.telefono}</p>
             </div>
 
@@ -45,7 +56,7 @@ const VisualizarInformacionPersonal = () => {
 
             <div className="position-relative">
               <h5>Tipo de personal:</h5>
-              <p>{personal.Tipo_personal}</p>
+              <p>{personal.tipo_personal.nombre}</p>
             </div>
 
             <div className="position-relative">
@@ -54,13 +65,14 @@ const VisualizarInformacionPersonal = () => {
             </div>
           </div>
         ) : (
+          // Mensaje si no se encuentra información
           <div>
-            Personal academico no encontrado! {/* Mostrar mensaje de la API */}
+            <p>{error.error.message}</p>
           </div>
         )}
       </div>
     </div>
   );
-}
+};
 
 export default VisualizarInformacionPersonal;
