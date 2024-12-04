@@ -3,16 +3,19 @@ import HealthCheck from "./components/health/health.jsx";
 import "./App.css";
 import Header from "./components/common/header.jsx";
 import SlideBar from "./components/common/slidebar.jsx";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegistrarAmbiente from "./pages/Ambiente/registrar_ambiente_page.jsx";
 import ListaAmbientes from "./pages/Ambiente/listar_ambientes_page.jsx";
 import RegistrarPersonal from "./pages/Personal/registrar_personal.jsx";
 import EditarAmbiente from "./pages/Ambiente/editar_ambiente_page.jsx";
+import EditarPersonalAcademico from "./pages/Personal/editar_personal_page.jsx";
 import RegistrarMateriaForm from "./pages/Curricula/registrar_materia_page.jsx";
 import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
+import { ListarPersonal } from "./pages/Personal/listar_personal_page.jsx";
+import VisualizarInformacionPersonal from "./pages/Personal/visualizar_info_personal.jsx";
+
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -29,8 +32,20 @@ function App() {
           <Route path="/lista-ambientes" element={<ListaAmbientes />} />
           <Route path="/registrar-personal" element={<RegistrarPersonal />} />
           <Route
+            path="/visualizar-personal/:personalId"
+            element={<VisualizarInformacionPersonal />}
+          />
+          <Route
             path="/editar-ambiente/:ambienteId"
             element={<EditarAmbiente />}
+          />
+          <Route
+            path="/listar-personal-academico"
+            element={<ListarPersonal />}
+          />
+          <Route
+            path="/editar-personal/:personalId"
+            element={<EditarPersonalAcademico />}
           />
         </Route>
         <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />

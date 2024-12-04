@@ -4,7 +4,7 @@ import { Toaster } from "sonner";
 
 const HealthCheck = () => {
   return (
-    <div className="container mt-4 ">
+    <div className="md-container mt-4">
       <Toaster
         position="top-right"
         richColors

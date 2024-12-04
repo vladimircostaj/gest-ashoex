@@ -1,5 +1,3 @@
-import React from "react";
-
 const SaveButton = ({ onClick, text = "Guardar" }) => {
   return (
     <button
