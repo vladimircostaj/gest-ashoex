@@ -1,4 +1,3 @@
-import React from "react";
 import { useLocation, Link } from "react-router-dom";
 
 export const Breadcrumb = () => {
@@ -9,10 +8,9 @@ export const Breadcrumb = () => {
     <nav
       aria-label="breadcrumb"
       style={{
-        position: "fixed",
-        top: "50px", // Puedes ajustar este valor si es necesario
-        left: 0, // Esto coloca el breadcrumb al 25% desde el lado izquierdo
-        right: 0, // El valor '0' hace que se extienda hasta el borde derecho
+        marginTop: "60px", // Puedes ajustar este valor si es necesario
+        //left: 0, // Esto coloca el breadcrumb al 25% desde el lado izquierdo
+        //right: 0, // El valor '0' hace que se extienda hasta el borde derecho
         zIndex: 1000,
         backgroundColor: "white", // O cualquier otro color
         padding: "5px",
