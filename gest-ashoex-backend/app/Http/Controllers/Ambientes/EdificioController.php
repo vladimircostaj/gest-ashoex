@@ -129,7 +129,8 @@ class EdificioController extends Controller
      */
     public function show($id)
     {
-        $edificio = Edificio::with('ubicaciones.aulas.uso', 'ubicaciones.aulas.facilidades')->findOrFail($id);
+        #$edificio = Edificio::with('ubicaciones.aulas.uso', 'ubicaciones.aulas.facilidades')->findOrFail($id);
+        $edificio = Edificio::find($id);
         if (!$edificio) {
             return response()->json([
                 'success' => false,
