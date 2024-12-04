@@ -127,7 +127,7 @@ export const ListarPersonal = () => {
                 <td>{personal.nombre}</td>
                 <td>{personal.email}</td>
                 <td>{personal.telefono}</td>
-                <td>{personal.estado}</td>
+                <td className="text-lowercase">{personal.estado}</td>
                 <td>
                   {personal.tipo_personal_id === 1 ? "Titular" : "Auxiliar"}
                 </td>

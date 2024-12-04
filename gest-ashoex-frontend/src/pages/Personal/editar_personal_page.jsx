@@ -63,7 +63,7 @@ const EditarPersonalAcademico = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container mt-5">
       <div className="card form-card">
         <div className="mb-3 text-center">
           <Title text="Editar Personal Académico" />
