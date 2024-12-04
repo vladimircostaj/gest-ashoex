@@ -89,6 +89,7 @@ import { getListaPersonal } from "../../services/ListaPersonalService";
 
 export const ListarPersonal = () => {
   const [personal, setPersonal] = useState([]);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     loadPersonal();
@@ -105,7 +106,7 @@ export const ListarPersonal = () => {
       <div className="table title">
         <div className="row">
           <div className="mt-2">
-            <Title text={"Listado de Personal"}></Title>
+            <Title className="mb-0" text={"Listado de Personal"}></Title>
           </div>
         </div>
       </div>
@@ -113,6 +114,7 @@ export const ListarPersonal = () => {
         <table className="table table-striped table-hover w-auto">
           <thead>
             <tr>
+              <th>#</th>
               <th>Nombre</th>
               <th>Correo</th>
               <th>Teléfono</th>
@@ -124,6 +126,7 @@ export const ListarPersonal = () => {
           <tbody>
             {personal.map((personal, index) => (
               <tr key={index}>
+                <td>{index + 1}</td>
                 <td>{personal.nombre}</td>
                 <td>{personal.email}</td>
                 <td>{personal.telefono}</td>
@@ -131,21 +134,65 @@ export const ListarPersonal = () => {
                 <td>
                   {personal.tipo_personal_id === 1 ? "Titular" : "Auxiliar"}
                 </td>
-                <td>
+                <td className="d-flex justify-content-start align-items-center">
                   <Link
                     to={`/editar-personal/${personal.personal_academico_id}`}
                     className="edit mr-6 ml-6"
                   >
                     <FaEdit />
                   </Link>
-                  <a href="#" className="delete mr-6 ml-6">
+                  <button
+                    className="btn text-danger my-auto"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={() => setShowModal(true)}
+                  >
                     <FaTrash />
-                  </a>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        <div
+          className={`modal fade show ${showModal ? "show d-block" : ""}`}
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="exampleModalLabel">
+                  ¿Esta seguro de eliminar el registro?
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setShowModal(false)}
+                ></button>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  onClick={() => setShowModal(false)}
+                >
+                  No
+                </button>
+                <button type="button" className="btn btn-primary">
+                  Si
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
