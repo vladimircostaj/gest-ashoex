@@ -14,6 +14,7 @@ import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
 import VisualizarInformacionPersonal from "./pages/Personal/visualizar_info_personal.jsx";
+import PersonalInactivo from "./pages/Personal/personal-inactivo.jsx";
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -38,7 +39,9 @@ function App() {
         <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
-        <Route path="/listar-curriculas" element={<ListaCurriculas />} />
+        <Route path="/listar-curriculas" element={<ListaCurriculas />}/>
+        <Route path="/personal-inactivo" element={<PersonalInactivo />}/>
+        
       </Routes>
     </Router>
   );
