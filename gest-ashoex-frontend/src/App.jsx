@@ -3,7 +3,6 @@ import HealthCheck from "./components/health/health.jsx";
 import "./App.css";
 import Header from "./components/common/header.jsx";
 import SlideBar from "./components/common/slidebar.jsx";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import RegistrarAmbiente from "./pages/Ambiente/registrar_ambiente_page.jsx";
 import ListaAmbientes from "./pages/Ambiente/listar_ambientes_page.jsx";
@@ -40,16 +39,19 @@ function App() {
             path="/editar-ambiente/:ambienteId"
             element={<EditarAmbiente />}
           />
+          <Route
+            path="/listar-personal-academico"
+            element={<ListarPersonal />}
+          />
+          <Route
+            path="/editar-personal/:personalId"
+            element={<EditarPersonalAcademico />}
+          />
         </Route>
         <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
-        <Route path="/listar-personal-academico" element={<ListarPersonal />} />
-        <Route
-          path="/editar-personal/:personalId"
-          element={<EditarPersonalAcademico />}
-        />
       </Routes>
     </Router>
   );
