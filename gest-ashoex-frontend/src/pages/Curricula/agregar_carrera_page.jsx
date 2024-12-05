@@ -135,7 +135,7 @@ const AgregarCarreraPage = () => {
               <InputField
                 label={
                   <span>
-                    Número de Semestress: <span className="text-danger">*</span>
+                    Número de Semestres: <span className="text-danger">*</span>
                   </span>
                 }
                 id="numeroSemestres"
