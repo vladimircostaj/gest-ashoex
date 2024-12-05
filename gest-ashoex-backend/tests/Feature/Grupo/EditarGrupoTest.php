@@ -28,7 +28,7 @@ class EditarGrupoTest extends TestCase
             'nro_grupo' => 1,
         ]);
 
-        $response = $this->putJson('/api/gruposUpdate/' . $grupo->id, [
+        $response = $this->putJson('/api/grupos/' . $grupo->id, [
             'materia_id' => $materia->id,
             'nro_grupo' => 2
         ]);
@@ -66,7 +66,7 @@ class EditarGrupoTest extends TestCase
 
         $grupoId = 99999; //se asigna un id que no este en la BD
 
-        $response = $this->putJson('/api/gruposUpdate/' . $grupoId, [
+        $response = $this->putJson('/api/grupos/' . $grupoId, [
             'materia_id' => $materia->id, 
             'nro_grupo' => 2  
         ]);
@@ -102,7 +102,7 @@ class EditarGrupoTest extends TestCase
         ]);
 
         $grupoId = $grupo2->id;
-        $response = $this->putJson('/api/gruposUpdate/' . $grupoId, [
+        $response = $this->putJson('/api/grupos/' . $grupoId, [
             'materia_id' => $materia->id,
             'nro_grupo' => 1 
         ]);
@@ -114,6 +114,59 @@ class EditarGrupoTest extends TestCase
                         'code' => 409,
                         'detail' => 'Ya existe un grupo con este número en la misma materia'
                        ]
+        ]);
+    }
+
+    public function test_campos_nulos()
+    {
+        $materia = Materia::create([
+            'codigo' => 1100001,
+            'nombre' => 'Ingles II',
+            'tipo' => 'regular',
+            'nro_PeriodoAcademico' => 1,
+        ]);
+    
+        $grupo = Grupo::create([
+            'materia_id' => $materia->id,
+            'nro_grupo' => 1,
+        ]);
+    
+        $grupoId = $grupo->id;
+    
+        $responseNull = $this->putJson('/api/grupos/' . $grupoId, [
+            'materia_id' => $materia->id,
+            'nro_grupo' => null // Caso 1: valor null
+        ]);
+    
+        $responseNull->assertStatus(422);
+        $responseNull->assertJson([
+            'success' => false,
+            'data' => [],
+            'error' => [
+                [
+                    'status' => 422,
+                    'detail' => 'El campo nro grupo es obligatorio.'
+                ]
+            ],
+            'message' => 'Error'
+        ]);
+    
+        $responseEmpty = $this->putJson('/api/grupos/' . $grupoId, [
+            'materia_id' => $materia->id,
+            'nro_grupo' => '' // Caso 2: vacío
+        ]);
+    
+        $responseEmpty->assertStatus(422);
+        $responseEmpty->assertJson([
+            'success' => false,
+            'data' => [],
+            'error' => [
+                [
+                    'status' => 422,
+                    'detail' => 'El campo nro grupo es obligatorio.'
+                ]
+            ],
+            'message' => 'Error'
         ]);
     }
 }

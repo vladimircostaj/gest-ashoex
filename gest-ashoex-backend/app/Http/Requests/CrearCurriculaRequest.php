@@ -24,8 +24,8 @@ class CrearCurriculaRequest extends FormRequest
         return [
             'carrera_id' => 'required|integer|exists:carreras,id',
             'materia_id' => 'required|integer|exists:materias,id',
-            'nivel' => 'nullable|integer',
-            'electiva'=> 'integer',
+            'nivel' => 'required|integer',
+            'electiva'=> 'required|boolean',
         ];
     }
 }
