@@ -24,6 +24,7 @@ return Application::configure(dirname(__DIR__))
                     $errors[] = [
                         'status' => 422,
                         'detail' => $message,
+                        'field' => $field,
                     ];
                 }
             }
