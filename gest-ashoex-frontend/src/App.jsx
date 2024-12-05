@@ -13,7 +13,9 @@ import RegistrarMateriaForm from "./pages/Curricula/registrar_materia_page.jsx";
 import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
+import ListarMaterias from "./pages/Curricula/listar_materia.jsx";
 import ShowCarrers from "./pages/Curricula/show_carrers.jsx";
+
 function App() {
    const [isSliderOpen, setIsSliderOpen] = useState(false);
    const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -22,21 +24,26 @@ function App() {
          <Header toggleSlider={toggleSlider} />
          {isSliderOpen && <SlideBar isOpen={isSliderOpen} toggleSlider={toggleSlider} />}
 
-         <Routes>
-            <Route path="/" element={<HealthCheck />}>
-               <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
-               <Route path="/lista-ambientes" element={<ListaAmbientes />} />
-               <Route path="/registrar-personal" element={<RegistrarPersonal />} />
-               <Route path="/editar-ambiente/:ambienteId" element={<EditarAmbiente />} />
-            </Route>
-            <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
-            <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
-            <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
-            <Route path="/listar-curriculas" element={<ListaCurriculas />} />
-            <Route path="/mostrar-carreras" element={<ShowCarrers />} />
-         </Routes>
-      </Router>
-   );
+      <Routes>
+        <Route path="/" element={<HealthCheck />}>
+          <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
+          <Route path="/lista-ambientes" element={<ListaAmbientes />} />
+          <Route path="/registrar-personal" element={<RegistrarPersonal />} />
+          <Route
+            path="/editar-ambiente/:ambienteId"
+            element={<EditarAmbiente />}
+          />
+        </Route>
+        <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
+        <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
+        <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
+        <Route path="/listar-curriculas" element={<ListaCurriculas />} />
+        <Route path="/listar-materias" element={<ListarMaterias />} />
+        <Route path="/mostrar-carreras" element={<ShowCarrers />} />
+
+      </Routes> 
+    </Router>
+  );
 }
 
 export default App;

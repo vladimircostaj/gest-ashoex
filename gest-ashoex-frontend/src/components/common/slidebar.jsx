@@ -12,98 +12,117 @@ import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
-   if (!isOpen) return null;
+  if (!isOpen) return null;
 
-   const [isAmbientesOpen, setIsAmbientesOpen] = useState(false);
-   const [isCurriculaOpen, setIsCurriculaOpen] = useState(false);
-   const [isPersonalOpen, setIsPersonalOpen] = useState(false);
+  const [isAmbientesOpen, setIsAmbientesOpen] = useState(false);
+  const [isCurriculaOpen, setIsCurriculaOpen] = useState(false);
+  const [isPersonalOpen, setIsPersonalOpen] = useState(false);
 
-   const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate(); // Initialize the navigate function
 
-   const toggleAmbientes = () => setIsAmbientesOpen((prev) => !prev);
-   const toggleCurricula = () => setIsCurriculaOpen((prev) => !prev);
-   const togglePersonal = () => setIsPersonalOpen((prev) => !prev);
+  const toggleAmbientes = () => setIsAmbientesOpen((prev) => !prev);
+  const toggleCurricula = () => setIsCurriculaOpen((prev) => !prev);
+  const togglePersonal = () => setIsPersonalOpen((prev) => !prev);
 
-   return (
-      <SliderContainer>
-         <SliderHeader>
-            <Title>Gest - Ashoex</Title>
-            <IconButton onClick={toggleSlider}>
-               <CloseIcon style={{ color: "white" }} />
-            </IconButton>
-         </SliderHeader>
+  return (
+    <SliderContainer>
+      <SliderHeader>
+        <Title>Gest - Ashoex</Title>
+        <IconButton onClick={toggleSlider}>
+          <CloseIcon style={{ color: "white" }} />
+        </IconButton>
+      </SliderHeader>
 
-         <Divider style={{ backgroundColor: "gray" }} />
+      <Divider style={{ backgroundColor: "gray" }} />
 
-         <Menu>
-            {/* Ambientes Section */}
-            <MenuItem onClick={toggleAmbientes}>
-               <CalendarTodayIcon style={{ color: "white", marginRight: "10px" }} />
-               Ambientes {isAmbientesOpen ? <ExpandLessIcon style={{ color: "white" }} /> : <ExpandMoreIcon style={{ color: "white" }} />}
-            </MenuItem>
-            {isAmbientesOpen && (
-               <SubMenu>
-                  <SubMenuItem onClick={() => navigate("/registrar-ambiente")}>
-                     <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
-                     Agregar Ambiente
-                  </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/lista-ambientes")}>
-                     <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
-                     Ver Lista de Ambientes
-                  </SubMenuItem>
-               </SubMenu>
-            )}
+      <Menu>
+        {/* Ambientes Section */}
+        <MenuItem onClick={toggleAmbientes}>
+          <CalendarTodayIcon style={{ color: "white", marginRight: "10px" }} />
+          Ambientes{" "}
+          {isAmbientesOpen ? (
+            <ExpandLessIcon style={{ color: "white" }} />
+          ) : (
+            <ExpandMoreIcon style={{ color: "white" }} />
+          )}
+        </MenuItem>
+        {isAmbientesOpen && (
+          <SubMenu>
+            <SubMenuItem onClick={() => navigate("/registrar-ambiente")}>
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
+              Agregar Ambiente
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/lista-ambientes")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Ambientes
+            </SubMenuItem>
+          </SubMenu>
+        )}
 
-            {/* Curricula Section */}
-            <MenuItem onClick={toggleCurricula}>
-               <BookIcon style={{ color: "white", marginRight: "10px" }} />
-               Currícula {isCurriculaOpen ? <ExpandLessIcon style={{ color: "white" }} /> : <ExpandMoreIcon style={{ color: "white" }} />}
-            </MenuItem>
-            {isCurriculaOpen && (
-               <SubMenu>
-                  <SubMenuItem onClick={() => navigate("/registrar-curricula")}>
-                     <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
-                     Agregar Currícula
-                  </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/registrar-materia")}>
-                     <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
-                     Agregar materia
-                  </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/registrar-carrera")}>
-                     <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
-                     Agregar carrera
-                  </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/listar-curriculas")}>
-                     <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
-                     Ver Lista de Currículas
-                  </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/mostrar-carreras")}>
-                     <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
-                     Ver Lista de Carreras
-                  </SubMenuItem>
-               </SubMenu>
-            )}
+        {/* Curricula Section */}
+        <MenuItem onClick={toggleCurricula}>
+          <BookIcon style={{ color: "white", marginRight: "10px" }} />
+          Currícula{" "}
+          {isCurriculaOpen ? (
+            <ExpandLessIcon style={{ color: "white" }} />
+          ) : (
+            <ExpandMoreIcon style={{ color: "white" }} />
+          )}
+        </MenuItem>
+        {isCurriculaOpen && (
+          <SubMenu>
+            <SubMenuItem onClick={() => navigate("/registrar-curricula")} >
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
+              Agregar Currícula
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/registrar-materia")}>
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
+              Agregar materia
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/registrar-carrera")}>
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
+              Agregar carrera
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/listar-materias")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Materias
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/listar-curriculas")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Currículas
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/mostrar-carreras")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Carreras
+            </SubMenuItem>
+          </SubMenu>
+        )}
 
-            {/* Personal Section */}
-            <MenuItem onClick={togglePersonal}>
-               <PersonIcon style={{ color: "white", marginRight: "10px" }} />
-               Personal {isPersonalOpen ? <ExpandLessIcon style={{ color: "white" }} /> : <ExpandMoreIcon style={{ color: "white" }} />}
-            </MenuItem>
-            {isPersonalOpen && (
-               <SubMenu>
-                  <SubMenuItem onClick={() => navigate("/registrar-personal")}>
-                     <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
-                     Agregar Personal
-                  </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/ListaPersonalAcademico")}>
-                     <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
-                     Ver Lista de Personal
-                  </SubMenuItem>
-               </SubMenu>
-            )}
-         </Menu>
-      </SliderContainer>
-   );
+        {/* Personal Section */}
+        <MenuItem onClick={togglePersonal}>
+          <PersonIcon style={{ color: "white", marginRight: "10px" }} />
+          Personal{" "}
+          {isPersonalOpen ? (
+            <ExpandLessIcon style={{ color: "white" }} />
+          ) : (
+            <ExpandMoreIcon style={{ color: "white" }} />
+          )}
+        </MenuItem>
+        {isPersonalOpen && (
+          <SubMenu>
+            <SubMenuItem onClick={() => navigate("/registrar-personal")}>
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
+              Agregar Personal
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/ListaPersonalAcademico")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Personal
+            </SubMenuItem>
+          </SubMenu>
+        )}
+      </Menu>
+    </SliderContainer>
+  );
 };
 
 const SliderContainer = styled.div`
