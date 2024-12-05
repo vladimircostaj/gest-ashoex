@@ -91,6 +91,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Currículas
             </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/mostrar-carreras")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Carreras
+            </SubMenuItem>
           </SubMenu>
         )}
 
@@ -122,70 +126,70 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
 };
 
 const SliderContainer = styled.div`
-  width: 280px;
-  height: 100%;
-  background-color: #2d2a2a;
-  color: white;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1200;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+   width: 280px;
+   height: 100%;
+   background-color: #2d2a2a;
+   color: white;
+   position: fixed;
+   top: 0;
+   left: 0;
+   z-index: 1200;
+   padding: 20px;
+   overflow-y: auto;
+   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
 `;
 
 const SliderHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px;
-  width: 100%;
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px;
+   width: 100%;
 `;
 
 const Title = styled.h1`
-  font-size: 1.8 rem;
-  color: white;
-  text-align: center;
-  margin: 0;
-  flex-grow: 1;
+   font-size: 1.8 rem;
+   color: white;
+   text-align: center;
+   margin: 0;
+   flex-grow: 1;
 `;
 
 const Menu = styled.div`
-  margin-top: 20px;
+   margin-top: 20px;
 `;
 
 const MenuItem = styled.div`
-  font-size: 1.1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 10px 0;
-  margin-bottom: 10px;
+   font-size: 1.1rem;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   padding: 10px 0;
+   margin-bottom: 10px;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-  }
+   &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+   }
 `;
 
 const SubMenu = styled.div`
-  padding-left: 20px;
-  margin-top: 10px;
+   padding-left: 20px;
+   margin-top: 10px;
 `;
 
 const SubMenuItem = styled.div`
-  font-size: 1rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  padding: 5px 0;
-  margin-bottom: 8px;
+   font-size: 1rem;
+   cursor: pointer;
+   display: flex;
+   align-items: center;
+   padding: 5px 0;
+   margin-bottom: 8px;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-  }
+   &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+   }
 `;
 
 export default SliderBar;
