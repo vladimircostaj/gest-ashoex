@@ -1,27 +1,33 @@
 .form-container {
-  
-    display: flex;
+    /* display: flex; */
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     background-color: #f8f9fa;
-    min-height: 100vh;
+    min-width: 400px;
     padding: 20px;
   }
   
   .card {
     padding: 20px;
-    margin-top: 90px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .form-card {
     width: 100%;
-    max-width: 500px;
   }
   
   .mb-3.text-center {
     margin-bottom: 1rem;
     text-align: center;
+  }
+  @media (max-width: 768px) {
+    .form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f8f9fa;
+      min-width: 80%;
+    }
   }
   
