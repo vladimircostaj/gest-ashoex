@@ -14,16 +14,16 @@ import AgregarCarreraPage from "./pages/Curricula/agregar_carrera_page.jsx";
 import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
 import RegistrarGrupoPage from "./pages/Curricula/registrar_grupo_page.jsx";
+import ListarMaterias from "./pages/Curricula/listar_materia.jsx";
+import ShowCarrers from "./pages/Curricula/show_carrers.jsx";
 
 function App() {
-  const [isSliderOpen, setIsSliderOpen] = useState(false);
-  const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
-  return (
-    <Router>
-      <Header toggleSlider={toggleSlider} />
-      {isSliderOpen && (
-        <SlideBar isOpen={isSliderOpen} toggleSlider={toggleSlider} />
-      )}
+   const [isSliderOpen, setIsSliderOpen] = useState(false);
+   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
+   return (
+      <Router>
+         <Header toggleSlider={toggleSlider} />
+         {isSliderOpen && <SlideBar isOpen={isSliderOpen} toggleSlider={toggleSlider} />}
 
       <Routes>
         <Route path="/" element={<HealthCheck />}>
@@ -40,6 +40,8 @@ function App() {
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/registrar-grupo/:materiaId" element={<RegistrarGrupoPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
+        <Route path="/listar-materias" element={<ListarMaterias />} />
+        <Route path="/mostrar-carreras" element={<ShowCarrers />} />
 
       </Routes> 
     </Router>
