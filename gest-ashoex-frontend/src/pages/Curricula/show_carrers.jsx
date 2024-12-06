@@ -55,11 +55,12 @@ const ShowCarrers = () => {
                <thead>
                   <tr>
                      <th># ID</th>
-                     <th>Nombre</th>
+                     <th className="nombre-columna">Nombre</th> {/* Clase personalizada */}
                      <th>Semestre</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
+
                <tbody>
                   {carreras.map((carrera) => (
                      <tr key={carrera.id}>
