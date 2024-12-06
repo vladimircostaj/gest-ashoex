@@ -17,6 +17,7 @@ import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
 import EditarEdificioPage from "./pages/Ambiente/editar_edificio_page.jsx"
 import ListaEdificios from "./pages/Ambiente/listar_edificios_page.jsx";
 import RegistrarEdificioForm from "./pages/Ambiente/registrar_edificio_page.jsx";
+import ListarUsos from "./pages/Ambiente/listar_usos_page.jsx";
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
   const toggleSlider = () => setIsSliderOpen((prevState) => !prevState);
@@ -31,6 +32,7 @@ function App() {
         <Route path="/" element={<HealthCheck />}>
           <Route path="/registrar-ambiente" element={<RegistrarAmbiente />} />
           <Route path="/lista-ambientes" element={<ListaAmbientes />} />
+          <Route path="/lista-usos" element={<  ListarUsos/>} />
           <Route path="/lista-edificios" element={<ListaEdificios/>} />
           <Route path="/registrar-personal" element={<RegistrarPersonal />} />
           <Route path="/registrar-ubicacion" element={<RegistrarUbicacionForm />} />
