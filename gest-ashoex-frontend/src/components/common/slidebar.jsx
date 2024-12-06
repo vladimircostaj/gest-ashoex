@@ -61,6 +61,11 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <ApartmentIcon style={{ color: "white", marginRight: "10px" }} />
               Editar Edificio
             </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/lista-usos")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Ver Lista de Usos
+            </SubMenuItem>
+
           </SubMenu>
         )}
 
