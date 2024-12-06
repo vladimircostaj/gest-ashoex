@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import carrerasService from "../../services/carrerasService.js";
 import { Link } from "react-router-dom";
 import Title from "../../components/typography/title";
+
 import "./show_carrers.css";
 
 const ShowCarrers = () => {
@@ -69,6 +70,7 @@ const ShowCarrers = () => {
                            <Link to={`/editar-curricula/${carrera.id}`} className="edit mr-6 ml-6">
                               <FaEdit />
                            </Link>
+
                            <a href="#" className="delete mr-6 ml-6">
                               <FaTrash />
                            </a>
