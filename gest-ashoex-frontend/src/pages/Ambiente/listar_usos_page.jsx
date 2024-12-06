@@ -18,6 +18,24 @@ const ListaUsos = () => {
     }
   };
 
+  // Función para manejar la eliminación
+  const handleDelete = async (id_uso) => {
+    const confirm = window.confirm(
+      "¿Estás seguro de que deseas eliminar este uso?"
+    );
+    if (confirm) {
+      try {
+        await axios.delete(`http://127.0.0.1:8000/api/usos/${id_uso}`);
+        // Actualizar la lista eliminando el uso
+        setUsos(usos.filter((uso) => uso.id_uso !== id_uso));
+        alert("El uso ha sido eliminado correctamente.");
+      } catch (error) {
+        console.error("Error al eliminar el uso:", error);
+        alert("Hubo un error al eliminar el uso.");
+      }
+    }
+  };
+
   // Llamada a la API al cargar el componente
   useEffect(() => {
     fetchUsos();
@@ -45,6 +63,15 @@ const ListaUsos = () => {
               <tr key={uso.id_uso}>
                 <td>{uso.id_uso}</td>
                 <td>{uso.tipo_uso}</td>
+                <td>
+                  <a
+                    //href="#"
+                    className="delete mr-6 ml-6"
+                    onClick={() => handleDelete(uso.id_uso)}
+                  >
+                    <FaTrash />
+                  </a>
+                </td>
               </tr>
             ))
           ) : (
