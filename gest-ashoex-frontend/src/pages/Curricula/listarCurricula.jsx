@@ -66,14 +66,17 @@ const ListarCurriculas = () => {
                 >
                   <FaEdit />
                 </Link>
-                
+
+                {/*
                 <Link
                   to={`/registrar-grupo/${curricula.id}`}
                   className="edit mr-6 ml-6"
                 >
                   <FaEdit />
                 </Link>
-
+                
+                */}
+                
                 <a href="#" className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>
