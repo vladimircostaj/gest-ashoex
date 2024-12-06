@@ -3,6 +3,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Title from "../../components/typography/title";
 import materiaService from "../../services/materiaService";
+import { GrAdd } from "react-icons/gr";
 
 const ListarMaterias = () => {
   const [materias, setMaterias] = useState([]);
@@ -60,6 +61,14 @@ const ListarMaterias = () => {
                 >
                   <FaEdit />
                 </Link>
+                
+                <Link
+                  to={`/registrar-grupo/${materia.id}`}
+                  className="edit mr-6 ml-6"
+                >
+                  <GrAdd />
+                </Link>
+                
                 <a href="#" className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>

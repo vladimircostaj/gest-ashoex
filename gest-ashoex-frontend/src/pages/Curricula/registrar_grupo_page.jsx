@@ -67,6 +67,7 @@ const RegistrarGrupoPage = () => {
         
             const result = await response.json();
             console.log("Grupo creado:", result);
+            window.location.href = "/listar-materias";
         } catch (error) {
             console.error("Error al crear el grupo:", error.response?.data || error.message);
         }
@@ -92,10 +93,6 @@ const RegistrarGrupoPage = () => {
           <div className="mb-3">
             <Title text="Agregar Grupo" />
           </div>
-
-          <p>
-          {materiaId}
-          </p>
 
           <form
             className="d-flex flex-column gap-4"
