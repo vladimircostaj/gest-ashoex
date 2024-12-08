@@ -19,7 +19,7 @@ import ListaEdificios from "./pages/Ambiente/listar_edificios_page.jsx";
 import RegistrarEdificioForm from "./pages/Ambiente/registrar_edificio_page.jsx";
 import ListarUsos from "./pages/Ambiente/listar_usos_page.jsx";
 import ListarAulas from "./pages/Ambiente/listar_aula_page.jsx";
-import RegistrarFacilidad from "./pages/Ambiente/registrar_facilidad_page.jsx";
+import RegistrarFacilidad from "./pages/Ambiente/registrar_Facilidad.jsx";
 
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
