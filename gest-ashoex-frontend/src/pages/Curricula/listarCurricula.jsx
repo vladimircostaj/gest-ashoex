@@ -7,12 +7,70 @@ import {
     getAllCurriculas,
     deleteCurricula,
 } from "../../services/curriculaService";
-import { CircularProgress, Container } from "@mui/material";
+import {
+    CircularProgress,
+    Container,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    Typography,
+    Snackbar,
+} from "@mui/material";
 
 const ListarCurriculas = () => {
     const [curriculas, setCurriculas] = useState([]);
     const [isCurriculasLoading, setIsCurriculasLoading] = useState(true);
+    const [isCurriculaDeleting, setIsCurriculaDeleting] = useState(false);
     const [error, setError] = useState(null);
+    const [curriculaToDelete, setCurriculaToDelete] = useState(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: "",
+        severity: "success",
+    });
+
+    const handleOpenDialog = (curricula) => {
+        setCurriculaToDelete(curricula);
+        setIsDialogOpen(true);
+    };
+
+    const handleCloseDialog = () => {
+        setCurriculaToDelete(null);
+        setIsDialogOpen(false);
+    };
+
+    const handleDeleteCurricula = () => {
+        if (curriculaToDelete) {
+            setIsCurriculaDeleting(true);
+            deleteCurricula(curriculaToDelete.id)
+                .then(() => {
+                    setCurriculas(
+                        curriculas.filter((c) => c.id !== curriculaToDelete.id)
+                    );
+                    handleCloseDialog();
+                    setCurriculaToDelete(null);
+                    setIsCurriculaDeleting(false);
+                    setSnackbar({
+                        open: true,
+                        message: "Currícula eliminada correctamente",
+                        severity: "success",
+                    });
+                })
+                .catch((error) => {
+                    handleCloseDialog();
+                    setIsCurriculaDeleting(false);
+                    setSnackbar({
+                        open: true,
+                        message: "Error al eliminar la currícula",
+                        severity: "error",
+                    });
+                    console.error("Error al eliminar la currícula:", error);
+                });
+        }
+    };
 
     useEffect(() => {
         getAllCurriculas()
@@ -27,7 +85,7 @@ const ListarCurriculas = () => {
             });
     }, []);
 
-    if (isCurriculasLoading) {
+    if (isCurriculasLoading || isCurriculaDeleting) {
         return (
             <Container
                 style={{
@@ -88,7 +146,13 @@ const ListarCurriculas = () => {
                                     >
                                         <FaEdit />
                                     </Link>
-                                    <a href="#" className="delete mr-6 ml-6">
+                                    <a
+                                        href="#"
+                                        className="delete mr-6 ml-6"
+                                        onClick={() =>
+                                            handleOpenDialog(curricula)
+                                        }
+                                    >
                                         <FaTrash />
                                     </a>
                                 </td>
@@ -97,6 +161,43 @@ const ListarCurriculas = () => {
                     )}
                 </tbody>
             </table>
+            {/* Dialog de confirmación */}
+            <Dialog
+                open={isDialogOpen}
+                onClose={handleCloseDialog}
+                aria-labelledby="dialog-title"
+                aria-describedby="dialog-description"
+            >
+                <DialogTitle id="dialog-title">
+                    Confirmación de Eliminación
+                </DialogTitle>
+                <DialogContent>
+                    <Typography id="dialog-description">
+                        ¿Estás seguro de que deseas eliminar la currícula con ID{" "}
+                        {curriculaToDelete?.id}?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleDeleteCurricula}
+                    >
+                        Eliminar
+                    </Button>
+                    <Button variant="outlined" onClick={handleCloseDialog}>
+                        Cancelar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/* Snackbar */}
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                message={snackbar.message}
+                severity={snackbar.severity}
+            />
         </div>
     );
 };
