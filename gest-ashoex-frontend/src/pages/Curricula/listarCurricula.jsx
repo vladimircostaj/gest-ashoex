@@ -1,34 +1,20 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./listar_curricula.css";
 import Title from "../../components/typography/title";
 import { Link } from "react-router-dom";
+import { getAllCurriculas, deleteCurricula } from "../../services/curriculaService";
 
 const ListarCurriculas = () => {
-  // Lista de currículas estática
-  const curriculas = [
-    {
-      id: 1,
-      carrera: "Ingeniería en Sistemas",
-      materia: "Matemáticas I",
-      nivel: "1",
-      esElectiva: "No",
-    },
-    {
-      id: 2,
-      carrera: "Ingeniería Civil",
-      materia: "Física General",
-      nivel: "2",
-      esElectiva: "Sí",
-    },
-    {
-      id: 3,
-      carrera: "Arquitectura",
-      materia: "Dibujo Técnico",
-      nivel: "3",
-      esElectiva: "No",
-    },
-  ];
+  const [curriculas, setCurriculas] = useState([]);
+  useEffect(() => {
+    getAllCurriculas()
+      .then((response) => {
+        console.log(response);
+        setCurriculas(response.data);
+      })
+      .catch((error) => setError(error));
+  }, []);
 
   return (
     <div className="container mt-5">
@@ -54,10 +40,10 @@ const ListarCurriculas = () => {
           {curriculas.map((curricula) => (
             <tr key={curricula.id}>
               <td>{curricula.id}</td>
-              <td>{curricula.carrera}</td>
-              <td>{curricula.materia}</td>
+              <td>{curricula.carrera.nombre}</td>
+              <td>{curricula.materia.nombre}</td>
               <td>{curricula.nivel}</td>
-              <td>{curricula.esElectiva}</td>
+              <td>{curricula.electiva ? "Si" : "No"}</td>
               <td>
                 <Link
                   to={`/editar-curricula/${curricula.id}`}
