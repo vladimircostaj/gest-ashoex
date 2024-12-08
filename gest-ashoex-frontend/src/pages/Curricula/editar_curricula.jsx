@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
 import SelectField from "../../components/form/selectField";
@@ -6,15 +7,50 @@ import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
 
 const EditarCurriculaPage = ({ existingCurriculaData }) => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    id: existingCurriculaData.id || "",
-    idCarrera: existingCurriculaData.idCarrera || "",
-    idMateria: existingCurriculaData.idMateria || "",
-    nivel: existingCurriculaData.nivel || "",
-    electiva: existingCurriculaData.electiva || "",
+    id: "",
+    idCarrera: "",
+    idMateria: "",
+    nivel: "",
+    electiva: "",
   });
+  
+  // const [formData, setFormData] = useState({
+  //   id: existingCurriculaData.id || "",
+  //   idCarrera: existingCurriculaData.idCarrera || "",
+  //   idMateria: existingCurriculaData.idMateria || "",
+  //   nivel: existingCurriculaData.nivel || "",
+  //   electiva: existingCurriculaData.electiva || "",
+  // });
 
   const [errors, setErrors] = useState({});
+  
+  useEffect(() => {
+    const fetchCurricula = async () => {
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/curriculas/${id}`);
+        const result = await response.json();
+
+        if (response.ok) {
+          setFormData({
+            id: result.data.id,
+            idCarrera: result.data.carrera_id,
+            idMateria: result.data.materia_id,
+            nivel: result.data.nivel,
+            electiva: result.data.electiva ? "si" : "no",
+          });
+        } else {
+          console.error("Error fetching curricula:", result.message);
+        }
+      } catch (error) {
+        console.error("Error fetching curricula:", error);
+      }
+    };
+
+    fetchCurricula();
+  }, [id]);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -25,25 +61,54 @@ const EditarCurriculaPage = ({ existingCurriculaData }) => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newErrors = {};
 
     Object.keys(formData).forEach((key) => {
-      if (!formData[key].trim()) {
+      if (typeof formData[key] === "string" && !formData[key].trim()) {
+        newErrors[key] = "Campo obligatorio";
+      } else if (formData[key] === "") {
         newErrors[key] = "Campo obligatorio";
       }
     });
+    
 
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Datos actualizados:", formData);
+      try {
+        const response = await fetch(`http://127.0.0.1:8000/api/curriculas/${id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            carrera_id: formData.idCarrera,
+            materia_id: formData.idMateria,
+            nivel: parseInt(formData.nivel, 10),
+            electiva: formData.electiva === "si",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("Currícula actualizada con éxito");
+          navigate("/listar-curriculas");
+        } else {
+          alert(result.error?.message || "Error al actualizar la currícula");
+        }
+      } catch (error) {
+        console.error("Error al actualizar:", error);
+        alert("Error de conexión. Intenta nuevamente.");
+      } 
     }
   };
 
   // Handle cancel action
   const handleCancel = () => {
     console.log("Edición cancelada");
+    navigate("/listar-curriculas");
   };
 
   return (

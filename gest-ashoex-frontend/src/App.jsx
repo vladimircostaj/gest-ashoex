@@ -15,6 +15,7 @@ import AgregarCurriculaPage from "./pages/Curricula/agregar_curricula.jsx";
 import ListaCurriculas from "./pages/Curricula/listarCurricula.jsx";
 import ListarMaterias from "./pages/Curricula/listar_materia.jsx";
 import ShowCarrers from "./pages/Curricula/show_carrers.jsx";
+import ActualizarCurricula from "./pages/Curricula/editar_curricula.jsx";
 
 function App() {
    const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -40,6 +41,7 @@ function App() {
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
         <Route path="/listar-materias" element={<ListarMaterias />} />
         <Route path="/mostrar-carreras" element={<ShowCarrers />} />
+        <Route path="/editar-curricula/:id" element={<ActualizarCurricula />} />
 
       </Routes> 
     </Router>
