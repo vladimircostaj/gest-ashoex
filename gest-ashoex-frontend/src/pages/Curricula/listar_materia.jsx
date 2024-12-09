@@ -24,6 +24,21 @@ const ListarMaterias = () => {
     fetchMaterias();
   }, []);
 
+  const handleDelete = async (materia) => {
+    const { id, nombre } = materia;
+
+    if (window.confirm(`¿Está seguro de que desea borrar la materia ${nombre}?`)) {
+      try {
+        await materiaService.deleteMateria(id);
+        setMaterias(materias.filter((materia) => materia.id !== id));
+        setTimeout(() => {
+          alert(`La materia ${nombre} ha sido borrada exitosamente.`);
+        }, 0);
+      } catch (error) {
+        alert(`${error.message} ${nombre}.`);
+      }
+    }
+  };
  
   return (
     <div className="container mt-5">
@@ -60,7 +75,7 @@ const ListarMaterias = () => {
                 >
                   <FaEdit />
                 </Link>
-                <a href="#" className="delete mr-6 ml-6">
+                <a onClick={() => handleDelete(materia)} className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>
               </td>

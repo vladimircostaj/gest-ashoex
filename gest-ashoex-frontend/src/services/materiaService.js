@@ -14,8 +14,31 @@ const fetchMaterias = async () => {
   return data;
 };
 
+const deleteMateria = async (id) => {
+  try {
+    const response = await fetch(`${API_URL}/api/materias/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.success === false) {
+      throw new Error("Error al eliminar la materia");
+    }
+
+    return data;
+
+  } catch (error) {
+    throw error;
+  }
+};
+
 const materiaService = {
   fetchMaterias,
+  deleteMateria,
 };
 
 export default materiaService;
