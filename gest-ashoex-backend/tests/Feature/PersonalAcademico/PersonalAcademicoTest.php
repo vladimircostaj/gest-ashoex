@@ -6,14 +6,15 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-use App\Models\PersonalAcademico; 
+use App\Models\PersonalAcademico;
 use App\Models\TipoPersonal;
 use Database\Seeders\DatabaseSeeder;
+
 
 class PersonalAcademicoTest extends TestCase
 {
     use RefreshDatabase; // limpira la base de datos con con cada llamada a los test
-    
+
     public function setUp(): void
     {
         parent::setUp();
@@ -60,8 +61,8 @@ class PersonalAcademicoTest extends TestCase
     /**
      * Test de registro de personal con email ya en uso
      */
-    
-    
+
+
     public function testRegistrarPersonalAcademicoEmailYaEnUso(): void
     {
         PersonalAcademico::factory()->create([
@@ -95,7 +96,7 @@ class PersonalAcademicoTest extends TestCase
         $this->mock(PersonalAcademico::class, function ($mock) {
             $mock->shouldReceive('create')->andReturn(null);
         });
-        
+
         $tipoPersonal = TipoPersonal::factory()->create();
 
         $data = [
@@ -108,7 +109,7 @@ class PersonalAcademicoTest extends TestCase
         $response = $this->postJson('/api/personal-academico', $data);
         $response->assertStatus(500);
     }
-    
+
     /**
      * A basic feature test example.
      */
@@ -123,7 +124,7 @@ class PersonalAcademicoTest extends TestCase
     public function testDarDeBajaPersonalExistente()
     {
         $personalAcademico = PersonalAcademico::factory()->create();
-        // pasa cualquier cosa en la url 
+        // pasa cualquier cosa en la url
         $response = $this->patchJson('/api/personal-academicos/0.2/dar-baja');
         $response->assertStatus(404);
 
@@ -131,23 +132,23 @@ class PersonalAcademicoTest extends TestCase
         $response->assertStatus(500);
 
         // dar de baja a personal activo
-        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
-        dd($response->json());
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja');
+        //dd($response->json());
         $response->assertOk()
             ->assertJson([
                 'message' => 'Se dio de baja correctamente al personal academico: '.$personalAcademico->nombre
             ]);
         $this->assertDatabaseHas(
-            'personal_academicos', 
+            'personal_academicos',
             [
-                'id' => $personalAcademico->id, 
+                'id' => $personalAcademico->id,
                 'nombre' => $personalAcademico->nombre,
-                'email' => $personalAcademico->email, 
+                'email' => $personalAcademico->email,
                 'estado' => config('constants.PERSONAL_ACADEMICO_ESTADOS')[1]
             ]
         );
         // dar de baja a personal dado de baja anteriormente
-        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja'); 
+        $response = $this->patchJson('/api/personal-academicos/'.$personalAcademico->id.'/dar-baja');
         $response->assertStatus(400)
             ->assertJson([
                 'message' => 'El personal academico: '.$personalAcademico->nombre.' ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja.'
@@ -162,7 +163,7 @@ class PersonalAcademicoTest extends TestCase
 
         $personalAcademico = PersonalAcademico::factory()->create([
             'tipo_personal_id' => $tipoPersonal->id,
-            'estado' => 'ACTIVO', 
+            'estado' => 'ACTIVO',
         ]);
         $response = $this->getJson("/api/personal-academicos/{$personalAcademico->id}");
 
@@ -315,7 +316,7 @@ class PersonalAcademicoTest extends TestCase
 
         $response = $this->get('/personal-academicos');
 
-        // Verificar que la respuesta sea correcta 
+        // Verificar que la respuesta sea correcta
         $response->assertStatus(200);
         $response->assertJson([
             'success' => true,
@@ -364,7 +365,7 @@ class PersonalAcademicoTest extends TestCase
     {
         // Simular un error en la base de datos (por ejemplo, desconexión)
         DB::shouldReceive('table')->andThrow(new \Exception('Error de conexión'));
-        
+
         $response = $this->get('/personal-academicos');
 
         // Verificar que la respuesta sea 404 con el mensaje de error
