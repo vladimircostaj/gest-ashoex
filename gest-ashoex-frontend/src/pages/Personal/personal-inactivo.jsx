@@ -68,7 +68,7 @@ const PersonalInactivo = () => {
   );
 
   return (
-    <SectionWrapper>
+    <SectionWrapper  className="mt-4">
       <h2 style={{ textAlign: 'center' }}>Personal Inactivo</h2>
       <Divider />
       <List>

@@ -1,0 +1,121 @@
+{
+  "hash": "92832401",
+  "configHash": "a181ce50",
+  "lockfileHash": "7a11627a",
+  "browserHash": "b6457150",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "fd41241d",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "3b0b787f",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.mjs",
+      "file": "react-router-dom.js",
+      "fileHash": "30878c36",
+      "needsInterop": false
+    },
+    "sonner": {
+      "src": "../../node_modules/sonner/dist/index.mjs",
+      "file": "sonner.js",
+      "fileHash": "ac082c94",
+      "needsInterop": false
+    },
+    "styled-components": {
+      "src": "../../node_modules/styled-components/dist/styled-components.browser.esm.js",
+      "file": "styled-components.js",
+      "fileHash": "2739535a",
+      "needsInterop": false
+    },
+    "react-icons/fa": {
+      "src": "../../node_modules/react-icons/fa/index.mjs",
+      "file": "react-icons_fa.js",
+      "fileHash": "2eb1b2e0",
+      "needsInterop": false
+    },
+    "@mui/material": {
+      "src": "../../node_modules/@mui/material/index.js",
+      "file": "@mui_material.js",
+      "fileHash": "ea177614",
+      "needsInterop": false
+    },
+    "@mui/icons-material/Close": {
+      "src": "../../node_modules/@mui/icons-material/esm/Close.js",
+      "file": "@mui_icons-material_Close.js",
+      "fileHash": "e869f77e",
+      "needsInterop": false
+    },
+    "@mui/icons-material/CalendarToday": {
+      "src": "../../node_modules/@mui/icons-material/esm/CalendarToday.js",
+      "file": "@mui_icons-material_CalendarToday.js",
+      "fileHash": "7eed7c7e",
+      "needsInterop": false
+    },
+    "@mui/icons-material/Book": {
+      "src": "../../node_modules/@mui/icons-material/esm/Book.js",
+      "file": "@mui_icons-material_Book.js",
+      "fileHash": "868ce84b",
+      "needsInterop": false
+    },
+    "@mui/icons-material/Person": {
+      "src": "../../node_modules/@mui/icons-material/esm/Person.js",
+      "file": "@mui_icons-material_Person.js",
+      "fileHash": "64287b22",
+      "needsInterop": false
+    },
+    "@mui/icons-material/AddCircle": {
+      "src": "../../node_modules/@mui/icons-material/esm/AddCircle.js",
+      "file": "@mui_icons-material_AddCircle.js",
+      "fileHash": "c72fd075",
+      "needsInterop": false
+    },
+    "@mui/icons-material/ListAlt": {
+      "src": "../../node_modules/@mui/icons-material/esm/ListAlt.js",
+      "file": "@mui_icons-material_ListAlt.js",
+      "fileHash": "4413187a",
+      "needsInterop": false
+    },
+    "@mui/icons-material/ExpandMore": {
+      "src": "../../node_modules/@mui/icons-material/esm/ExpandMore.js",
+      "file": "@mui_icons-material_ExpandMore.js",
+      "fileHash": "844092fa",
+      "needsInterop": false
+    },
+    "@mui/icons-material/ExpandLess": {
+      "src": "../../node_modules/@mui/icons-material/esm/ExpandLess.js",
+      "file": "@mui_icons-material_ExpandLess.js",
+      "fileHash": "6b88aec4",
+      "needsInterop": false
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "83c7f902",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-JMVEG3FK": {
+      "file": "chunk-JMVEG3FK.js"
+    },
+    "chunk-C6WWHQR7": {
+      "file": "chunk-C6WWHQR7.js"
+    },
+    "chunk-JOZNXXJC": {
+      "file": "chunk-JOZNXXJC.js"
+    },
+    "chunk-TWJRYSII": {
+      "file": "chunk-TWJRYSII.js"
+    },
+    "chunk-DC5AMYBS": {
+      "file": "chunk-DC5AMYBS.js"
+    }
+  }
+}
