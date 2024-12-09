@@ -8,7 +8,7 @@ const RegistrarPersonalForm = () => {
     email: "",
     telefono: "",
     tipo_personal_id: "",
-    estado: "activo",
+    estado: "ACTIVO",
   });
 
   const handleChange = (e) => {

@@ -1,64 +1,74 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API de Gestión de Personal Académico",
-        "description": "API para gestionar la lista de todo el personal académico registrado",
-        "version": ""
+        "title": "API Health Check",
+        "description": "API para verificar el estado de salud del sistema",
+        "version": "1.0.0"
     },
     "paths": {
-        "/api/personales": {
+        "/api/health": {
             "get": {
                 "tags": [
-                    "Personal Académico"
+                    "Health Check"
                 ],
-                "summary": "Obtener lista de personal académico",
-                "operationId": "bb866400a2f1fbf634d0256db987aa52",
+                "summary": "Verifica el estado de la API y la conexión a la base de datos",
+                "description": "Devuelve el estado de salud del sistema",
+                "operationId": "7134f626524ee8957bd6315b959ed4e1",
                 "responses": {
                     "200": {
-                        "description": "Lista obtenida exitosamente",
+                        "description": "Estado de salud correcto",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
+                                        "status": {
+                                            "type": "string",
+                                            "example": "healthy"
                                         },
+                                        "database": {
+                                            "type": "string",
+                                            "example": "Connected"
+                                        },
+                                        "timestamp": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la conexión a la base de datos"
+                    }
+                }
+            }
+        },
+        "/api/personal-academicos": {
+            "get": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Obtiene la lista de todo el personal académico",
+                "description": "Devuelve una lista de todo el personal académico registrado.",
+                "operationId": "getListaPersonalAcademico",
+                "responses": {
+                    "200": {
+                        "description": "Lista de personal académico obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
                                         "data": {
                                             "type": "array",
                                             "items": {
-                                                "properties": {
-                                                    "Tipo_personal": {
-                                                        "type": "string",
-                                                        "example": "Auxiliar"
-                                                    },
-                                                    "telefono": {
-                                                        "type": "string",
-                                                        "example": "68570572"
-                                                    },
-                                                    "personal_academico_id": {
-                                                        "type": "integer",
-                                                        "example": 1
-                                                    },
-                                                    "tipo_personal_id": {
-                                                        "type": "integer",
-                                                        "example": 2
-                                                    },
-                                                    "name": {
-                                                        "type": "string",
-                                                        "example": "Luis Fernando Cardenas Morales"
-                                                    },
-                                                    "email": {
-                                                        "type": "string",
-                                                        "example": "luisfernando@gmail.com"
-                                                    },
-                                                    "estado": {
-                                                        "type": "string",
-                                                        "example": "Activo"
-                                                    }
-                                                },
-                                                "type": "object"
+                                                "$ref": "#/components/schemas/PersonalAcademico"
                                             }
+                                        },
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
                                         },
                                         "message": {
                                             "type": "string",
@@ -70,8 +80,78 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No se encontraron datos",
+                    "404": {
+                        "description": "Error al obtener la lista de personal académico",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No se encontró personal académico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/personal-academicos/{id}/dar-baja": {
+            "patch": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Dar de baja a un personal académico",
+                "description": "Cambia el estado de un personal académico a 'INACTIVO'.",
+                "operationId": "darDeBajaPersonalAcademico",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Baja exitosa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PersonalAcademico"
+                                        },
+                                        "error": {
+                                            "type": "object",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Se dio de baja correctamente al personal academico: Juan Pérez"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "El personal académico ya fue dado de baja",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -81,25 +161,26 @@
                                             "example": false
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {}
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
                                         },
                                         "error": {
                                             "properties": {
                                                 "code": {
                                                     "type": "integer",
-                                                    "example": 204
+                                                    "example": 400
                                                 },
                                                 "message": {
                                                     "type": "string",
-                                                    "example": "No se encontró datos"
+                                                    "example": "Dado de baja 2 veces."
                                                 }
                                             },
                                             "type": "object"
                                         },
                                         "message": {
                                             "type": "string",
-                                            "example": "Lista vacía"
+                                            "example": "El personal academico: Juan Pérez ya fue dado de baja anteriormente, no puede dar de baja a un personal academico dado de baja."
                                         }
                                     },
                                     "type": "object"
@@ -108,7 +189,7 @@
                         }
                     },
                     "404": {
-                        "description": "Error en la solicitud",
+                        "description": "Personal académico no encontrado",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -118,7 +199,286 @@
                                             "example": false
                                         },
                                         "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 404
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Personal no encontrado."
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
                                             "type": "string",
+                                            "example": "El personal academico seleccionado no existe."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "object",
+                                            "example": null,
+                                            "nullable": true
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Error interno del servidor"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Ocurrio un error en el servidor."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/personal-academico": {
+            "post": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Registrar un nuevo personal académico",
+                "description": "Crea un nuevo registro de personal académico.",
+                "operationId": "registrarPersonalAcademico",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "email",
+                                    "telefono",
+                                    "estado",
+                                    "tipo_personal_id"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "juan.perez@example.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "+59171234567"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "ACTIVO"
+                                    },
+                                    "tipo_personal_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Personal académico registrado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PersonalAcademico"
+                                        },
+                                        "error": {
+                                            "type": "object",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Personal academico registrado exitosamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Conflicto - Registro ya existente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 409
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Conflicto"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Datos de entrada inválidos, registro ya existente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Error interno del servidor"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Descripción del error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/personal-academicos/{id}": {
+            "get": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Mostrar la información de un personal académico por ID",
+                "description": "Obtiene los detalles de un personal académico específico.",
+                "operationId": "mostrarInformacionPersonalAcademico",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Información del personal académico obtenida exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "$ref": "#/components/schemas/PersonalAcademico"
+                                        },
+                                        "error": {
+                                            "type": "object",
+                                            "example": null
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Operación exitosa"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Personal académico no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
                                             "example": null
                                         },
                                         "error": {
@@ -129,7 +489,44 @@
                                                 },
                                                 "message": {
                                                     "type": "string",
-                                                    "example": "Datos de entrada inválidos: {error}"
+                                                    "example": "Personal académico no encontrado"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error en la solicitud"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error en la solicitud",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "data": {
+                                            "type": "null",
+                                            "example": null
+                                        },
+                                        "error": {
+                                            "properties": {
+                                                "code": {
+                                                    "type": "integer",
+                                                    "example": 500
+                                                },
+                                                "message": {
+                                                    "type": "string",
+                                                    "example": "Descripción del error"
                                                 }
                                             },
                                             "type": "object"
@@ -146,9 +543,233 @@
                     }
                 }
             }
+        },
+        "/api/personal-academico/{id}": {
+            "put": {
+                "tags": [
+                    "Personal Académico"
+                ],
+                "summary": "Actualizar la información de un personal académico",
+                "description": "Actualiza los datos de un personal académico existente.",
+                "operationId": "actualizarPersonalAcademico",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del personal académico",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "email",
+                                    "telefono",
+                                    "estado",
+                                    "tipo_personal_id"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "juan.perez@example.com"
+                                    },
+                                    "telefono": {
+                                        "type": "string",
+                                        "example": "+59171234567"
+                                    },
+                                    "estado": {
+                                        "type": "string",
+                                        "example": "ACTIVO"
+                                    },
+                                    "tipo_personal_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Personal académico actualizado exitosamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Personal académico actualizado exitosamente."
+                                        },
+                                        "personal_academico": {
+                                            "$ref": "#/components/schemas/PersonalAcademico"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Personal académico no encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Personal académico no encontrado."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error interno del servidor",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Descripción del error"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PersonalAcademico": {
+                "title": "Personal Académico",
+                "description": "Modelo que representa a un miembro del personal académico",
+                "properties": {
+                    "id": {
+                        "description": "ID único del personal académico",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del personal académico",
+                        "type": "string",
+                        "example": "Juan Pérez"
+                    },
+                    "email": {
+                        "description": "Correo electrónico del personal académico",
+                        "type": "string",
+                        "example": "juan.perez@example.com"
+                    },
+                    "telefono": {
+                        "description": "Número de teléfono del personal académico",
+                        "type": "string",
+                        "example": "+591123456789"
+                    },
+                    "estado": {
+                        "description": "Estado del personal académico",
+                        "type": "string",
+                        "example": "ACTIVO"
+                    },
+                    "tipo_personal_id": {
+                        "description": "ID del tipo de personal académico",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "tipoPersonal": {
+                        "$ref": "#/components/schemas/TipoPersonal"
+                    }
+                },
+                "type": "object"
+            },
+            "TipoPersonal": {
+                "title": "Tipo de Personal",
+                "description": "Modelo que representa los diferentes tipos de personal académico",
+                "properties": {
+                    "id": {
+                        "description": "ID único del tipo de personal",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nombre": {
+                        "description": "Nombre del tipo de personal",
+                        "type": "string",
+                        "example": "Profesor"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "Usuario",
+                "description": "Modelo que representa a un usuario en el sistema",
+                "properties": {
+                    "id": {
+                        "description": "ID único del usuario",
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nombre del usuario",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Correo electrónico del usuario",
+                        "type": "string",
+                        "example": "john.doe@example.com"
+                    },
+                    "email_verified_at": {
+                        "description": "Fecha en la que el correo electrónico fue verificado",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-16T15:00:00Z"
+                    },
+                    "created_at": {
+                        "description": "Fecha de creación del usuario",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-15T08:00:00Z"
+                    },
+                    "updated_at": {
+                        "description": "Fecha de última actualización del usuario",
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2024-10-16T09:00:00Z"
+                    },
+                    "remember_token": {
+                        "description": "Token de recordatorio para el usuario",
+                        "type": "string",
+                        "example": "XaBiqGJieKaS3wKlJ4cP5D"
+                    }
+                },
+                "type": "object"
+            }
         }
     },
     "tags": [
+        {
+            "name": "Health Check",
+            "description": "Health Check"
+        },
         {
             "name": "Personal Académico",
             "description": "Personal Académico"
