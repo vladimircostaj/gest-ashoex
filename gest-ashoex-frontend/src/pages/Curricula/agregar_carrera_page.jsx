@@ -30,7 +30,7 @@ const AgregarCarreraPage = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {  //async
     const newErrors = {};
 
     // Validación de campos obligatorios
@@ -44,7 +44,39 @@ const AgregarCarreraPage = () => {
 
     if (Object.keys(newErrors).length === 0) {
       // Aquí puedes agregar la lógica para guardar la nueva carrera
-      console.log("Guardado:", formData);
+      setLoading(true);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/curriculas", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            carrera_id: formData.id,
+            carrera_nombre: formData.nombre,
+            carrera_numeroSemestres: formData.numeroSemestres,
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("Carrera guardada");
+          setFormData({
+            id: "",
+    	      nombre: "",
+    	      numeroSemestres: "",
+          });
+        } else {
+          alert(result.error?.message || "Error al guardar carrera");
+        }
+      } catch (error) {
+        console.error("Error al guardar:", error);
+        alert("Error en la conexión.");
+      } finally {
+        setLoading(false);
+      }
+      // console.log("Guardado:", formData);
     }
   };
 
