@@ -273,61 +273,67 @@ class MateriaController extends Controller
      * )
      */
 
-    public function update(Request $request, string $id)
-    {
-        $validatedData = $request->validate([
-            'codigo' => 'integer|nullable',
-            'nombre' => 'string|max:255|nullable',
-            'tipo' => 'string|nullable',
-            'nro_PeriodoAcademico' => 'integer|nullable',
+     public function update(Request $request, string $id)
+     {
+         // Validar los datos de entrada
+         $validatedData = $request->validate([
+            'codigo' => 'integer|nullable', // Permitir nulo o entero
+            'nombre' => 'string|alpha|max:255|nullable', // Asegúrate de que 'nombre' sea una cadena de caracteres
+            'tipo' => 'string|in:regular,taller de titulacion|nullable', // Acepta solo tipos específicos
+            'nro_PeriodoAcademico' => 'integer|min:1|nullable', // Debe ser al menos 1
         ]);
-
-        try {
-            // Buscar materia
-            $materia = Materia::findOrFail($id);
-
-            // Solo actualizar los campos que estén presentes en la solicitud
-            $materia->update(array_filter(array: $validatedData));
-
-            // Devolver la respuesta en el formato JSON
-            return response()->json([
-                "success" => true,
-                "data" => [
-                    [
-                        "id" => $materia->id,
-                        "nombre" => $materia->nombre,
-                        "descripcion" => "Materia actualizada." // Cambiado a "Materia actualizada."
-                    ]
-                ],
-                "error" => [],
-                "message" => "Operación exitosa"
-            ], Response::HTTP_OK);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            return response()->json([
-                "success" => false,
-                "data" => [],
-                "error" => [
-                    [
-                        "code" => Response::HTTP_NOT_FOUND,
-                        "detail" => 'Materia no encontrada'
-                    ]
-                ],
-                "message" => "Error"
-            ], Response::HTTP_NOT_FOUND);
-        } catch (\Exception $e) {
-            return response()->json([
-                "success" => false,
-                "data" => [],
-                "error" => [
-                    [
-                        "code" => Response::HTTP_INTERNAL_SERVER_ERROR,
-                        "detail" => 'Error al actualizar la materia: ' . $e->getMessage(),
-                    ]
-                ],
-                "message" => "Error"
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
-    }
+        
+     
+         try {
+             // Buscar materia por ID o lanzar una excepción si no existe
+             $materia = Materia::findOrFail($id);
+     
+             // Solo actualizar los campos que estén presentes en la solicitud
+             $materia->update(array_filter($validatedData)); // `array_filter` elimina los valores nulos
+     
+             // Devolver la respuesta en el formato JSON
+             return response()->json([
+                 "success" => true,
+                 "data" => [
+                     [
+                         "id" => $materia->id,
+                         "codigo" => $materia->codigo, // Incluir el código en la respuesta
+                         "nombre" => $materia->nombre,
+                         "tipo" => $materia->tipo, // Incluir el tipo en la respuesta
+                         "nro_PeriodoAcademico" => $materia->nro_PeriodoAcademico, // Incluir el periodo académico en la respuesta
+                         "descripcion" => "Materia actualizada." // Mensaje estático
+                     ]
+                 ],
+                 "error" => [],
+                 "message" => "Operación exitosa"
+             ], Response::HTTP_OK);
+         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+             return response()->json([
+                 "success" => false,
+                 "data" => [],
+                 "error" => [
+                     [
+                         "code" => Response::HTTP_NOT_FOUND,
+                         "detail" => 'Materia no encontrada'
+                     ]
+                 ],
+                 "message" => "Error"
+             ], Response::HTTP_NOT_FOUND);
+         } catch (\Exception $e) {
+             return response()->json([
+                 "success" => false,
+                 "data" => [],
+                 "error" => [
+                     [
+                         "code" => Response::HTTP_INTERNAL_SERVER_ERROR,
+                         "detail" => 'Error al actualizar la materia: ' . $e->getMessage(),
+                     ]
+                 ],
+                 "message" => "Error"
+             ], Response::HTTP_INTERNAL_SERVER_ERROR);
+         }
+     }
+     
 
 
 /**

@@ -1,0 +1,63 @@
+/* Estilos para el contenedor  */
+.container {
+   max-width: 100%;
+   padding: 0 15px; /* Espaciado para evitar que se toque el borde */
+}
+
+/* Contenedor de la tabla con scroll horizontal solo cuando sea necesario */
+.table-wrapper {
+   overflow-x: auto;
+   width: 100%;
+}
+
+/* Tabla con layout fijo para controlar el ancho de las columnas */
+.table {
+   width: 100%;
+   /* table-layout: fixed; */
+}
+
+.table th,
+.table td {
+   word-wrap: break-word; /* Prevenir que el texto largo haga scroll horizontal */
+   text-align: center;
+   padding: 12px;
+   overflow: hidden; /* Esconde el contenido que sobrepasa el ancho de la celda */
+   text-overflow: ellipsis; /* Muestra "..." cuando el texto es largo */
+}
+
+.table th {
+   background-color: #f4f4f4;
+}
+
+.table tr:nth-child(even) {
+   background-color: #f9f9f9;
+}
+
+.table tr:hover {
+   background-color: #f1f1f1;
+}
+
+.edit {
+   color: green;
+   cursor: pointer;
+}
+
+.delete {
+   color: red;
+   cursor: pointer;
+}
+
+.nombre-columna {
+   width: 600px;
+}
+
+@media (max-width: 768px) {
+   .nombre-columna {
+      width: 100%;
+   }
+}
+
+.edit:hover,
+.delete:hover {
+   color: #007bff;
+}

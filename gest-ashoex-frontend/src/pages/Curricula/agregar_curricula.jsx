@@ -15,6 +15,7 @@ const AgregarCurriculaPage = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -26,7 +27,7 @@ const AgregarCurriculaPage = () => {
     }
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const newErrors = {};
 
     // Validación de campos obligatorios
@@ -39,7 +40,41 @@ const AgregarCurriculaPage = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Guardado:", formData);
+      setLoading(true);
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/curriculas", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            carrera_id: formData.idCarrera,
+            materia_id: formData.idMateria,
+            nivel: parseInt(formData.nivel, 10),
+            electiva: formData.electiva === "si",
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          alert("Currícula guardada con éxito");
+          setFormData({
+            id: "",
+            idCarrera: "",
+            idMateria: "",
+            nivel: "",
+            electiva: "",
+          });
+        } else {
+          alert(result.error?.message || "Error al guardar la currícula");
+        }
+      } catch (error) {
+        console.error("Error al guardar:", error);
+        alert("Error de conexión. Intenta nuevamente.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
