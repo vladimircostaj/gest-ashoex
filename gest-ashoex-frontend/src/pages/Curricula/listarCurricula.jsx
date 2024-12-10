@@ -19,6 +19,7 @@ import {
     Snackbar,
 } from "@mui/material";
 
+
 const ListarCurriculas = () => {
     const [curriculas, setCurriculas] = useState([]);
     const [isCurriculasLoading, setIsCurriculasLoading] = useState(true);
