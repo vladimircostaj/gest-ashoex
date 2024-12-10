@@ -14,7 +14,7 @@ Route::controller(PersonalAcademicoController::class)->group(function () {
     Route::post('/personal-academico', 'registrar');
     Route::put('/personal-academico/{id}','update');
 	Route::patch('/personal-academicos/{id}/dar-baja', 'darDeBaja');
+    //controladors ivan
+    Route::delete('/personal-academicos/{id}', 'eliminar');
+    Route::patch('/personal-academicos/{id}/reactivar', 'reactivar');
 });
-
-Route::delete('/personal-academicos/{id}', [PersonalAcademicoController::class, 'eliminar']);
-Route::patch('/personal-academicos/{id}/reactivar', [PersonalAcademicoController::class, 'reactivar']);
