@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react"; 
 import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
 import SelectField from "../../components/form/selectField";
 import SaveButton from "../../components/buttons/saveButton";
 import CancelButton from "../../components/buttons/cancelButton";
 import { useParams, useNavigate } from "react-router-dom";
+import { getPersonalById, updatePersonal } from "../../services/EditarPersonal";
+import { getTiposPersonal } from "../../services/ListarTiposPersonal";
 import "./registrar_personalAcademico.css";
 
 const EditarPersonalAcademico = () => {
-  const { personalId } = useParams(); // Simula un ID del personal académico
-  const navigate = useNavigate(); // Para redirigir después de guardar/cancelar
+  const { personalId } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -23,43 +25,60 @@ const EditarPersonalAcademico = () => {
     tipos: [],
   });
 
-  // Simulación de datos de ejemplo
+  const [errors, setErrors] = useState({});
+
   useEffect(() => {
-    const mockPersonal = {
-      id: personalId || 1,
-      nombre: "Juan Pérez",
-      email: "juan.perez@example.com",
-      telefono: "123456789",
-      estado: "activo",
-      tipo_personal_id: 2,
+    const loadData = async () => {
+      try {
+        const [personal, tipos] = await Promise.all([
+          getPersonalById(personalId),
+          getTiposPersonal(),
+        ]);
+
+        setFormData(personal);
+        setDisponibles({ tipos });
+      } catch (error) {
+        console.error("Error al cargar los datos:", error);
+        alert("Ocurrió un error al cargar los datos.");
+      }
     };
 
-    const mockTipos = [
-      { id: 1, nombre: "Docente" },
-      { id: 2, nombre: "Investigador" },
-      { id: 3, nombre: "Administrador" },
-    ];
-
-    // Simula la "carga" de datos
-    setTimeout(() => {
-      setFormData(mockPersonal);
-      setDisponibles({ tipos: mockTipos });
-    }, 500); // Simula un retraso de carga
+    loadData();
   }, [personalId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" }); // Limpiar errores al cambiar valores
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.nombre.trim()) newErrors.nombre = "El nombre es obligatorio.";
+    if (!formData.email.trim()) newErrors.email = "El correo es obligatorio.";
+    if (!formData.telefono.trim()) newErrors.telefono = "El teléfono es obligatorio.";
+    if (!formData.estado) newErrors.estado = "Debe seleccionar un estado.";
+    if (!formData.tipo_personal_id) newErrors.tipo_personal_id = "Debe seleccionar un tipo de personal.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleCancel = () => {
-    alert("Cancelando edición. Redirigiendo...");
-    navigate("/personal-academico"); // Simula la redirección a la lista
+    navigate("/personal-academico");
   };
 
-  const handleSave = () => {
-    alert("Datos guardados:\n" + JSON.stringify(formData, null, 2));
-    navigate("/personal-academico"); // Simula la redirección a la lista
+  const handleSave = async () => {
+    if (!validateForm()) return;
+
+    try {
+      await updatePersonal(personalId, formData);
+      alert("Datos actualizados exitosamente.");
+      navigate("/personal-academico");
+    } catch (error) {
+      console.error("Error al guardar los datos:", error);
+      alert("Ocurrió un error al guardar los datos.");
+    }
   };
 
   return (
@@ -77,6 +96,7 @@ const EditarPersonalAcademico = () => {
             name="nombre"
             value={formData.nombre}
             onChange={handleChange}
+            error={errors.nombre}
           />
 
           <InputField
@@ -87,6 +107,7 @@ const EditarPersonalAcademico = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
+            error={errors.email}
           />
 
           <InputField
@@ -96,6 +117,7 @@ const EditarPersonalAcademico = () => {
             name="telefono"
             value={formData.telefono}
             onChange={handleChange}
+            error={errors.telefono}
           />
 
           <SelectField
@@ -111,6 +133,7 @@ const EditarPersonalAcademico = () => {
             ]}
             value={formData.tipo_personal_id}
             onChange={handleChange}
+            error={errors.tipo_personal_id}
           />
 
           <SelectField
@@ -123,6 +146,7 @@ const EditarPersonalAcademico = () => {
             ]}
             value={formData.estado}
             onChange={handleChange}
+            error={errors.estado}
           />
 
           <div className="d-flex justify-content-between gap-2 mt-3">
