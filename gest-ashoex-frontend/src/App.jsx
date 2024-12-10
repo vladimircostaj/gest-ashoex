@@ -47,12 +47,13 @@ function App() {
             path="/editar-personal/:personalId"
             element={<EditarPersonalAcademico />}
           />
+          <Route path="/personal-inactivo" element={<PersonalInactivo />}/>
         </Route>
         <Route path="/registrar-materia" element={<RegistrarMateriaForm />} />
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />}/>
-        <Route path="/personal-inactivo" element={<PersonalInactivo />}/>
+        
         
       </Routes>
     </Router>
