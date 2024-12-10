@@ -11,6 +11,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import ScannerIcon from '@mui/icons-material/Scanner';
+import { FaTrash } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
@@ -70,6 +71,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
             <SubMenuItem onClick={() => navigate("/registrar-facilidad")}>
               <ScannerIcon style={{ color: "white", marginRight: "10px" }} />
               Registrar Facilidad
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/eliminar-edificio")}>
+              <FaTrash style={{ color: "white", marginRight: "10px" }} />
+              Eliminar Edificio
             </SubMenuItem>
           </SubMenu>
         )}

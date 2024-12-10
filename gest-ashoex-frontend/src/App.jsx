@@ -20,6 +20,7 @@ import RegistrarEdificioForm from "./pages/Ambiente/registrar_edificio_page.jsx"
 import ListarUsos from "./pages/Ambiente/listar_usos_page.jsx";
 import ListarAulas from "./pages/Ambiente/listar_aula_page.jsx";
 import RegistrarFacilidad from "./pages/Ambiente/registrar_Facilidad.jsx";
+import EliminarEdificio from "./pages/Ambiente/eliminarEdificio.jsx";
 
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -53,7 +54,7 @@ function App() {
         <Route path="/registrar-carrera" element={<AgregarCarreraPage />} />
         <Route path="/registrar-curricula" element={<AgregarCurriculaPage />} />
         <Route path="/listar-curriculas" element={<ListaCurriculas />} />
-        
+        <Route path="/eliminar-edificio" element={<EliminarEdificio  />} />
 
       </Routes> 
     </Router>
