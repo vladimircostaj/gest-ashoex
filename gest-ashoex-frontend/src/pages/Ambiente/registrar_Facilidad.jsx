@@ -9,6 +9,8 @@ const RegistrarFacilidad = () => {
   const [formData, setFormData] = useState({
     nombre_facilidad: "",
   });
+  const [message, setMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleChange = (e) => {
     const { id, value } = e.target;
@@ -16,9 +18,15 @@ const RegistrarFacilidad = () => {
       ...formData,
       [id]: value,
     });
+    // Limpiar el mensaje y el estado de error al cambiar el valor del campo
+    setMessage("");
+    setIsError(false);
   };
 
   const handleCancel = () => {
+    setFormData({ nombre_facilidad: "" }); // Limpiar el formulario
+    setMessage(""); // Limpiar el mensaje
+    setIsError(false); // Limpiar el estado de error
     console.log("Registro cancelado");
   };
 
@@ -26,10 +34,13 @@ const RegistrarFacilidad = () => {
     try {
       const response = await axios.post('http://localhost:8000/api/facilidades', formData);
       console.log("Datos guardados:", response.data);
-      // Puedes agregar lógica adicional aquí, como redirigir al usuario o mostrar un mensaje de éxito
+      setFormData({ nombre_facilidad: "" }); // Limpiar el formulario
+      setMessage("Facilidad registrada exitosamente");
+      setIsError(false);
     } catch (error) {
       console.error("Error al guardar los datos:", error);
-      // Puedes agregar lógica adicional aquí, como mostrar un mensaje de error
+      setMessage("Error al registrar la facilidad");
+      setIsError(true);
     }
   };
 
@@ -59,6 +70,12 @@ const RegistrarFacilidad = () => {
             <SaveButton onClick={handleSave} />
           </div>
         </form>
+
+        {message && (
+          <div className={`alert ${isError ? 'alert-danger' : 'alert-success'}`} role="alert">
+            {message}
+          </div>
+        )}
       </FormCard>
     </div>
   );
