@@ -10,6 +10,7 @@ import ListAltIcon from "@mui/icons-material/ListAlt";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import BlockIcon from "@mui/icons-material/Block";
 
 const SliderBar = ({ isOpen, toggleSlider }) => {
   if (!isOpen) return null;
@@ -109,6 +110,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
             <SubMenuItem onClick={() => navigate("/listar-personal-academico")}>
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Personal
+            </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/personal-inactivo")}>
+              <BlockIcon style={{ color: "white", marginRight: "10px" }} />
+              Personal Inactivo
             </SubMenuItem>
           </SubMenu>
         )}

@@ -1,104 +1,39 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Title from "../../components/typography/title";
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
-import { useEffect, useState } from "react";
-import { getListaPersonal } from "../../services/ListaPersonalService";
+import { FaEdit, FaEye } from "react-icons/fa";
+import PersonOffIcon from "@mui/icons-material/PersonOff"; 
+import { getListaPersonal} from "../../services/ListaPersonalService";
+import {darBaja} from "../../services/personalService"
+import { toast } from "sonner";
 
-/* const personalData = [
-  {
-    id: 1,
-    name: "Juan Perez",
-    email: "juan@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Titular",
-  },
-  {
-    id: 2,
-    name: "Pedro Montes",
-    email: "pedro@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 3,
-    name: "Maria Lopez",
-    email: "maria@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 4,
-    name: "Jose Perez",
-    email: "jose@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 5,
-    name: "Ana Perez",
-    email: "ana@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 6,
-    name: "Luis Montalvo",
-    email: "luis@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 7,
-    name: "Carlos Montesino",
-    email: "carlos@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 8,
-    name: "Rosa Rodriguez",
-    email: "rosa@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 9,
-    name: "Luisa Peralta",
-    email: "luisa@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-  {
-    id: 10,
-    name: "Sofia Iglesias",
-    email: "sofia@gmail.com",
-    telefono: "12345678",
-    estado: "Activo",
-    tipoPersonal: "Auxiliar",
-  },
-]; */
-
-export const ListarPersonal = () => {
+export const ListarPersonal = ({ setInactiveUsers }) => {
   const [personal, setPersonal] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedPersonal, setSelectedPersonal] = useState(null);
 
   useEffect(() => {
     loadPersonal();
-  }, []);
+  },[]);
 
   const loadPersonal = async () => {
-    const personal = await getListaPersonal();
+    const response = await getListaPersonal();
+    console.log(response);
+    const personalActivos = response.data.filter(persona => persona.estado === "ACTIVO"); 
+    setPersonal(personalActivos); 
+  };
 
-    setPersonal(personal.data);
+  const handleDarDeBaja = async () => {
+    if (selectedPersonal) {
+      const result = await darBaja(selectedPersonal.personal_academico_id);
+      toast.success("Se dio de baja");
+      if (result.success) {
+        loadPersonal(); 
+        setShowModal(false); 
+      } else {
+        alert(result.message || 'Error al dar de baja.');
+      }
+    }
   };
 
   return (
@@ -150,9 +85,12 @@ export const ListarPersonal = () => {
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
-                    onClick={() => setShowModal(true)}
+                    onClick={() => {
+                      setShowModal(true);
+                      setSelectedPersonal(personal); 
+                    }}
                   >
-                    <FaTrash />
+                    <PersonOffIcon />
                   </button>
                 </td>
               </tr>
@@ -171,7 +109,7 @@ export const ListarPersonal = () => {
             <div className="modal-content">
               <div className="modal-header">
                 <h1 className="modal-title fs-5" id="exampleModalLabel">
-                  ¿Esta seguro de eliminar el registro?
+                  ¿Estas seguro de dar de baja a este registro?
                 </h1>
                 <button
                   type="button"
@@ -190,8 +128,12 @@ export const ListarPersonal = () => {
                 >
                   No
                 </button>
-                <button type="button" className="btn btn-primary">
-                  Si
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleDarDeBaja}
+                >
+                  Sí
                 </button>
               </div>
             </div>

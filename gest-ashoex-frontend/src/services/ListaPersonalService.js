@@ -7,3 +7,4 @@ export const getListaPersonal = async () => {
 
   return response.data;
 };
+

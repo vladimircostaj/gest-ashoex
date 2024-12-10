@@ -499,7 +499,6 @@ class PersonalAcademicoController extends Controller
                 'error' => null,
                 'message' => 'Operación exitosa.'
             ], 200);
-
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
@@ -511,7 +510,37 @@ class PersonalAcademicoController extends Controller
                 'message' => 'Error en la solicitud.'
             ], 400);
         }
+    }
 
+    public function eliminar(int $id)
+    {
+        $personalAcademico = PersonalAcademico::find($id);
+        if ($personalAcademico) {
+            $personalAcademico->delete();
+        }
+        return response()->noContent();
+    }
+
+    public function reactivar($id)
+    {
+        $personalAcademico = PersonalAcademico::find($id);
+        
+        if (!$personalAcademico) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Personal académico no encontrado',
+            ], 404);
+        }
+
+        // Cambiar el estado del personal a "activo" (o como lo tengas configurado)
+        $personalAcademico->estado = 'ACTIVO'; // Asegúrate de que este valor exista en tu base de datos
+        $personalAcademico->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Personal académico reactivado exitosamente',
+            'data' => $personalAcademico,
+        ]);
     }
 
     public function test_obtener_lista_de_personal_academico_exitosamente()
