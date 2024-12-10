@@ -1,37 +1,45 @@
 import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 import carrerasService from "../../services/carrerasService.js";
-import { Link } from "react-router-dom";
 import Title from "../../components/typography/title";
-
 import "./show_carrers.css";
 
 const ShowCarrers = () => {
    const [carreras, setCarreras] = useState([]);
-   const [loading, setLoading] = useState(true); // Estado para el indicador de carga
-   const [error, setError] = useState(null); // Estado para errores
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState(null);
+   const navigate = useNavigate();
 
-   // Función para cargar las carreras desde el servicio
    const loadCarreras = async () => {
       try {
          const data = await carrerasService.fetchCarreraStatus();
-
-         // Validamos si la respuesta está vacía
          if (data.length === 0) {
-            setError("No se encontraron carreras."); // Error personalizado
+            setError("No se encontraron carreras.");
          } else {
             setCarreras(data);
          }
       } catch (error) {
-         setError(error.message); // Capturamos el mensaje de error
+         setError(error.message);
       } finally {
-         setLoading(false); // Quitamos el indicador de carga
+         setLoading(false);
       }
    };
 
    useEffect(() => {
       loadCarreras();
    }, []);
+
+   const handleDelete = async (id) => {
+      if (window.confirm("¿Estás seguro de que deseas eliminar esta carrera?")) {
+         try {
+            await carrerasService.deleteCarrera(id);
+            setCarreras(carreras.filter(carrera => carrera.id !== id)); // Eliminar de la lista local
+         } catch (error) {
+            setError(error.message);
+         }
+      }
+   };
 
    return (
       <div className="container mt-5">
@@ -43,19 +51,15 @@ const ShowCarrers = () => {
             </div>
          </div>
 
-         {/* Manejamos el estado de carga */}
          {loading && <p>Cargando carreras...</p>}
-
-         {/* Manejamos errores */}
          {error && <p className="text-danger">Error: {error}</p>}
 
-         {/* Tabla de carreras */}
          {!loading && !error && carreras.length > 0 && (
             <table className="table table-striped table-hover">
                <thead>
                   <tr>
                      <th># ID</th>
-                     <th className="nombre-columna">Nombre</th> {/* Clase personalizada */}
+                     <th className="nombre-columna">Nombre</th>
                      <th>Semestre</th>
                      <th>Acciones</th>
                   </tr>
@@ -72,9 +76,9 @@ const ShowCarrers = () => {
                               <FaEdit />
                            </Link>
 
-                           <a href="#" className="delete mr-6 ml-6">
+                           <button onClick={() => handleDelete(carrera.id)} className="delete mr-6 ml-6">
                               <FaTrash />
-                           </a>
+                           </button>
                         </td>
                      </tr>
                   ))}

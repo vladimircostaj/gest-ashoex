@@ -49,7 +49,7 @@ class CurriculaController extends Controller
  */
 public function index()
 {
-    $curriculas = Curricula::all();
+    $curriculas = Curricula::with(['carrera', 'materia'])->get();
     
     if ($curriculas->isEmpty()) {
         return response()->json([

@@ -81,7 +81,7 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
                      <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
                      Ver Lista de Currículas
                   </SubMenuItem>
-                  <SubMenuItem onClick={() => navigate("/listar-carreras")}>
+                  <SubMenuItem onClick={() => navigate("/mostrar-carreras")}>
                      <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
                      Ver Lista de Carreras
                   </SubMenuItem>
