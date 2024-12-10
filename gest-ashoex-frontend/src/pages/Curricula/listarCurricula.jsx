@@ -4,6 +4,7 @@ import "./listar_curricula.css";
 import Title from "../../components/typography/title";
 import { Link } from "react-router-dom";
 
+
 const ListarCurriculas = () => {
   // Lista de currículas estática
   // const curriculas = [
@@ -129,6 +130,9 @@ const ListarCurriculas = () => {
                 >
                   <FaEdit />
                 </Link>
+
+                
+                
                 <a href="#" className="delete mr-6 ml-6">
                   <FaTrash />
                 </a>
