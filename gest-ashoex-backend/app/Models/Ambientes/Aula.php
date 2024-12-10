@@ -10,12 +10,12 @@ class Aula extends Model
     use HasFactory;
     protected $table = 'aula';
     protected $primaryKey = 'id_aula';
-    protected $fillable = ['numero_aula', 'capacidad', 'habilitada', 'id_ubicacion'];
+    protected $fillable = ['numero_aula', 'capacidad', 'habilitada','id_edificio','ubicacion'];
     protected $hidden = ['created_at', 'updated_at'];
 
-    public function ubicacion()
+    public function edificio()
     {
-        return $this->belongsTo(Ubicacion::class, 'id_ubicacion');
+        return $this->belongsTo(Edificio::class, 'id_edificio');
     }
 
     public function usos()

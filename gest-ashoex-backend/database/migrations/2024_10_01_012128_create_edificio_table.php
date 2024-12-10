@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('edificio', function (Blueprint $table) {
             $table->id('id_edificio');
             $table->string('nombre_edificio', 100);
-            $table->string('geolocalizacion', 255)->nullable();
+            $table->integer('pisos');
+            $table->string('geolocalizacion', 255)->nullable();            
             $table->timestamps();
         });
     }

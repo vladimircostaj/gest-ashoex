@@ -10,12 +10,12 @@ class Edificio extends Model
     use HasFactory;
     protected $table = 'edificio';
     protected $primaryKey = 'id_edificio';
-    protected $fillable = ['nombre_edificio', 'geolocalizacion'];
+    protected $fillable = ['nombre_edificio','pisos' ,'geolocalizacion'];
     protected $hidden = ['created_at', 'updated_at'];
     
 
-    public function ubicaciones()
+    public function aulas()
     {
-        return $this->hasMany(Ubicacion::class, 'id_edificio');
+        return $this->hasMany(Aula::class, 'id_edificio');
     }
 }

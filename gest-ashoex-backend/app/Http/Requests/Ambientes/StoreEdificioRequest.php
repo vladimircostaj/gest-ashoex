@@ -25,6 +25,7 @@ class StoreEdificioRequest extends FormRequest
         return [
             'nombre_edificio' => 'required|string|max:100|unique:edificio,nombre_edificio',
             'geolocalizacion' => 'required|string|max:255|unique:edificio,geolocalizacion',
+            'pisos' => 'required|integer',
         ];
     }
 
@@ -37,6 +38,9 @@ class StoreEdificioRequest extends FormRequest
 
             'geolocalizacion.string' => 'La geolocalización debe ser una cadena de texto.',
             'geolocalizacion.max' => 'La geolocalización no puede tener más de 255 caracteres.',
+
+            'pisos.required' => 'El numero de pisos es obligatorio.',
+            'pisos.integer' => 'El numero de pisos tiene que ser un entero',
         ];
     }
 }

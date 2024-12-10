@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id('id_aula');
             $table->string('numero_aula', 30);
             $table->integer('capacidad')->nullable();
-            $table->boolean('habilitada')->default(true);
-            $table->foreignId('id_ubicacion')->constrained('ubicacion', 'id_ubicacion')->onDelete('cascade');
+            $table->boolean('habilitada')->default(true);            
+            $table->foreignId('id_edificio')->constrained('edificio', 'id_edificio')->onDelete('cascade');
+            $table->integer('ubicacion');
             $table->timestamps();
         });
     }
