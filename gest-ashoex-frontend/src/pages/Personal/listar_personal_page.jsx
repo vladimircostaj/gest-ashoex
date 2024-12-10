@@ -1,84 +1,147 @@
-import { useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import "./listar_personal_page.css";
-import Title from "../../components/typography/title";
 import { Link } from "react-router-dom";
+import Title from "../../components/typography/title";
+import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { getListaPersonal } from "../../services/ListaPersonalService";
 
-const ListaPersonal = () => {
-  // Lista de ambientes estática
-  const personalA = [
-    {
-      id: 1,
-      nombre: "Juan Pérez",
-      email: "juan.perez@example.com",
-      telefono: "123456781",
-      estado: "activo",
-      tipo_personal: "Docente",
-    },
-    {
-      id: 2,
-      nombre: "Ana González",
-      email: "ana.gonzalez@universidad.com",
-      telefono: "123456782",
-      estado: "activo",
-      tipo_personal: "Investigador",
-    },
-    {
-      id: 3,
-      nombre: "Carlos Lopez",
-      email: "carlos.lopez@universidad.com",
-      telefono: "123456783",
-      estado: "inactivo",
-      tipo_personal: "Administrador",
-    },
-  ];
+/* const personalData = [
+  {
+    id: 1,
+    name: "Juan Perez",
+    email: "juan@gmail.com",
+    telefono: "12345678",
+    estado: "Activo",
+    tipoPersonal: "Titular",
+  },
+  {
+    id: 2,
+    name: "Pedro Montes",
+    email: "pedro@gmail.com",
+    telefono: "12345678",
+    estado: "Activo",
+    tipoPersonal: "Auxiliar",
+  },
+  {
+    id: 3,
+    name: "Maria Lopez",
+    email: "maria@gmail.com",
+    telefono: "12345678",
+    estado: "Activo",
+    tipoPersonal: "Auxiliar",
+  }
+]; */
+
+export const ListarPersonal = () => {
+  const [personal, setPersonal] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    loadPersonal();
+  }, []);
+
+  const loadPersonal = async () => {
+    const personal = await getListaPersonal();
+
+    setPersonal(personal.data);
+  };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-md-5">
       <div className="table title">
         <div className="row">
-          <div className="">
-            <Title text={"Listado de Personal"}></Title>
+          <div className="mt-2">
+            <Title className="mb-0" text={"Listado de Personal"}></Title>
           </div>
         </div>
       </div>
-      <table className="table table-striped table-hover ">
-        <thead>
-          <tr>
-            <th>Nombre</th>
-            <th>Email</th>
-            <th>Telefono</th>
-            <th>Estado</th>
-            <th>Tipo Personal</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {personalA.map((personal) => (
-            <tr key={personal.id}>
-              <td>{personal.nombre}</td>
-              <td>{personal.email}</td>
-              <td>{personal.telefono}</td>
-              <td>{personal.estado}</td>
-              <td>{personal.tipo_personal}</td>
-              <td>{personal.facilidades}</td>
-              <td>
-                <Link
-                  to={`/editar-personal/${personal.id}`}
-                  className="edit mr-6 ml-6"
-                >
-                  <FaEdit />
-                </Link>
-                <a href="#" className="delete mr-6 ml-6">
-                  <FaTrash />
-                </a>
-              </td>
+      <div className="table-responsive">
+        <table className="table table-striped table-hover w-auto">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Correo</th>
+              <th>Teléfono</th>
+              <th>Estado</th>
+              <th>Tipo de personal</th>
+              <th>Acciones</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {personal.map((personal, index) => (
+              <tr key={index}>
+                <td>{index + 1}</td>
+                <td>{personal.nombre}</td>
+                <td>{personal.email}</td>
+                <td>{personal.telefono}</td>
+                <td className="text-lowercase">{personal.estado}</td>
+                <td>
+                  {personal.tipo_personal_id === 1 ? "Titular" : "Auxiliar"}
+                </td>
+                <td className="d-flex justify-content-start align-items-center gap-3">
+                  <Link
+                    to={`/visualizar-personal/${personal.personal_academico_id}`}
+                  >
+                    <FaEye />
+                  </Link>
+                  <Link
+                    to={`/editar-personal/${personal.personal_academico_id}`}
+                  >
+                    <FaEdit />
+                  </Link>
+                  <button
+                    className="btn text-danger m-0 p-0"
+                    type="button"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={() => setShowModal(true)}
+                  >
+                    <FaTrash />
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        <div
+          className={`modal fade show ${showModal ? "show d-block" : ""}`}
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="exampleModalLabel">
+                  ¿Esta seguro de eliminar el registro?
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  onClick={() => setShowModal(false)}
+                ></button>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                  onClick={() => setShowModal(false)}
+                >
+                  No
+                </button>
+                <button type="button" className="btn btn-primary">
+                  Si
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
-export default ListaPersonal;

@@ -8,8 +8,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import "./registrar_personalAcademico.css";
 
 const EditarPersonalAcademico = () => {
-  const { personalId } = useParams(); 
-  const navigate = useNavigate(); 
+  const { personalId } = useParams(); // Simula un ID del personal académico
+  const navigate = useNavigate(); // Para redirigir después de guardar/cancelar
 
   const [formData, setFormData] = useState({
     nombre: "",
@@ -63,7 +63,7 @@ const EditarPersonalAcademico = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container mt-md-5">
       <div className="card form-card">
         <div className="mb-3 text-center">
           <Title text="Editar Personal Académico" />
