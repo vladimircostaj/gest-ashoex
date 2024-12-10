@@ -80,7 +80,7 @@ const EditarCarreraPage = () => {
             console.log("Carrera actualizada exitosamente:", updatedData);
 
             // Redirigir después de guardar
-            navigate("/listar-carreras");
+            navigate("/mostrar-carreras");
          } catch (error) {
             console.error("Error al guardar la carrera:", error.message);
             setErrors({ global: error.message }); // Manejo de errores global
@@ -91,7 +91,7 @@ const EditarCarreraPage = () => {
    const handleCancel = () => {
       console.log("Edición cancelada");
       // Redirige a la página de listado de carreras
-      navigate("/listar-carreras"); // Usa navigate en lugar de history.push
+      navigate("/mostrar-carreras"); // Usa navigate en lugar de history.push
    };
 
    return (

@@ -48,7 +48,7 @@ function App() {
         <Route path="/mostrar-carreras" element={<ShowCarrers />} />
         <Route path="/editar-carrera/:id" element={<EditarCarreraPage />} />
         <Route path="/editar-curricula/:id" element={<ActualizarCurricula />} />
-
+        
       </Routes> 
     </Router>
   );
