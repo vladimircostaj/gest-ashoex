@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Title from "../../components/typography/title";
 import InputField from "../../components/form/inputField";
 import SelectField from "../../components/form/selectField";
@@ -59,9 +59,25 @@ const EditarMateriaForm = () => {
       if (!formData[key].trim()) {
         newErrors[key] = "Campo obligatorio";
       }
-    });
+   };
 
-    setErrors(newErrors);
+   const handleSave = () => {
+      const newErrors = {};
+
+      Object.keys(formData).forEach((key) => {
+         if (!formData[key].trim()) {
+            newErrors[key] = "Campo obligatorio";
+         }
+      });
+
+      setErrors(newErrors);
+
+      if (Object.keys(newErrors).length === 0) {
+         console.log("Materia editada:", formData);
+         history.push("/materias");
+      }
+   };
+
 
     if (Object.keys(newErrors).length === 0) {
       try {
@@ -148,16 +164,106 @@ const EditarMateriaForm = () => {
             <div className="text-danger position-absolute" style={{ fontSize: "0.75rem", top: "100%", left: "5px", height: "12px" }}>
               {errors.nro_PeriodoAcademico}
             </div>
-          </div>
 
-          <div className="d-flex justify-content-between gap-2 mt-3">
-            <CancelButton onClick={handleCancel} />
-            <SaveButton onClick={handleSave} />
-          </div>
-        </form>
+            <form className="d-flex flex-column gap-4" onSubmit={(e) => e.preventDefault()}>
+               <div className="position-relative">
+                  <InputField
+                     label={
+                        <span>
+                           Código: <span className="text-danger">*</span>
+                        </span>
+                     }
+                     id="codigo"
+                     placeholder="Código de la materia"
+                     value={formData.codigo}
+                     readOnly // Esto suprime la advertencia en campos no editables
+                     style={{
+                        container: { textAlign: "left" },
+                        input: { width: "100%" },
+                     }}
+                  />
+
+                  <div className="text-danger position-absolute" style={{ fontSize: "0.75rem", top: "100%", left: "5px", height: "12px" }}>
+                     {errors.codigo}
+                  </div>
+               </div>
+
+               <div className="position-relative">
+                  <InputField
+                     label={
+                        <span>
+                           Nombre: <span className="text-danger">*</span>
+                        </span>
+                     }
+                     id="nombre"
+                     placeholder="Ingrese el nombre de la materia"
+                     value={formData.nombre}
+                     onChange={handleChange}
+                     style={{
+                        container: { textAlign: "left" },
+                        input: { width: "100%" },
+                     }}
+                  />
+                  <div className="text-danger position-absolute" style={{ fontSize: "0.75rem", top: "100%", left: "5px", height: "12px" }}>
+                     {errors.nombre}
+                  </div>
+               </div>
+
+               <div className="position-relative">
+                  <SelectField
+                     label={
+                        <span>
+                           Tipo: <span className="text-danger">*</span>
+                        </span>
+                     }
+                     id="tipo"
+                     value={formData.tipo}
+                     options={[
+                        { value: "", label: "Seleccione un tipo" },
+                        { value: "obligatoria", label: "Obligatoria" },
+                        { value: "electiva", label: "Electiva" },
+                     ]}
+                     onChange={handleChange}
+                     style={{
+                        container: { textAlign: "left" },
+                        select: { width: "100%" },
+                     }}
+                  />
+                  <div className="text-danger position-absolute" style={{ fontSize: "0.75rem", top: "100%", left: "5px", height: "12px" }}>
+                     {errors.tipo}
+                  </div>
+               </div>
+
+               <div className="position-relative">
+                  <InputField
+                     label={
+                        <span>
+                           Número de Período Académico: <span className="text-danger">*</span>
+                        </span>
+                     }
+                     id="numeroPeriodoAcademico"
+                     type="number"
+                     placeholder="Ingrese el número de período académico"
+                     value={formData.numeroPeriodoAcademico}
+                     onChange={handleChange}
+                     style={{
+                        container: { textAlign: "left" },
+                        input: { width: "100%" },
+                     }}
+                  />
+                  <div className="text-danger position-absolute" style={{ fontSize: "0.75rem", top: "100%", left: "5px", height: "12px" }}>
+                     {errors.numeroPeriodoAcademico}
+                  </div>
+               </div>
+
+               <div className="d-flex justify-content-between gap-2 mt-3">
+                  <CancelButton onClick={handleCancel} />
+                  <SaveButton onClick={handleSave} />
+               </div>
+            </form>
+         </div>
       </div>
-    </div>
-  );
+   );
 };
 
 export default EditarMateriaForm;
