@@ -15,3 +15,6 @@ Route::controller(PersonalAcademicoController::class)->group(function () {
     Route::put('/personal-academico/{id}','update');
 	Route::patch('/personal-academicos/{id}/dar-baja', 'darDeBaja');
 });
+
+Route::delete('/personal-academicos/{id}', [PersonalAcademicoController::class, 'eliminar']);
+Route::patch('/personal-academicos/{id}/reactivar', [PersonalAcademicoController::class, 'reactivar']);

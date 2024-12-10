@@ -20,9 +20,9 @@ const VisualizarInformacionPersonal = () => {
   }, [personalId]);
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light p-3">
+    <div className="d-flex justify-content-center align-items-center vh-100 bg-light p-3 mt-5 mt-md-0">
       <div
-        className="card shadow-lg rounded-4 p-4"
+        className="card shadow-lg rounded-4 p-md-4"
         style={{ maxWidth: "400px", width: "100%" }}
       >
         <div className="mb-3">
