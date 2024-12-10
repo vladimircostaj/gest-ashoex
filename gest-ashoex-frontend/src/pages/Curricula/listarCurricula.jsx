@@ -1,148 +1,206 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./listar_curricula.css";
 import Title from "../../components/typography/title";
 import { Link } from "react-router-dom";
+import {
+    getAllCurriculas,
+    deleteCurricula,
+} from "../../services/curriculaService";
+import {
+    CircularProgress,
+    Container,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    Typography,
+    Snackbar,
+} from "@mui/material";
 
 
 const ListarCurriculas = () => {
-  // Lista de currículas estática
-  // const curriculas = [
-  //   {
-  //     id: 1,
-  //     carrera: "Ingeniería en Sistemas",
-  //     materia: "Matemáticas I",
-  //     nivel: "1",
-  //     esElectiva: "No",
-  //   },
-  //   {
-  //     id: 2,
-  //     carrera: "Ingeniería Civil",
-  //     materia: "Física General",
-  //     nivel: "2",
-  //     esElectiva: "Sí",
-  //   },
-  //   {
-  //     id: 3,
-  //     carrera: "Arquitectura",
-  //     materia: "Dibujo Técnico",
-  //     nivel: "3",
-  //     esElectiva: "No",
-  //   },
-  // ];
-  const [curriculas, setCurriculas] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+    const [curriculas, setCurriculas] = useState([]);
+    const [isCurriculasLoading, setIsCurriculasLoading] = useState(true);
+    const [isCurriculaDeleting, setIsCurriculaDeleting] = useState(false);
+    const [error, setError] = useState(null);
+    const [curriculaToDelete, setCurriculaToDelete] = useState(null);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: "",
+        severity: "success",
+    });
 
-  useEffect(() => {
-    // Fetch curriculas from the backend
-    const fetchCurriculas = async () => {
-      try {
-        const response = await fetch("http://127.0.0.1:8000/api/curriculas");
-        const result = await response.json();
-
-        if (result.success) {
-          setCurriculas(result.data);
-        } else {
-          setError(result.message || "Error fetching curriculas");
-        }
-      } catch (err) {
-        setError("Error connecting to the server.");
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
+    const handleOpenDialog = (curricula) => {
+        setCurriculaToDelete(curricula);
+        setIsDialogOpen(true);
     };
 
-    fetchCurriculas();
-  }, []);
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+    const handleCloseDialog = () => {
+        setCurriculaToDelete(null);
+        setIsDialogOpen(false);
+    };
 
-  if (error) {
-    return <p>{error}</p>;
-  }
-   return (
-      <div className="container mt-5">
-         <div className="table title">
-            <div className="row">
-               <div className="">
-                  <Title text={"Listado de Currículas"}></Title>
-               </div>
+    const handleDeleteCurricula = () => {
+        if (curriculaToDelete) {
+            setIsCurriculaDeleting(true);
+            deleteCurricula(curriculaToDelete.id)
+                .then(() => {
+                    setCurriculas(
+                        curriculas.filter((c) => c.id !== curriculaToDelete.id)
+                    );
+                    handleCloseDialog();
+                    setCurriculaToDelete(null);
+                    setIsCurriculaDeleting(false);
+                    setSnackbar({
+                        open: true,
+                        message: "Currícula eliminada correctamente",
+                        severity: "success",
+                    });
+                })
+                .catch((error) => {
+                    handleCloseDialog();
+                    setIsCurriculaDeleting(false);
+                    setSnackbar({
+                        open: true,
+                        message: "Error al eliminar la currícula",
+                        severity: "error",
+                    });
+                    console.error("Error al eliminar la currícula:", error);
+                });
+        }
+    };
+
+    useEffect(() => {
+        getAllCurriculas()
+            .then((response) => {
+                console.log(response);
+                setCurriculas(response.data);
+                setIsCurriculasLoading(false);
+            })
+            .catch((error) => {
+                setError(error);
+                setIsCurriculasLoading(false);
+            });
+    }, []);
+
+    if (isCurriculasLoading || isCurriculaDeleting) {
+        return (
+            <Container
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "80vh",
+                }}
+            >
+                <CircularProgress />
+            </Container>
+        );
+    }
+
+    if (error) {
+        return <div>Error: {error.message}</div>;
+    }
+
+    return (
+        <div className="container mt-5">
+            <div className="table title">
+                <div className="row">
+                    <div className="">
+                        <Title text={"Listado de Currículas"}></Title>
+                    </div>
+                </div>
             </div>
-         </div>
-         <table className="table table-striped table-hover">
-            <thead>
-               <tr>
-                  <th># ID</th>
-                  <th>Carrera</th>
-                  <th>Materia</th>
-                  <th>Nivel</th>
-                  <th>Electiva</th>
-                  <th>Acciones</th>
-               </tr>
-            </thead>
-            <tbody>
-               {curriculas.map((curricula) => (
-                  <tr key={curricula.id}>
-                     <td>{curricula.id}</td>
-                     <td>{curricula.carrera}</td>
-                     <td>{curricula.materia}</td>
-                     <td>{curricula.nivel}</td>
-                     <td>{curricula.esElectiva}</td>
-                     <td>
-                        <Link to={`/editar-curricula/${curricula.id}`} className="edit mr-6 ml-6">
-                           <FaEdit />
-                        </Link>
-                        <a href="#" className="delete mr-6 ml-6">
-                           <FaTrash />
-                        </a>
-                     </td>
-                  </tr>
-               ))}
-            </tbody>
-         </table>
-      </div>
-      <table className="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th># ID</th>
-            <th>Carrera</th>
-            <th>Materia</th>
-            <th>Nivel</th>
-            <th>Electiva</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {curriculas.map((curricula) => (
-            <tr key={curricula.id}>
-              <td>{curricula.id}</td>
-              <td>{curricula.carrera?.nombre || "No asignada"}</td>
-              <td>{curricula.materia?.nombre || "No asignada"}</td>
-              <td>{curricula.nivel}</td>
-              <td>{curricula.electiva ? "Sí" : "No"}</td>
-              <td>
-                <Link
-                  to={`/editar-curricula/${curricula.id}`}
-                  className="edit mr-6 ml-6"
-                >
-                  <FaEdit />
-                </Link>
-
-                
-                
-                <a href="#" className="delete mr-6 ml-6">
-                  <FaTrash />
-                </a>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+            <table className="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th># ID</th>
+                        <th>Carrera</th>
+                        <th>Materia</th>
+                        <th>Nivel</th>
+                        <th>Electiva</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {curriculas.length === 0 ? (
+                        <tr>
+                            <td colSpan="6" className="text-center">
+                                No hay currículas registradas
+                            </td>
+                        </tr>
+                    ) : (
+                        curriculas.map((curricula) => (
+                            <tr key={curricula.id}>
+                                <td>{curricula.id}</td>
+                                <td>{curricula.carrera.nombre}</td>
+                                <td>{curricula.materia.nombre}</td>
+                                <td>{curricula.nivel}</td>
+                                <td>{curricula.electiva ? "Si" : "No"}</td>
+                                <td>
+                                    <Link
+                                        to={`/editar-curricula/${curricula.id}`}
+                                        className="edit mr-6 ml-6"
+                                    >
+                                        <FaEdit />
+                                    </Link>
+                                    <a
+                                        href="#"
+                                        className="delete mr-6 ml-6"
+                                        onClick={() =>
+                                            handleOpenDialog(curricula)
+                                        }
+                                    >
+                                        <FaTrash />
+                                    </a>
+                                </td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+            </table>
+            {/* Dialog de confirmación */}
+            <Dialog
+                open={isDialogOpen}
+                onClose={handleCloseDialog}
+                aria-labelledby="dialog-title"
+                aria-describedby="dialog-description"
+            >
+                <DialogTitle id="dialog-title">
+                    Confirmación de Eliminación
+                </DialogTitle>
+                <DialogContent>
+                    <Typography id="dialog-description">
+                        ¿Estás seguro de que deseas eliminar la currícula con ID{" "}
+                        {curriculaToDelete?.id}?
+                    </Typography>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        variant="contained"
+                        color="error"
+                        onClick={handleDeleteCurricula}
+                    >
+                        Eliminar
+                    </Button>
+                    <Button variant="outlined" onClick={handleCloseDialog}>
+                        Cancelar
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            {/* Snackbar */}
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                message={snackbar.message}
+                severity={snackbar.severity}
+            />
+        </div>
+    );
 };
 
 export default ListarCurriculas;
