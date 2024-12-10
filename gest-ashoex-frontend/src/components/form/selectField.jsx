@@ -14,6 +14,7 @@ const SelectField = ({
       display: "flex",
       flexDirection: "column",
       gap: "5px",
+      textAlign: "left"
     },
     label: {
       fontSize: "14px",

@@ -10,11 +10,13 @@ const endpoint = `http://localhost:8000/api/edificios`;
 const RegistrarEdificioForm = () => {
   const [formData, setFormData] = useState({
     nombre_edificio: "",
+    pisos: "",
     geolocalizacion: "",
   });
 
   const [errors, setErrors] = useState({
     nombre_edificio: "",
+    pisos: "",
     geolocalizacion: "",
   });
 
@@ -43,7 +45,9 @@ const RegistrarEdificioForm = () => {
         const errorMessages = error.response.data.error.reduce((acc, curr) => {
           if (curr.detail.includes("nombre del edificio")) {
             acc.nombre_edificio = curr.detail;
-          } else if (curr.detail.includes("geolocalizacion")) {
+          } else if (curr.detail.includes("pisos")) {
+            acc.pisos = curr.detail;
+          }else if (curr.detail.includes("geolocalizacion")) {
             acc.geolocalizacion = curr.detail;
           }
           return acc;
@@ -65,6 +69,15 @@ const RegistrarEdificioForm = () => {
         onChange={handleChange}
         error={errors.nombre_edificio}
       />
+      <InputField
+        label="pisos:"
+        id="pisos"
+        placeholder="Ingrese los pisos"
+        value={formData.pisos}
+        onChange={handleChange}
+        error={errors.pisos}
+      />
+
       <InputField
         label="Geolocalización:"
         id="geolocalizacion"

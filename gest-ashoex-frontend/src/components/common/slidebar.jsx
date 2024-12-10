@@ -58,6 +58,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
               Ver Lista de Ambientes
             </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/registrar-edificio")}>
+              <AddCircleIcon style={{ color: "white", marginRight: "10px" }} />
+              Agregar edificio
+            </SubMenuItem>
             <SubMenuItem onClick={() => navigate("/editar-edificio")}>
               <ApartmentIcon style={{ color: "white", marginRight: "10px" }} />
               Editar Edificio
