@@ -21,6 +21,7 @@ import ListarUsos from "./pages/Ambiente/listar_usos_page.jsx";
 import ListarAulas from "./pages/Ambiente/listar_aula_page.jsx";
 import RegistrarFacilidad from "./pages/Ambiente/registrar_Facilidad.jsx";
 import EliminarEdificio from "./pages/Ambiente/eliminarEdificio.jsx";
+import ListarFacilidad from "./pages/Ambiente/listar_facilidad_page.jsx";
 
 function App() {
   const [isSliderOpen, setIsSliderOpen] = useState(false);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/registrar-edificio" element={<RegistrarEdificioForm />} />
           <Route path="/lista-aulas" element={<ListarAulas />} />
           <Route path="/registrar-facilidad" element={<RegistrarFacilidad />} />
+          <Route path="/lista-facilidad" element={<ListarFacilidad />} />
 
           <Route
             path="/editar-ambiente/:ambienteId"

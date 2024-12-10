@@ -72,6 +72,10 @@ const SliderBar = ({ isOpen, toggleSlider }) => {
               <ScannerIcon style={{ color: "white", marginRight: "10px" }} />
               Registrar Facilidad
             </SubMenuItem>
+            <SubMenuItem onClick={() => navigate("/lista-facilidad")}>
+              <ListAltIcon style={{ color: "white", marginRight: "10px" }} />
+              Editar Facilidad
+            </SubMenuItem>
             <SubMenuItem onClick={() => navigate("/eliminar-edificio")}>
               <FaTrash style={{ color: "white", marginRight: "10px" }} />
               Eliminar Edificio

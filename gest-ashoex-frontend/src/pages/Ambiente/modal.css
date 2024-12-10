@@ -1,0 +1,28 @@
+.ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+  
+.ReactModal__Content {
+    position: relative;
+    margin: auto;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    outline: none;
+  }
+
+table.table td a.edit,
+table.table td button.edit {
+    color: #ffc107;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    margin-right: 8%;
+}
