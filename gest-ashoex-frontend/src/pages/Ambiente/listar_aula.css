@@ -2,23 +2,23 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    text-align: center; /* Centra el contenido horizontalmente */
+    text-align: center; 
 }
 
 .table-container {
-    overflow-x: auto; /* Permite el desplazamiento horizontal en dispositivos móviles */
+    overflow-x: auto; 
 }
 
 .table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: auto; /* Ajusta el tamaño de las columnas según el contenido */
+    table-layout: auto;
 }
 
 .table th, .table td {
     padding: 10px;
-    text-align: center; /* Centra el contenido de las celdas */
-    white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+    text-align: center;
+    white-space: nowrap;
 }
 
 .table th {
