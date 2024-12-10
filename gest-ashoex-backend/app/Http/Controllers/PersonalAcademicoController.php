@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 use App\Models\PersonalAcademico;
+use App\Models\TipoPersonal;
 use Exception;
 
 class PersonalAcademicoController extends Controller
@@ -186,7 +187,7 @@ class PersonalAcademicoController extends Controller
 
     public function update(Request $request, $id)
     {
-
+        // Encontrar el personal académico por ID
         $personalAcademico = PersonalAcademico::find($id);
 
         if (!$personalAcademico) {
@@ -201,7 +202,10 @@ class PersonalAcademicoController extends Controller
             ], 404);
         }
 
-        $emailExistente = PersonalAcademico::where('email', $request->input('email'))->where('id', '!=', $id)->exists();
+        // Verificar si el email ya existe
+        $emailExistente = PersonalAcademico::where('email', $request->input('email'))
+            ->where('id', '!=', $id)
+            ->exists();
 
         if ($emailExistente) {
             return response()->json([
@@ -215,16 +219,27 @@ class PersonalAcademicoController extends Controller
             ], 409);
         }
 
+        // Validación de los datos de entrada
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'email' => 'required|email|unique:personal_academicos,email,' . $id,
+            'telefono' => 'required|string|regex:/^\+591\d{8}$/', // Validar formato de teléfono
+            'estado' => 'required|string|in:' . implode(',', config('constants.PERSONAL_ACADEMICO_ESTADOS')),
+            'tipo_personal_id' => 'required|integer|exists:tipo_personals,id',
+        ], [
+            'nombre.required' => 'El nombre es obligatorio.',
+            'email.required' => 'El correo electrónico es obligatorio.',
+            'email.email' => 'El correo electrónico debe tener un formato válido.',
+            'telefono.required' => 'El teléfono es obligatorio.',
+            'telefono.regex' => 'El teléfono debe seguir el formato +591XXXXXXXX.',
+            'estado.required' => 'El estado es obligatorio.',
+            'estado.in' => 'El estado debe ser uno de los valores predefinidos.',
+            'tipo_personal_id.required' => 'El tipo de personal es obligatorio.',
+            'tipo_personal_id.exists' => 'El tipo de personal debe ser un ID válido.',
+        ]);
+
         try {
-
-            $request->validate([
-                'nombre' => 'required|string',
-                'email' => 'required|email',
-                'telefono' => 'required|string',
-                'estado' => 'required|string',
-                'tipo_personal_id' => 'required|integer|exists:tipo_personals,id'
-            ]);
-
+            // Actualizar el personal académico
             $personalAcademico->nombre = $request->input('nombre');
             $personalAcademico->email = $request->input('email');
             $personalAcademico->telefono = $request->input('telefono');
@@ -251,8 +266,66 @@ class PersonalAcademicoController extends Controller
                 'message' => 'Error en la solicitud.'
             ], 400);
         }
-
     }
+
+
+    public function getTiposPersonal()
+    {
+        try {
+            $tiposPersonal = TipoPersonal::all(['id', 'nombre']); // Selecciona solo los campos necesarios
+            
+            return response()->json([
+                'success' => true,
+                'data' => $tiposPersonal,
+                'error' => null,
+                'message' => 'Tipos de personal obtenidos con éxito.'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 500,
+                    'message' => 'Ocurrió un error al obtener los tipos de personal.'
+                ],
+                'message' => 'Error en la solicitud.'
+            ], 500);
+        }
+    }
+
+    public function registrarTipoPersonal(Request $request): JsonResponse
+    {
+        try {
+            $request->validate([
+                'nombre' => 'required|string|max:255|unique:tipo_personals,nombre'
+            ]);
+
+            // Crear el tipo de personal
+            $tipoPersonal = TipoPersonal::create([
+                'nombre' => $request->input('nombre')
+            ]);
+
+            // Retornar la respuesta exitosa
+            return response()->json([
+                'success' => true,
+                'data' => $tipoPersonal,
+                'error' => null,
+                'message' => 'Tipo de personal registrado exitosamente.'
+            ], 201);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'data' => null,
+                'error' => [
+                    'code' => 500,
+                    'message' => 'Error interno del servidor: ' . $e->getMessage()
+                ],
+                'message' => 'Error al registrar el tipo de personal.'
+            ], 500);
+        }
+    }
+
     public function test_obtener_lista_de_personal_academico_exitosamente()
     {
         // Se inserta datos en la tabla
