@@ -310,3 +310,24 @@ docker --version
     ```bash
     npm install <nombre-paquete>
     ```
+## Funcionalidades completas
+- Listado de edificios
+- Eliminado de edificios
+- Registro de facilidades
+- Edición de facilidades
+- Listado de usos de aula
+- Eliminado de usos de aula
+- Listado de aula
+  
+## Funcionalidades pendientes
+- Registrar edificio
+- Editado de edificio
+- Listado de facilidades
+- Eliminado de facilidades
+- Registro de usos de aula
+- Registro de aula
+- Elimando de aula
+- Editado de aula
+## Notas
+- Es necesario modificar el backend de las ubicaciones (pisos) para que pueda integrarse a edificios y aulas correctamente.
+- Existen bugs pendientes de corrección en backend.
