@@ -3,15 +3,11 @@ const API_BASE_URL = "http://localhost:8000/api";
 const fetchCarreraStatus = async () => {
    try {
       const response = await fetch(`${API_BASE_URL}/carreras`);
-      console.log(response);
 
       if (!response.ok) {
-         // Si la respuesta no es OK, manejamos errores específicos
          if (response.status === 404) {
-            // Error 404 con un mensaje claro
             throw new Error("No se encontraron carreras. Por favor, agrega una carrera.");
          } else {
-            // Otros errores genéricos
             throw new Error(`${response.status} ${response.statusText}`);
          }
       }
@@ -19,13 +15,11 @@ const fetchCarreraStatus = async () => {
       const data = await response.json();
 
       if (!data.success) {
-         // Control de errores del backend, traducimos el mensaje de error
          throw new Error(data.message || "Error desconocido del servidor");
       }
 
-      return data.data; // Retornamos solo el arreglo "data"
+      return data.data;
    } catch (error) {
-      // Log del error para desarrollo y re-lanzamos para manejarlo en el componente
       console.error("Error al obtener las carreras:", error.message);
       throw error;
    }
@@ -72,9 +66,26 @@ const updateCarrera = async (id, updatedData) => {
          throw new Error(data.message || "Error desconocido del servidor");
       }
 
-      return data.data; // Suponemos que el backend devuelve los datos actualizados
+      return data.data;
    } catch (error) {
       console.error(`Error al actualizar la carrera con ID ${id}:`, error.message);
+      throw error;
+   }
+};
+
+// Agrega la función de eliminación a los servicios
+const deleteCarrera = async (id) => {
+   try {
+      const response = await fetch(`${API_BASE_URL}/carreras/${id}`, {
+         method: 'DELETE',
+         headers: {
+            'Content-Type': 'application/json'
+         }
+      });
+      if (!response.ok) {
+         throw new Error('Error al eliminar la carrera');
+      }
+   } catch (error) {
       throw error;
    }
 };
@@ -82,7 +93,8 @@ const updateCarrera = async (id, updatedData) => {
 const carrerasService = {
    fetchCarreraStatus,
    fetchCarreraById,
-   updateCarrera, // <-- Nuevo método
+   updateCarrera,
+   deleteCarrera // <-- Nueva función de eliminación añadida
 };
 
 export default carrerasService;
